@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 
 const faqs = [
   {
@@ -27,7 +25,7 @@ const faqs = [
   },
   {
     q: "Are there rules I need to know before entering Diamantina?",
-    a: "Yes, check our House Rules before you come. Anything not covered there, send us an email and we'll help.",
+    a: "Yes, check our Party Rules before you come. Anything not covered there, send us an email and we'll help.",
   },
 ];
 
@@ -45,27 +43,80 @@ function LostItemForm() {
     { name: "contents", label: "What's inside (if applicable)", type: "text" },
     { name: "description", label: "Description of the object", type: "textarea" },
   ];
+
+  const [form, setForm] = useState({
+    firstName: "", lastName: "", email: "", eventDate: "",
+    item: "", color: "", contents: "", description: "",
+  });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/lost-item", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "sent") {
+    return (
+      <p className="font-ak text-[16px] text-paper-white">
+        Thanks — we've got your report and will reach out if we find it.
+      </p>
+    );
+  }
+
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[640px]">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[640px]">
       {fields.map((f) => (
         <div key={f.name} className={`flex flex-col gap-1.5 ${f.type === "textarea" ? "md:col-span-2" : ""}`}>
           <label className="font-ak text-[11px] uppercase tracking-[0.06em] text-paper-white/50">
             {f.label}
           </label>
           {f.type === "textarea" ? (
-            <textarea rows={3} className={`${inputClass} resize-y`} />
+            <textarea
+              rows={3}
+              required
+              disabled={status === "sending"}
+              value={form[f.name]}
+              onChange={update(f.name)}
+              className={`${inputClass} resize-y`}
+            />
           ) : (
-            <input type={f.type} className={inputClass} />
+            <input
+              type={f.type}
+              required={["firstName", "lastName", "email", "item"].includes(f.name)}
+              disabled={status === "sending"}
+              value={form[f.name]}
+              onChange={update(f.name)}
+              className={inputClass}
+            />
           )}
         </div>
       ))}
       <div className="md:col-span-2 mt-1">
         <button
           type="submit"
-          className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white px-6 py-3 hover:opacity-80 transition-opacity"
+          disabled={status === "sending"}
+          className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white px-6 py-3 hover:opacity-80 transition-opacity disabled:opacity-40"
         >
-          Send report
+          {status === "sending" ? "Sending..." : "Send report"}
         </button>
+        {status === "error" && (
+          <p className="font-ak text-[13px] text-diamantina mt-2">
+            Something went wrong. Please try again.
+          </p>
+        )}
       </div>
     </form>
   );
@@ -148,9 +199,7 @@ function FAQItem({ item, index }) {
 
 export default function FAQ() {
   return (
-    <div className="min-h-screen bg-onyx text-paper-white">
-      <Nav />
-      <main className="px-4 md:px-6 pt-40 pb-48">
+    <main className="px-4 md:px-6 pt-40 pb-48">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
           FAQ
         </p>
@@ -164,7 +213,5 @@ export default function FAQ() {
           ))}
         </div>
       </main>
-      <Footer />
-    </div>
   );
 }

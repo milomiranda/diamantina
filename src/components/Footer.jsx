@@ -36,6 +36,12 @@ export default function Footer() {
           <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-diamantina">
             Diamantina
           </span>
+          <button
+            onClick={() => window.openSignUp?.()}
+            className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/60 hover:text-paper-white transition-colors bg-transparent border-none cursor-pointer p-0"
+          >
+            Subscribe
+          </button>
         </div>
       </div>
     </footer>

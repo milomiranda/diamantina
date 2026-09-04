@@ -5,7 +5,11 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const consent = localStorage.getItem("diamantina-cookie-consent");
-    if (!consent) setVisible(true);
+    if (!consent) {
+      setVisible(true);
+    } else if (consent === "accepted" && window.loadGTM) {
+      window.loadGTM();
+    }
   }, []);
 
   useEffect(() => {
@@ -17,6 +21,9 @@ export default function CookieBanner() {
 
   const respond = (choice) => {
     localStorage.setItem("diamantina-cookie-consent", choice);
+    if (choice === "accepted" && window.loadGTM) {
+      window.loadGTM();
+    }
     setVisible(false);
   };
 

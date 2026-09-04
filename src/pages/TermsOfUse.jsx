@@ -104,7 +104,7 @@ export default function TermsOfUse() {
           <p className="font-ak text-paper-white text-[19px] font-bold mb-3.5 border-l-[3px] border-diamantina pl-3">13. Contact</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Questions about these Terms can be sent to:"}</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Diamantina"}</p>
-          <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[LEGAL NAME]</span></p>
+          <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[YOUR FULL NAME], operating as Diamantina (sole trader/individual, unless you register a company)</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[EMAIL ADDRESS]</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[POSTAL ADDRESS, IF APPLICABLE]</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Netherlands"}</p>

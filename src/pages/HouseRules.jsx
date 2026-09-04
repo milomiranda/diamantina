@@ -1,5 +1,3 @@
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 
 const rules = [
   { title: "Come as you are", body: null },
@@ -22,11 +20,9 @@ const rules = [
 
 export default function HouseRules() {
   return (
-    <div className="min-h-screen bg-onyx text-paper-white">
-      <Nav />
-      <main className="px-4 md:px-6 pt-40 pb-48">
+    <main className="px-4 md:px-6 pt-40 pb-48">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
-          House Rules
+          Party Rules
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
           A home for everyone.
@@ -70,7 +66,5 @@ export default function HouseRules() {
           ))}
         </div>
       </main>
-      <Footer />
-    </div>
   );
 }

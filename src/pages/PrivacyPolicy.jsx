@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
         <div className="mt-10">
           <p className="font-ak text-paper-white text-[19px] font-bold mb-3.5 border-l-[3px] border-diamantina pl-3">1. Who Is Responsible for Your Data?</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"The data controller responsible for the processing described in this Privacy Policy is:"}</p>
-          <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[LEGAL NAME]</span></p>
+          <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[YOUR FULL NAME], operating as Diamantina (sole trader/individual, unless you register a company)</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Trading as: Diamantina"}</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Netherlands"}</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Email: "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span></p>
@@ -190,7 +190,7 @@ export default function PrivacyPolicy() {
           <p className="font-ak text-paper-white text-[19px] font-bold mb-3.5 border-l-[3px] border-diamantina pl-3">16. Contact</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"For questions about privacy or the processing of your personal data:"}</p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Diamantina"}</p>
-          <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[LEGAL NAME]</span></p>
+          <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[YOUR FULL NAME], operating as Diamantina (sole trader/individual, unless you register a company)</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[POSTAL ADDRESS, IF APPLICABLE]</span></p>
           <p className="font-ak text-paper-white/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Netherlands"}</p>

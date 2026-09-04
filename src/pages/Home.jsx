@@ -1,44 +1,19 @@
 import { useState } from "react";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 import { Image } from "@/components/ui/image";
 
 const events = [
   {
-    name: "Eclipse Sonoro",
-    date: "12 · 09 · 2026",
-    location: "Sala Diamantina - CDMX",
+    name: "DIAMANTINA: FIRST LIGHT",
+    date: "09 · 10 · 2026",
+    location: "TBD - Den Haag",
     category: "(sound) performance",
     image: "https://media.base44.com/images/public/6a8dbc58be48457f3f2606a0/e56f75cb6_generated_1408ad38.png",
-  },
-  {
-    name: "Mármol Vivo",
-    date: "03 · 10 · 2026",
-    location: "Pabellón Norte - MTY",
-    category: "sculpture / live",
-    image: "https://media.base44.com/images/public/6a8dbc58be48457f3f2606a0/b5ce88d4e_generated_4e4fe231.png",
-  },
-  {
-    name: "Facetas",
-    date: "21 · 11 · 2026",
-    location: "Galería Cero - GDL",
-    category: "immersion",
-    image: "https://media.base44.com/images/public/6a8dbc58be48457f3f2606a0/5dac6048b_generated_669caca5.png",
-  },
-  {
-    name: "Contraluz",
-    date: "18 · 12 · 2026",
-    location: "Foro Obsidiana - CDMX",
-    category: "portrait / live",
-    image: "https://media.base44.com/images/public/6a8dbc58be48457f3f2606a0/cd221db9c_generated_0c1a4ede.png",
   },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-onyx text-paper-white overflow-x-hidden">
-      <Nav />
-
+    <>
       <section className="relative pt-32 pb-16 px-4 md:px-6 flex flex-col items-center">
         <Image
           src="https://media.base44.com/images/public/6a8dbc58be48457f3f2606a0/2a0dfc331_Logotipo.png"
@@ -48,9 +23,6 @@ export default function Home() {
           originHeight={500}
           className="w-full max-w-[1100px]"
         />
-        <p className="mt-12 max-w-xs text-center font-ak text-[12px] uppercase tracking-[0.06em] leading-[1.56] text-paper-white/60">
-          Curated events as permanent visual legacy.
-        </p>
       </section>
 
       <section className="px-4 md:px-6 pt-48 pb-32">
@@ -65,9 +37,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </>
   );
 }
 

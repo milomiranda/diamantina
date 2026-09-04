@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function SignUpForm() {
+function SignUpForm({ onSubscribed }) {
   const [form, setForm] = useState({ name: "", achternaam: "", email: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
@@ -17,6 +17,8 @@ function SignUpForm() {
       });
       if (!res.ok) throw new Error("Failed");
       setStatus("sent");
+      localStorage.setItem("diamantina-subscribed", "true");
+      onSubscribed?.();
     } catch {
       setStatus("error");
     }
@@ -92,7 +94,24 @@ function SignUpForm() {
   );
 }
 
-export default function SignUpModal({ open, onClose }) {
+// Self-managing: checks localStorage on mount to decide whether to auto-open,
+// and exposes window.openSignUp() so any component (like Footer's "Subscribe"
+// link) can open it without prop drilling through every page.
+export default function SignUpModal() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const subscribed = localStorage.getItem("diamantina-subscribed");
+    if (!subscribed) setOpen(true);
+
+    window.openSignUp = () => setOpen(true);
+    return () => {
+      delete window.openSignUp;
+    };
+  }, []);
+
+  const onClose = () => setOpen(false);
+
   return (
     <div
       className="fixed inset-0 z-[90] items-center justify-center p-5"
@@ -110,7 +129,7 @@ export default function SignUpModal({ open, onClose }) {
           ✕
         </button>
         <div className="mt-4">
-          <SignUpForm />
+          <SignUpForm onSubscribed={onClose} />
         </div>
       </div>
     </div>
