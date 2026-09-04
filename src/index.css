@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Colors */
+    --color-onyx: #DDEEFF;
+    --color-paper-white: #101522;
+    --color-faint-white: #F5FAFF;
+    --color-surface: #F5FAFF;
+    --color-accent: #2864FF;
+    --color-diamantina: #D50000;
+
+    /* Typography — Font Families */
+    --font-ak: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-gs: 'Playfair Display', ui-serif, Georgia, serif;
+
+    /* Typography — Scale */
+    --text-caption: 12px;
+    --leading-caption: 1.5;
+    --text-body-sm: 14px;
+    --leading-body-sm: 1.4;
+    --text-body: 18px;
+    --leading-body: 1.33;
+    --text-subheading: 20px;
+    --leading-subheading: 1.1;
+    --text-heading: 58px;
+    --leading-heading: 1;
+    --text-heading-lg: 72px;
+    --leading-heading-lg: 0.9;
+
+    /* Typography — Weights */
+    --font-weight-regular: 400;
+    --font-weight-bold: 700;
+
+    /* Spacing */
+    --spacing-unit: 8px;
+    --spacing-8: 8px;
+    --spacing-16: 16px;
+    --spacing-32: 32px;
+
+    /* Layout */
+    --section-gap: 128px;
+  }
+
+  body {
+    background-color: var(--color-onyx);
+    color: var(--color-paper-white);
+  }
+}
