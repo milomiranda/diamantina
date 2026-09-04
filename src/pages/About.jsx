@@ -23,15 +23,7 @@ A queer-centered party series rooted in latin sounds and experimental club music
             underground to IDM, experimental club music and artists exploring the spaces between
             genres.
           </p>
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
-            Rather than reproducing familiar nightlife formulas, Diamantina looks for new
-            rhythms, unexpected combinations and artists with something distinctive to say.
-          </p>
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
-            It is not interested in reproducing another techno night, circuit party, or
-            conventional queer club format. The purpose is to introduce novelty, curiosity and
-            musical exploration to the dance floor.
-          </p>
+       
         </div>
 
         <blockquote className="mt-32 font-gs text-[40px] md:text-[58px] leading-[1] tracking-[-0.02em] font-bold max-w-[900px]">
