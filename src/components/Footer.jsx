@@ -20,35 +20,9 @@ export default function Footer({ theme }) {
     >
       <Particles />
       <div className="relative z-10 px-4 md:px-6 pt-32 md:pt-48 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          <div className="flex flex-col gap-8 md:gap-12">
-            <FooterBig href={igLink} external color={t.text}>Instagram</FooterBig>
-            <FooterBig href={webshopLink} color={t.text}>Webshop</FooterBig>
-          </div>
-          <div className="flex md:items-end md:justify-end">
-            <p
-              className="font-ak text-[12px] uppercase tracking-[0.06em]"
-              style={{ color: t.text60, transition: "color 0.1s linear" }}
-            >
-              <a
-                href="/terms"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-70 transition-opacity"
-              >
-                Terms of Use
-              </a>
-              {" · "}
-              <a
-                href="/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-70 transition-opacity"
-              >
-                Privacy Policy
-              </a>
-            </p>
-          </div>
+        <div className="flex flex-col gap-8 md:gap-12">
+          <FooterBig href={igLink} external color={t.text}>Instagram</FooterBig>
+          <FooterBig href={webshopLink} color={t.text}>Webshop</FooterBig>
         </div>
         <div className="mt-24 md:mt-48 pt-8 flex items-center justify-between">
           <span
@@ -57,13 +31,36 @@ export default function Footer({ theme }) {
           >
             Diamantina
           </span>
-          <button
-            onClick={() => window.openSignUp?.()}
-            className="font-ak text-[12px] uppercase tracking-[0.06em] hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
-            style={{ color: t.text60 }}
+          <p
+            className="font-ak text-[12px] uppercase tracking-[0.06em]"
+            style={{ color: t.text60, transition: "color 0.1s linear" }}
           >
-            Subscribe
-          </button>
+            <button
+              onClick={() => window.openSignUp?.()}
+              className="hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
+              style={{ font: "inherit", color: "inherit" }}
+            >
+              Subscribe
+            </button>
+            {" · "}
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity"
+            >
+              Terms of Use
+            </a>
+            {" · "}
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity"
+            >
+              Privacy Policy
+            </a>
+          </p>
         </div>
       </div>
     </footer>

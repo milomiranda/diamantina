@@ -80,9 +80,7 @@
   .tickets-bounce:hover { transform: scale(1.12); }
 
   .marquee-wrap { overflow: hidden; white-space: nowrap; width: 100%; }
-  .marquee-track { display: inline-block; animation: marquee-scroll 14s linear infinite; }
+  .marquee-track { display: flex; animation: marquee-scroll 14s linear infinite; }
   @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  .shop-embed { display: block; height: 100%; }
-  .shop-embed iframe { width: 100% !important; height: 100% !important; min-height: 0 !important; border: none; display: block; }
 }

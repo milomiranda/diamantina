@@ -137,7 +137,7 @@ function LostItemQuestion() {
         {openForm ? "Close form" : "Report lost item"}
       </button>
       <div
-        className={`grid transition-all duration-500 ${
+        className={`grid grid-cols-1 transition-all duration-500 ${
           openForm ? "grid-rows-[1fr] opacity-100 mt-5" : "grid-rows-[0fr] opacity-0"
         }`}
       >
@@ -168,7 +168,7 @@ function FAQItem({ item, index }) {
         <span className="font-ak text-[18px] text-paper-white shrink-0">{open ? "−" : "+"}</span>
       </button>
       <div
-        className={`grid transition-all duration-500 ${
+        className={`grid grid-cols-1 transition-all duration-500 ${
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >

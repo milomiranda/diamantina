@@ -13,9 +13,11 @@ export default function Nav({ theme }) {
           <NavLink to="/house-rules" active={pathname === "/house-rules"} color={t.text}>Party Rules</NavLink>
           <NavLink to="/faq" active={pathname === "/faq"} color={t.text}>FAQ</NavLink>
         </div>
-        <button
-          onClick={() => window.openTickets?.()}
-          className="tickets-bounce font-ak text-[11px] sm:text-[13px] md:text-[18px] font-bold uppercase tracking-[0.02em] md:tracking-[0.04em] whitespace-nowrap shrink-0 border-none cursor-pointer"
+        <a
+          href="https://ticketapp.shop/kbfsr"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="tickets-bounce font-ak text-[11px] sm:text-[13px] md:text-[18px] font-bold uppercase tracking-[0.02em] md:tracking-[0.04em] whitespace-nowrap shrink-0 inline-block"
           style={{
             color: t.bg,
             backgroundColor: t.text,
@@ -24,7 +26,7 @@ export default function Nav({ theme }) {
           }}
         >
           Tickets
-        </button>
+        </a>
       </nav>
     </header>
   );

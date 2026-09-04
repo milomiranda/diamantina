@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ScrollToTop from '@/components/ScrollToTop';
 import CookieBanner from '@/components/CookieBanner';
 import SignUpModal from '@/components/SignUpModal';
-import TicketsModal from '@/components/TicketsModal';
 import Layout from '@/components/Layout';
 
 import Home from '@/pages/Home';
@@ -12,6 +11,7 @@ import FAQ from '@/pages/FAQ';
 import Tickets from '@/pages/Tickets';
 import TermsOfUse from '@/pages/TermsOfUse';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import Admin from '@/pages/Admin';
 import PageNotFound from '@/pages/PageNotFound';
 
 /*!
@@ -21,7 +21,7 @@ import PageNotFound from '@/pages/PageNotFound';
  * └────────────────────────────────────────────┘
  * If you're reading this in devtools — hi! This whole
  * site was built line by line for Diamantina. Come say hi:
- * instagram.com/diamantina.nl
+ * instagram.com/diamantina.club
  */
 
 function App() {
@@ -38,15 +38,19 @@ function App() {
           <Route path="/tickets" element={<Tickets />} />
         </Route>
 
-        {/* Legal pages stay outside the layout: own white background, no Footer */}
+        {/* Terms of Use and Privacy Policy are separate documents again,
+            each with its own route. Footer/CookieBanner open them with
+            target="_blank" so they land in a new tab. */}
         <Route path="/terms" element={<TermsOfUse />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+
+        {/* Not linked anywhere in the nav — only reachable by typing the URL */}
+        <Route path="/admin" element={<Admin />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <CookieBanner />
       <SignUpModal />
-      <TicketsModal />
     </Router>
   );
 }
