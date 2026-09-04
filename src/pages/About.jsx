@@ -12,10 +12,8 @@ export default function About() {
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
           Diamantina is a{" "}
           <strong className="font-bold">
-            queer-centered party series, cultural platform and community
-          </strong>{" "}
-          born in the Netherlands, with a direct cultural and musical connection to Latin
-          America's underground scene.
+A queer-centered party series rooted in latin sounds and experimental club music,          </strong>{" "}
+          born in the Netherlands, with a direct cultural and musical connection to the underground scene.
         </h1>
 
         <div className="mt-24 max-w-[620px] flex flex-col gap-8">
