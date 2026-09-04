@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Particles from "@/components/Particles";
 
 const faqs = [
   {
@@ -199,7 +200,9 @@ function FAQItem({ item, index }) {
 
 export default function FAQ() {
   return (
-    <main className="px-4 md:px-6 pt-40 pb-48">
+    <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
+        <Particles />
+        <div className="relative z-10">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
           FAQ
         </p>
@@ -211,6 +214,7 @@ export default function FAQ() {
           {faqs.map((item, i) => (
             <FAQItem key={i} item={item} index={i} />
           ))}
+        </div>
         </div>
       </main>
   );

@@ -1,3 +1,4 @@
+import Particles from "@/components/Particles";
 
 const rules = [
   { title: "Come as you are", body: null },
@@ -20,7 +21,9 @@ const rules = [
 
 export default function HouseRules() {
   return (
-    <main className="px-4 md:px-6 pt-40 pb-48">
+    <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
+        <Particles />
+        <div className="relative z-10">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
           Party Rules
         </p>
@@ -45,7 +48,7 @@ export default function HouseRules() {
               className={`border border-paper-white/15 px-5 md:px-7 py-6 ${i === 0 ? "" : "-mt-px"}`}
             >
               <p className="flex items-center gap-3 font-ak text-[20px] md:text-[24px] leading-[1.1] tracking-[0.01em] font-bold uppercase text-paper-white">
-                <span aria-hidden="true" className="text-diamantina">✦</span>
+                <span aria-hidden="true" className="text-diamantina spin-icon">✦</span>
                 {rule.title}
               </p>
               {rule.body && (
@@ -64,6 +67,7 @@ export default function HouseRules() {
               )}
             </div>
           ))}
+        </div>
         </div>
       </main>
   );

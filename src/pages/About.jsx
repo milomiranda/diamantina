@@ -1,7 +1,10 @@
+import Particles from "@/components/Particles";
 
 export default function About() {
   return (
-    <main className="px-4 md:px-6 pt-40 pb-48">
+    <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
+        <Particles />
+        <div className="relative z-10">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
           About
         </p>
@@ -36,6 +39,7 @@ export default function About() {
           "Every particle reflects differently. Every facet catches light differently. Together
           they become something brilliant."
         </blockquote>
+        </div>
       </main>
   );
 }

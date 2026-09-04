@@ -36,15 +36,23 @@ export default function TicketsModal() {
       {/* Backdrop — intentionally has no onClick, so clicking it does nothing */}
       <div className="absolute inset-0 bg-paper-white/65" aria-hidden="true" />
 
-      <div className="relative z-[101] bg-onyx w-full max-w-[640px] max-h-[85vh] overflow-y-auto p-8">
+      <div
+        className="relative flex flex-col"
+        style={{ width: "min(720px, 92vw)", height: "min(80vh, 760px)" }}
+      >
         <button
           onClick={onClose}
           aria-label="Close tickets"
-          className="absolute top-3 right-3 z-[102] w-9 h-9 rounded-full bg-paper-white text-onyx border-none text-base cursor-pointer flex items-center justify-center hover:opacity-60 transition-opacity"
+          className="hover-fade absolute w-9 h-9 rounded-full bg-paper-white text-onyx border-none text-base cursor-pointer flex items-center justify-center hover:opacity-60 transition-opacity"
+          style={{ top: -14, right: -14, zIndex: 102 }}
         >
           ✕
         </button>
-        <div className="mt-7" data-shop-url="https://ticketapp.shop/kbfsr"></div>
+        <div
+          className="shop-embed"
+          style={{ flex: 1, minHeight: 0 }}
+          data-shop-url="https://ticketapp.shop/kbfsr"
+        ></div>
       </div>
     </div>
   );

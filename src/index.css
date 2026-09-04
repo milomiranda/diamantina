@@ -49,3 +49,40 @@
     color: var(--color-paper-white);
   }
 }
+
+@layer utilities {
+  .spin-icon {
+    display: inline-block;
+    animation: spin-icon 6s linear infinite;
+  }
+  @keyframes spin-icon {
+    to { transform: rotate(360deg); }
+  }
+
+  .footer-particle {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #D50000;
+    opacity: 0.85;
+    animation: particle-drift 6s ease-in-out infinite;
+  }
+  @keyframes particle-drift {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.85; }
+    50% { transform: translateY(-42px) translateX(20px); opacity: 0.3; }
+  }
+
+  .logo-glow { transition: filter 0.4s ease; }
+  .logo-glow:hover { filter: drop-shadow(0 0 14px rgba(213,0,0,0.35)); }
+
+  .tickets-bounce { transition: transform 0.25s cubic-bezier(.34,1.56,.64,1); display: inline-block; }
+  .tickets-bounce:hover { transform: scale(1.12); }
+
+  .marquee-wrap { overflow: hidden; white-space: nowrap; width: 100%; }
+  .marquee-track { display: inline-block; animation: marquee-scroll 14s linear infinite; }
+  @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .shop-embed { display: block; height: 100%; }
+  .shop-embed iframe { width: 100% !important; height: 100% !important; min-height: 0 !important; border: none; display: block; }
+}
