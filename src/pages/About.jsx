@@ -27,8 +27,8 @@ A queer-centered party series rooted in latin sounds and experimental club music
         </div>
 
         <blockquote className="mt-32 font-gs text-[40px] md:text-[58px] leading-[1] tracking-[-0.02em] font-bold max-w-[900px]">
-          "Every particle reflects differently. Every facet catches light differently. Together
-          they become something brilliant."
+          Every particle reflects differently. Every facet catches light differently. Together
+          they become something brilliant.
         </blockquote>
       </main>
       <Footer />
