@@ -1,7 +1,7 @@
 import Particles from "@/components/Particles";
 
 export default function Footer({ theme }) {
-  const igLink = "https://www.instagram.com/diamantina.nl/";
+  const igLink = "https://www.instagram.com/diamantina.club";
   const webshopLink = "#"; // pendiente
 
   // Falls back to normal static colors on every page except Home (where
