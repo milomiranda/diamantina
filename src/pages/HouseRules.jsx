@@ -24,7 +24,7 @@ export default function HouseRules() {
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
         <div className="relative z-10">
-        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
+        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
           Party Rules
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
@@ -32,10 +32,10 @@ export default function HouseRules() {
         </h1>
 
         <div className="mt-16 md:mt-24 max-w-[620px] flex flex-col gap-8">
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
+          <p className="font-ak text-[18px] leading-[1.33] text-ink-80">
             Diamantina is a home for everyone, centered around our queer community.
           </p>
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
+          <p className="font-ak text-[18px] leading-[1.33] text-ink-80">
             We come together for music, movement, discovery and each other. We want the dance
             floor to feel free, euphoric and welcoming.
           </p>
@@ -45,7 +45,7 @@ export default function HouseRules() {
           {rules.map((rule, i) => (
             <div
               key={i}
-              className={`border border-paper-white/15 px-5 md:px-7 py-6 ${i === 0 ? "" : "-mt-px"}`}
+              className={`border border-ink-15 px-5 md:px-7 py-6 ${i === 0 ? "" : "-mt-px"}`}
             >
               <p className="flex items-center gap-3 font-ak text-[20px] md:text-[24px] leading-[1.1] tracking-[0.01em] font-bold uppercase text-paper-white">
                 <span aria-hidden="true" className="text-diamantina spin-icon">✦</span>
@@ -56,7 +56,7 @@ export default function HouseRules() {
                   {rule.body.map((p, j) => (
                     <p
                       key={j}
-                      className={`font-ak text-[14px] md:text-[15px] leading-[1.5] text-paper-white/70 ${
+                      className={`font-ak text-[14px] md:text-[15px] leading-[1.5] text-ink-70 ${
                         j === 0 ? "" : "mt-1.5"
                       }`}
                     >

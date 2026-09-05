@@ -5,33 +5,24 @@ export default function About() {
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
         <div className="relative z-10">
-        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
+        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
           About
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
           Diamantina is a{" "}
           <strong className="font-bold">
-            queer-centered party series, cultural platform and community
-          </strong>{" "}
-          born in the Netherlands, with a direct cultural and musical connection to Latin
-          America's underground scene.
+            queer-centered party series exploring Latin club and experimental sounds
+          </strong>
+          , born in the Netherlands, with a direct cultural and musical connection to the
+          underground scene.
         </h1>
 
         <div className="mt-24 max-w-[620px] flex flex-col gap-8">
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
+          <p className="font-ak text-[18px] leading-[1.33] text-ink-80">
             At its core, Diamantina is about music discovery, movement and curiosity. We create
             dance floors for sounds that move beyond the expected, from Latin club and Mexican
             underground to IDM, experimental club music and artists exploring the spaces between
             genres.
-          </p>
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
-            Rather than reproducing familiar nightlife formulas, Diamantina looks for new
-            rhythms, unexpected combinations and artists with something distinctive to say.
-          </p>
-          <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80">
-            It is not interested in reproducing another techno night, circuit party, or
-            conventional queer club format. The purpose is to introduce novelty, curiosity and
-            musical exploration to the dance floor.
           </p>
         </div>
 

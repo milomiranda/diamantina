@@ -33,7 +33,7 @@ function SignUpForm({ onSubscribed }) {
         <span aria-hidden="true" className="text-diamantina">✦</span>
         Come a little closer
       </p>
-      <p className="font-ak text-[18px] leading-[1.33] text-paper-white/80 mb-6 max-w-[340px]">
+      <p className="font-ak text-[18px] leading-[1.33] text-ink-80 mb-6 max-w-[340px]">
         Find out what's coming, who's joining us, and where we're going next - before everyone else does.
       </p>
 
@@ -43,7 +43,7 @@ function SignUpForm({ onSubscribed }) {
         </p>
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-[340px]">
-          <div className="border-b border-paper-white/30">
+          <div className="border-b border-ink-30">
             <input
               type="text"
               required
@@ -54,7 +54,7 @@ function SignUpForm({ onSubscribed }) {
               className={fieldStyle}
             />
           </div>
-          <div className="border-b border-paper-white/30">
+          <div className="border-b border-ink-30">
             <input
               type="text"
               required
@@ -65,7 +65,7 @@ function SignUpForm({ onSubscribed }) {
               className={fieldStyle}
             />
           </div>
-          <div className="border-b border-paper-white/30">
+          <div className="border-b border-ink-30">
             <input
               type="email"
               required
@@ -118,7 +118,7 @@ export default function SignUpModal() {
       style={{ display: open ? "flex" : "none" }}
     >
       {/* Backdrop — intentionally has no onClick, so clicking it does nothing */}
-      <div className="absolute inset-0 bg-paper-white/65" aria-hidden="true" />
+      <div className="absolute inset-0 bg-ink-65" aria-hidden="true" />
 
       <div className="relative z-[91] bg-onyx w-full max-w-[420px] p-10">
         <button

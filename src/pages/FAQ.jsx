@@ -31,7 +31,7 @@ const faqs = [
 ];
 
 const inputClass =
-  "font-ak text-[14px] text-paper-white bg-transparent border border-paper-white/25 px-2.5 py-2 focus:outline-none focus:border-paper-white/60";
+  "font-ak text-[14px] text-paper-white bg-transparent border border-ink-25 px-2.5 py-2 focus:outline-none focus:border-ink-60";
 
 function LostItemForm() {
   const fields = [
@@ -81,7 +81,7 @@ function LostItemForm() {
     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[640px]">
       {fields.map((f) => (
         <div key={f.name} className={`flex flex-col gap-1.5 ${f.type === "textarea" ? "md:col-span-2" : ""}`}>
-          <label className="font-ak text-[11px] uppercase tracking-[0.06em] text-paper-white/50">
+          <label className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-50">
             {f.label}
           </label>
           {f.type === "textarea" ? (
@@ -127,12 +127,12 @@ function LostItemQuestion() {
   const [openForm, setOpenForm] = useState(false);
   return (
     <>
-      <p className="font-ak text-[16px] leading-[1.5] text-paper-white/70 text-justify mb-4">
+      <p className="font-ak text-[16px] leading-[1.5] text-ink-70 text-justify mb-4">
         Fill out the form below and it'll come straight to us.
       </p>
       <button
         onClick={() => setOpenForm((v) => !v)}
-        className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-paper-white border border-paper-white/30 px-[18px] py-[10px] hover:opacity-60 transition-opacity"
+        className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-paper-white border border-ink-30 px-[18px] py-[10px] hover:opacity-60 transition-opacity"
       >
         {openForm ? "Close form" : "Report lost item"}
       </button>
@@ -152,13 +152,13 @@ function LostItemQuestion() {
 function FAQItem({ item, index }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`border border-paper-white/15 px-5 md:px-7 py-6 ${index === 0 ? "" : "-mt-px"}`}>
+    <div className={`border border-ink-15 px-5 md:px-7 py-6 ${index === 0 ? "" : "-mt-px"}`}>
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between gap-6 text-left"
       >
         <span className="flex items-baseline gap-4">
-          <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 shrink-0">
+          <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 shrink-0">
             0{index + 1}
           </span>
           <span className="font-gs text-[22px] md:text-[28px] leading-[1.2] tracking-[-0.01em] text-paper-white">
@@ -178,7 +178,7 @@ function FAQItem({ item, index }) {
               <LostItemQuestion />
             ) : (
               <>
-                <p className="font-ak text-[16px] leading-[1.5] text-paper-white/70 text-justify">
+                <p className="font-ak text-[16px] leading-[1.5] text-ink-70 text-justify">
                   {item.a}
                 </p>
                 {item.link && (
@@ -203,7 +203,7 @@ export default function FAQ() {
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
         <div className="relative z-10">
-        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40 mb-8">
+        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
           FAQ
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">

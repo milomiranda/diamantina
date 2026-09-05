@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      (function () {
+        var hour = new Date().getHours();
+        var isNight = hour >= 19 || hour < 7;
+        document.documentElement.classList.add(isNight ? "night" : "day");
+      })();
+    </script>
   <!--
 
        .  *  .    .  *  .    .  *  .
@@ -47,15 +54,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet" />
 
     <!--
-      Google Tag Manager — commented out until you have a real GTM container ID.
-      1. Create a free account at tagmanager.google.com
-      2. Create a container for "diamantina.club" (Web)
-      3. It'll give you an ID like GTM-XXXXXXX — replace BOTH instances below with it
-      4. Uncomment this <script> block AND the <noscript> block in <body> below
+      Google Tag Manager — activated with the real container ID.
       This only fires AFTER someone clicks "Accept" on the cookie banner —
       see CookieBanner.jsx, which calls window.loadGTM() on accept.
+
+      Meta Pixel is NOT hardcoded here on purpose — add it as a tag inside
+      your GTM container instead (tagmanager.google.com), so it's also
+      gated by the same cookie consent, with no code changes needed later.
     -->
-    <!--
     <script>
       window.loadGTM = function() {
         if (window.gtmLoaded) return;
@@ -64,16 +70,13 @@
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-XXXXXXX');
+        })(window,document,'script','dataLayer','GTM-KZ3Z2CGG');
       };
     </script>
-    -->
   </head>
   <body>
-    <!--
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZ3Z2CGG"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

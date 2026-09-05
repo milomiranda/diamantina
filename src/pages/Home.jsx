@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
 import Particles from "@/components/Particles";
 
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
@@ -23,7 +22,6 @@ const fallbackEvents = [
 ];
 
 export default function Home() {
-  const theme = useOutletContext();
   const [events, setEvents] = useState(fallbackEvents);
 
   useEffect(() => {
@@ -46,12 +44,12 @@ export default function Home() {
       <section className="relative overflow-hidden px-4 md:px-6 pt-48 pb-32">
         <Particles />
         <div className="relative z-10">
-          <div className="marquee-wrap border-t border-b border-paper-white/15 mb-8" style={{ padding: "12px 0" }}>
+          <div className="marquee-wrap border-t border-b border-ink-15 mb-8" style={{ padding: "12px 0" }}>
             <div className="marquee-track" style={{ display: "flex" }}>
               {[0, 1].map((half) => (
                 <span
                   key={half}
-                  className="font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white/40"
+                  className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40"
                   style={{ flexShrink: 0 }}
                 >
                   {Array.from({ length: 12 }).map((_, i) => (
@@ -63,7 +61,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col gap-8">
             {events.map((ev) => (
-              <ArchiveRow key={ev.id} event={ev} theme={theme} />
+              <ArchiveRow key={ev.id} event={ev} />
             ))}
           </div>
         </div>
@@ -72,17 +70,14 @@ export default function Home() {
   );
 }
 
-function ToggleLine({ open, color, bg, onClick }) {
+function ToggleLine({ open, onClick }) {
   return (
     <div
       onClick={onClick}
       className="relative cursor-pointer w-full flex items-center"
       style={{ gap: 12, marginTop: 8, marginBottom: 8 }}
     >
-      <span
-        className="font-ak text-[12px] uppercase tracking-[0.06em] shrink-0"
-        style={{ color, backgroundColor: bg, paddingRight: 4 }}
-      >
+      <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 shrink-0">
         {open ? "Hide event details ↑" : "View event details ↓"}
       </span>
       <div style={{ flex: 1, height: 14, overflow: "hidden" }}>
@@ -90,7 +85,7 @@ function ToggleLine({ open, color, bg, onClick }) {
           <path
             d="M0,7 Q3.5,2 7.0,7 T14.0,7 T21.0,7 T28.0,7 T35.0,7 T42.0,7 T49.0,7 T56.0,7 T63.0,7 T70.0,7 T77.0,7 T84.0,7 T91.0,7 T98.0,7 T105.0,7 T112.0,7 T119.0,7 T126.0,7 T133.0,7 T140.0,7 T147.0,7 T154.0,7 T161.0,7 T168.0,7 T175.0,7 T182.0,7 T189.0,7 T196.0,7 T203.0,7"
             fill="none"
-            stroke={color}
+            className="stroke-ink-60"
             strokeWidth="2"
           />
         </svg>
@@ -99,40 +94,36 @@ function ToggleLine({ open, color, bg, onClick }) {
   );
 }
 
-function ArchiveRow({ event, theme }) {
+function ArchiveRow({ event }) {
   const [open, setOpen] = useState(true);
-  const t = theme || { text: "#101522", text60: "rgba(16,21,34,0.6)", bg: "#DDEEFF" };
   const toggle = () => setOpen((v) => !v);
 
   return (
-    <div className="border-t border-paper-white/15">
+    <div className="border-t border-ink-15">
       <div
         className="grid grid-cols-12 items-baseline gap-3 md:gap-6 cursor-pointer"
         style={{ paddingTop: 32 }}
         onClick={toggle}
       >
-        <span
-          className="col-span-12 md:col-span-5 font-gs text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em]"
-          style={{ color: t.text, transition: "color 0.1s linear" }}
-        >
+        <span className="col-span-12 md:col-span-5 font-gs text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
           {event.name}
         </span>
-        <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em]" style={{ color: t.text60, transition: "color 0.1s linear" }}>
+        <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
           {event.date}
         </span>
-        <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em]" style={{ color: t.text60, transition: "color 0.1s linear" }}>
+        <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
           {event.category}
         </span>
-        <span className="col-span-10 md:col-span-2 md:text-right font-ak text-[12px] uppercase tracking-[0.06em]" style={{ color: t.text, transition: "color 0.1s linear" }}>
+        <span className="col-span-10 md:col-span-2 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white">
           {event.location}
         </span>
-        <span className="col-span-2 md:col-span-1 text-right font-ak text-[14px]" style={{ color: t.text, transition: "color 0.1s linear" }}>
+        <span className="col-span-2 md:col-span-1 text-right font-ak text-[14px] text-paper-white">
           {open ? "−" : "+"}
         </span>
       </div>
 
       <div style={{ padding: "8px 0" }}>
-        <ToggleLine open={open} color={t.text60} bg={t.bg} onClick={toggle} />
+        <ToggleLine open={open} onClick={toggle} />
       </div>
 
       <div
@@ -146,44 +137,43 @@ function ArchiveRow({ event, theme }) {
               <div className="md:col-span-7">
                 {event.description && (
                   <>
-                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2" style={{ color: t.text60 }}>
+                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
                       Event description
                     </p>
-                    <p className="font-ak text-[16px] leading-[1.6] mb-7" style={{ color: t.text }}>
+                    <p className="font-ak text-[16px] leading-[1.6] mb-7 text-paper-white">
                       {event.description}
                     </p>
                   </>
                 )}
                 {event.time && (
                   <>
-                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2" style={{ color: t.text60 }}>
+                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
                       Time
                     </p>
-                    <p className="font-ak text-[16px] leading-[1.4] mb-1" style={{ color: t.text }}>
+                    <p className="font-ak text-[16px] leading-[1.4] mb-1 text-paper-white">
                       {event.time}
                     </p>
                   </>
                 )}
                 {event.location && (
-                  <p className="font-ak text-[16px] leading-[1.4] mb-7" style={{ color: t.text }}>
+                  <p className="font-ak text-[16px] leading-[1.4] mb-7 text-paper-white">
                     {event.location}
                   </p>
                 )}
                 {event.djs && event.djs.length > 0 && (
                   <>
-                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3" style={{ color: t.text60 }}>
+                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
                       Line-up
                     </p>
                     <div className="flex flex-col gap-2.5 mb-7">
                       {event.djs.map((dj, i) => (
                         <div key={i} className="flex items-baseline gap-3 flex-wrap">
-                          <span className="font-ak text-[16px] font-bold" style={{ color: t.text }}>{dj.name}</span>
+                          <span className="font-ak text-[16px] font-bold text-paper-white">{dj.name}</span>
                           {dj.link1 && (
                             <a
                               href={dj.link1} target="_blank" rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity"
-                              style={{ color: t.text60 }}
+                              className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
                             >
                               link
                             </a>
@@ -192,8 +182,7 @@ function ArchiveRow({ event, theme }) {
                             <a
                               href={dj.link2} target="_blank" rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity"
-                              style={{ color: t.text60 }}
+                              className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
                             >
                               link
                             </a>
@@ -208,8 +197,8 @@ function ArchiveRow({ event, theme }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="tickets-bounce inline-block font-ak text-[12px] font-bold uppercase tracking-[0.06em]"
-                  style={{ color: t.bg, backgroundColor: t.text, padding: "14px 32px" }}
+                  className="tickets-bounce inline-block font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
+                  style={{ padding: "14px 32px" }}
                 >
                   Tickets
                 </a>
