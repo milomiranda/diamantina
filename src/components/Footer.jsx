@@ -5,17 +5,14 @@ export default function Footer() {
   const webshopLink = "#"; // pendiente
 
   return (
-    <footer className="relative overflow-hidden bg-onyx text-paper-white">
+    <footer className="relative z-10 overflow-hidden bg-onyx text-paper-white">
       <Particles />
       <div className="relative z-10 px-4 md:px-6 pt-32 md:pt-48 pb-16">
         <div className="flex flex-col gap-8 md:gap-12">
           <FooterBig href={igLink} external>Instagram</FooterBig>
           <FooterBig href={webshopLink}>Webshop</FooterBig>
         </div>
-        <div className="mt-24 md:mt-48 pt-8 flex flex-col-reverse md:flex-row items-center md:justify-between gap-4 md:gap-0">
-          <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-diamantina">
-            Diamantina
-          </span>
+        <div className="mt-24 md:mt-48 pt-8 flex flex-col items-start gap-3">
           <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
             <button
               onClick={() => window.openSignUp?.()}
@@ -41,6 +38,9 @@ export default function Footer() {
               Privacy Policy
             </button>
           </p>
+          <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-diamantina">
+            Diamantina
+          </span>
         </div>
       </div>
     </footer>

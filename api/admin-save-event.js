@@ -38,11 +38,27 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { password, event, imageBase64, imageFilename } = req.body || {};
+  const { password, action, eventId, event, imageBase64, imageFilename } = req.body || {};
 
   if (!ADMIN_PASSWORD || password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: "Incorrect password" });
   }
+
+  if (action === "delete") {
+    if (!eventId) return res.status(400).json({ error: "Missing event id" });
+    try {
+      const eventsFile = await getFile("events.json");
+      const data = eventsFile.exists ? JSON.parse(eventsFile.content) : { events: [] };
+      data.events = (data.events || []).filter((e) => e.id !== eventId);
+      const updatedContent = Buffer.from(JSON.stringify(data, null, 2), "utf-8").toString("base64");
+      await putFile("events.json", updatedContent, eventsFile.sha, `Delete event: ${eventId}`);
+      return res.status(200).json({ success: true, deleted: eventId });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Something went wrong. Please try again." });
+    }
+  }
+
   if (!event || !event.id || !event.name) {
     return res.status(400).json({ error: "Missing event data" });
   }

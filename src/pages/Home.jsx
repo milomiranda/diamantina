@@ -35,6 +35,10 @@ export default function Home() {
       });
   }, []);
 
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const upcomingEvents = events.filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO);
+  const pastEvents = events.filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO);
+
   return (
     <>
       <section className="relative flex flex-col items-center px-6" style={{ paddingTop: 80, paddingBottom: 40 }}>
@@ -60,12 +64,27 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col gap-8">
-            {events.map((ev) => (
+            {upcomingEvents.map((ev) => (
               <ArchiveRow key={ev.id} event={ev} />
             ))}
           </div>
         </div>
       </section>
+
+      {pastEvents.length > 0 && (
+        <section className="relative overflow-hidden px-4 md:px-6 pb-32">
+          <div className="relative z-10">
+            <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
+              Past events
+            </p>
+            <div className="flex flex-col gap-8">
+              {pastEvents.map((ev) => (
+                <ArchiveRow key={ev.id} event={ev} defaultOpen={false} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }
@@ -80,8 +99,17 @@ function ToggleLine({ open, onClick }) {
       <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 shrink-0">
         {open ? "Hide event details ↑" : "View event details ↓"}
       </span>
-      <div style={{ flex: 1, height: 14, overflow: "hidden" }}>
-        <svg width="200%" height="14" viewBox="0 0 200 14" preserveAspectRatio="none" style={{ display: "block" }}>
+      <div style={{ flex: 1, height: 14, position: "relative" }}>
+        <svg
+          width="200%" height="14" viewBox="0 0 200 14" preserveAspectRatio="none"
+          style={{ display: "block", position: "absolute", inset: 0, opacity: open ? 0 : 1, transition: "opacity 0.3s ease" }}
+        >
+          <path d="M0,7 L200,7" fill="none" className="stroke-ink-60" strokeWidth="2" />
+        </svg>
+        <svg
+          width="200%" height="14" viewBox="0 0 200 14" preserveAspectRatio="none"
+          style={{ display: "block", position: "absolute", inset: 0, opacity: open ? 1 : 0, transition: "opacity 0.3s ease" }}
+        >
           <path
             d="M0,7 Q3.5,2 7.0,7 T14.0,7 T21.0,7 T28.0,7 T35.0,7 T42.0,7 T49.0,7 T56.0,7 T63.0,7 T70.0,7 T77.0,7 T84.0,7 T91.0,7 T98.0,7 T105.0,7 T112.0,7 T119.0,7 T126.0,7 T133.0,7 T140.0,7 T147.0,7 T154.0,7 T161.0,7 T168.0,7 T175.0,7 T182.0,7 T189.0,7 T196.0,7 T203.0,7"
             fill="none"
@@ -94,8 +122,8 @@ function ToggleLine({ open, onClick }) {
   );
 }
 
-function ArchiveRow({ event }) {
-  const [open, setOpen] = useState(true);
+function ArchiveRow({ event, defaultOpen = true }) {
+  const [open, setOpen] = useState(defaultOpen);
   const toggle = () => setOpen((v) => !v);
 
   return (
@@ -105,7 +133,7 @@ function ArchiveRow({ event }) {
         style={{ paddingTop: 32 }}
         onClick={toggle}
       >
-        <span className="col-span-12 md:col-span-5 font-gs text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
+        <span className="col-span-12 md:col-span-4 font-gs text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
           {event.name}
         </span>
         <span
@@ -114,11 +142,20 @@ function ArchiveRow({ event }) {
         >
           {event.date}
         </span>
-        <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
+        <span
+          className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+          style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
+        >
+          {event.time}
+        </span>
+        <span
+          className="col-span-12 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+          style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
+        >
           {event.category}
         </span>
         <span
-          className="col-span-10 md:col-span-2 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white archive-fade"
+          className="col-span-10 md:col-span-1 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
         >
           {event.location}
@@ -140,7 +177,7 @@ function ArchiveRow({ event }) {
         <div className="overflow-hidden">
           <div className="pb-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
-              <div className="md:col-span-7">
+              <div className="order-2 md:order-1 md:col-span-6">
                 {event.description && (
                   <div className="border border-ink-15 mb-7" style={{ padding: "24px 28px" }}>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
@@ -181,7 +218,7 @@ function ArchiveRow({ event }) {
                               onClick={(e) => e.stopPropagation()}
                               className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
                             >
-                              link
+                              {dj.link1Label || "Link"}
                             </a>
                           )}
                           {dj.link2 && (
@@ -190,7 +227,7 @@ function ArchiveRow({ event }) {
                               onClick={(e) => e.stopPropagation()}
                               className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
                             >
-                              link
+                              {dj.link2Label || "Link"}
                             </a>
                           )}
                         </div>
@@ -210,7 +247,7 @@ function ArchiveRow({ event }) {
                 </a>
               </div>
               {event.flyer && (
-                <div className="md:col-span-5" style={{ width: "100%", maxWidth: 360, marginLeft: "auto" }}>
+                <div className="order-1 md:order-2 md:col-span-6 mx-auto" style={{ width: "100%", maxWidth: 360 }}>
                   <div className="relative aspect-[4/5] overflow-hidden bg-faint-white" style={{ width: "100%" }}>
                     <img src={event.flyer} alt={event.name} className="absolute inset-0 w-full h-full object-cover" />
                   </div>

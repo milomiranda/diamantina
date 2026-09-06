@@ -7,6 +7,7 @@ const emptyEvent = {
   id: "",
   name: "",
   date: "",
+  eventDateISO: "",
   time: "",
   location: "",
   category: "",
@@ -69,7 +70,10 @@ export default function Admin() {
   };
 
   const addDj = () => {
-    setForm((f) => ({ ...f, djs: [...(f.djs || []), { name: "", link1: "", link2: "" }] }));
+    setForm((f) => ({
+      ...f,
+      djs: [...(f.djs || []), { name: "", link1: "", link1Label: "", link2: "", link2Label: "" }],
+    }));
   };
 
   const removeDj = (index) => {
@@ -118,6 +122,32 @@ export default function Admin() {
     }
   };
 
+  const deleteEvent = async (ev) => {
+    if (!window.confirm(`Delete "${ev.name || ev.id}"? This can't be undone.`)) return;
+    setStatus("saving");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/admin-save-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, action: "delete", eventId: ev.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+
+      setEvents((prev) => prev.filter((e) => e.id !== ev.id));
+      if (form.id === ev.id) setForm(emptyEvent);
+      setStatus("idle");
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err.message || "Something went wrong.");
+    }
+  };
+
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const upcomingEvents = events.filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO);
+  const pastEvents = events.filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO);
+
   const inputClass =
     "font-ak text-[14px] text-paper-white bg-transparent border border-ink-25 px-3 py-2.5 w-full focus:outline-none focus:border-diamantina transition-colors";
   const labelClass = "font-ak text-[11px] uppercase tracking-[0.06em] text-ink-50";
@@ -135,7 +165,7 @@ export default function Admin() {
           }}
           className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-6"
         >
-          <img src="/logo.webp" alt="Diamantina" className="w-full" style={{ maxWidth: 220 }} />
+          <img src="/logo.webp" alt="Diamantina" className="w-full" style={{ maxWidth: 340 }} />
           <div className="w-full flex flex-col gap-1 text-center">
             <p className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-40">
               Internal tool · Private
@@ -170,7 +200,7 @@ export default function Admin() {
       <div className="relative z-10 px-4 md:px-6 py-16">
         <div className="max-w-[960px] mx-auto">
           <div className="flex items-center justify-between flex-wrap gap-4 mb-2">
-            <img src="/logo.webp" alt="Diamantina" style={{ height: 40, width: "auto" }} />
+            <img src="/logo.webp" alt="Diamantina" style={{ height: 72, width: "auto" }} />
             <p className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-40">
               Internal tool · Private
             </p>
@@ -179,21 +209,54 @@ export default function Admin() {
 
           {/* Existing events list */}
           <div className="border border-ink-15 p-5 mb-10">
-            <p className={sectionLabelClass}>Existing events</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {events.length === 0 && (
-                <p className="font-ak text-[13px] text-ink-40">No events yet.</p>
+            <p className={sectionLabelClass}>Upcoming events</p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {upcomingEvents.length === 0 && (
+                <p className="font-ak text-[13px] text-ink-40">No upcoming events.</p>
               )}
-              {events.map((ev) => (
-                <button
-                  key={ev.id}
-                  onClick={() => loadEvent(ev)}
-                  className="font-ak text-[12px] uppercase tracking-[0.04em] border border-ink-25 px-3 py-2 hover:bg-ink-10 transition-colors"
-                >
-                  {ev.name || ev.id}
-                </button>
+              {upcomingEvents.map((ev) => (
+                <div key={ev.id} className="flex items-stretch border border-ink-25">
+                  <button
+                    onClick={() => loadEvent(ev)}
+                    className="font-ak text-[12px] uppercase tracking-[0.04em] px-3 py-2 hover:bg-ink-10 transition-colors"
+                  >
+                    {ev.name || ev.id}
+                  </button>
+                  <button
+                    onClick={() => deleteEvent(ev)}
+                    aria-label={`Delete ${ev.name || ev.id}`}
+                    className="font-ak text-[12px] px-2.5 border-l border-ink-25 text-diamantina hover:bg-diamantina/10 transition-colors"
+                  >
+                    ✕
+                  </button>
+                </div>
               ))}
             </div>
+
+            <p className={sectionLabelClass}>Past events (archived)</p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {pastEvents.length === 0 && (
+                <p className="font-ak text-[13px] text-ink-40">No past events yet.</p>
+              )}
+              {pastEvents.map((ev) => (
+                <div key={ev.id} className="flex items-stretch border border-ink-15 opacity-60">
+                  <button
+                    onClick={() => loadEvent(ev)}
+                    className="font-ak text-[12px] uppercase tracking-[0.04em] px-3 py-2 hover:bg-ink-10 transition-colors"
+                  >
+                    {ev.name || ev.id}
+                  </button>
+                  <button
+                    onClick={() => deleteEvent(ev)}
+                    aria-label={`Delete ${ev.name || ev.id}`}
+                    className="font-ak text-[12px] px-2.5 border-l border-ink-15 text-diamantina hover:bg-diamantina/10 transition-colors"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+
             <button
               onClick={startNew}
               className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-diamantina underline underline-offset-2"
@@ -217,6 +280,10 @@ export default function Admin() {
               <div className="flex flex-col gap-1.5">
                 <label className={labelClass}>Date (e.g. 09 · 10 · 2026)</label>
                 <input required value={form.date} onChange={update("date")} className={inputClass} />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className={labelClass}>Event date (used to auto-archive past events)</label>
+                <input required type="date" value={form.eventDateISO} onChange={update("eventDateISO")} className={inputClass} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className={labelClass}>Time (e.g. 22:00 - 04:00)</label>
@@ -266,26 +333,38 @@ export default function Admin() {
               </div>
               <div className="flex flex-col gap-3">
                 {(form.djs || []).map((dj, i) => (
-                  <div key={i} className="grid grid-cols-1 md:grid-cols-[2fr_2fr_2fr_auto] gap-2 items-end border border-ink-15 p-3">
-                    <div className="flex flex-col gap-1">
-                      <label className={labelClass}>Name</label>
-                      <input value={dj.name} onChange={updateDj(i, "name")} className={inputClass} />
+                  <div key={i} className="flex flex-col gap-2 border border-ink-15 p-3">
+                    <div className="flex items-end gap-2">
+                      <div className="flex flex-col gap-1 flex-1">
+                        <label className={labelClass}>Name</label>
+                        <input value={dj.name} onChange={updateDj(i, "name")} className={inputClass} />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeDj(i)}
+                        className="font-ak text-[11px] uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-3 py-2.5 hover:bg-diamantina/10 transition-colors shrink-0"
+                      >
+                        Remove
+                      </button>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className={labelClass}>Link 1 (optional)</label>
-                      <input value={dj.link1} onChange={updateDj(i, "link1")} className={inputClass} placeholder="https://instagram.com/..." />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="flex flex-col gap-1">
+                        <label className={labelClass}>Link 1 URL (optional)</label>
+                        <input value={dj.link1} onChange={updateDj(i, "link1")} className={inputClass} placeholder="https://instagram.com/..." />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className={labelClass}>Link 1 name (e.g. Instagram)</label>
+                        <input value={dj.link1Label || ""} onChange={updateDj(i, "link1Label")} className={inputClass} placeholder="Instagram" />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className={labelClass}>Link 2 URL (optional)</label>
+                        <input value={dj.link2} onChange={updateDj(i, "link2")} className={inputClass} placeholder="https://soundcloud.com/..." />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className={labelClass}>Link 2 name (e.g. Soundcloud)</label>
+                        <input value={dj.link2Label || ""} onChange={updateDj(i, "link2Label")} className={inputClass} placeholder="Soundcloud" />
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className={labelClass}>Link 2 (optional)</label>
-                      <input value={dj.link2} onChange={updateDj(i, "link2")} className={inputClass} placeholder="https://soundcloud.com/..." />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => removeDj(i)}
-                      className="font-ak text-[11px] uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-3 py-2.5 hover:bg-diamantina/10 transition-colors"
-                    >
-                      Remove
-                    </button>
                   </div>
                 ))}
                 {(!form.djs || form.djs.length === 0) && (

@@ -28,12 +28,13 @@ export default function HouseRules() {
           Party Rules
         </p>
 
-        <div className="mt-4 max-w-[620px] flex flex-col gap-8">
-          <p className="font-ak text-[18px] leading-[1.33] text-ink-80">
-            We come together for music, movement, discovery and each other. We want the dance
-            floor to feel free, euphoric and welcoming.
-          </p>
-        </div>
+        <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
+          <strong className="font-bold">
+            We come together for music, movement, discovery and each other
+          </strong>
+          . We want the dance floor to <strong className="font-bold">feel free</strong>, euphoric and
+          welcoming.
+        </h1>
 
         <div className="mt-24 flex flex-col">
           {rules.map((rule, i) => (
