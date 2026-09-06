@@ -316,6 +316,13 @@ export default function Admin() {
           </div>
           <p className="font-gs text-[28px] font-bold mb-10">✦ Event manager</p>
 
+          {status === "saving" && (
+            <p className="font-ak text-[13px] text-ink-60 mb-6">Working...</p>
+          )}
+          {status === "error" && (
+            <p className="font-ak text-[13px] text-diamantina mb-6">⚠ {errorMsg}</p>
+          )}
+
           {/* Existing events list */}
           <div className="border border-ink-15 p-5 mb-10">
             <p className={sectionLabelClass}>Upcoming events</p>

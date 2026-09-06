@@ -28,33 +28,39 @@ export default function Home() {
         <img src="/logo.webp" alt="Diamantina" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
       </section>
 
-      {upcomingEvents.length > 0 && (
-        <section className="relative overflow-hidden px-4 md:px-6 pt-48 pb-8">
-          <Particles />
-          <div className="relative z-10">
-            <div className="marquee-wrap border-t border-b border-ink-15 mb-8" style={{ padding: "12px 0" }}>
-              <div className="marquee-track" style={{ display: "flex" }}>
-                {[0, 1].map((half) => (
-                  <span
-                    key={half}
-                    className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40"
-                    style={{ flexShrink: 0 }}
-                  >
-                    {Array.from({ length: 12 }).map((_, i) => (
-                      <span key={i}>UPCOMING EVENTS &nbsp;·&nbsp; </span>
-                    ))}
-                  </span>
-                ))}
-              </div>
+      <section className="relative overflow-hidden px-4 md:px-6 pt-48 pb-8">
+        <Particles />
+        <div className="relative z-10">
+          <div className="marquee-wrap border-t border-b border-ink-15 mb-8" style={{ padding: "12px 0" }}>
+            <div className="marquee-track" style={{ display: "flex" }}>
+              {[0, 1].map((half) => (
+                <span
+                  key={half}
+                  className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40"
+                  style={{ flexShrink: 0 }}
+                >
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <span key={i}>UPCOMING EVENTS &nbsp;·&nbsp; </span>
+                  ))}
+                </span>
+              ))}
             </div>
+          </div>
+          {upcomingEvents.length > 0 ? (
             <div className="flex flex-col gap-8">
               {upcomingEvents.map((ev) => (
                 <ArchiveRow key={ev.id} event={ev} />
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="flex flex-col items-center text-center" style={{ paddingTop: 40, paddingBottom: 56 }}>
+              <p className="font-gs text-[28px] md:text-[40px] leading-[1.15] tracking-[-0.01em] text-paper-white max-w-[560px]">
+                Some things are worth waiting for. This is one of them.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {pastEvents.length > 0 && (
         <section className="relative overflow-hidden px-4 md:px-6 pb-32">
