@@ -4,34 +4,17 @@ import Particles from "@/components/Particles";
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
 
-// Shown until the real events.json loads (or if the fetch fails), so the
-// page never looks empty.
-const fallbackEvents = [
-  {
-    id: "diamantina-first-light",
-    name: "DIAMANTINA: FIRST LIGHT",
-    date: "09 · 10 · 2026",
-    time: "",
-    location: "TBD - Den Haag",
-    category: "(sound) performance",
-    description: "",
-    flyer: "",
-    ticketsUrl: "",
-    djs: [],
-  },
-];
-
 export default function Home() {
-  const [events, setEvents] = useState(fallbackEvents);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     fetch(`${EVENTS_JSON_URL}?t=${Date.now()}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (data?.events?.length) setEvents(data.events);
+        if (data?.events) setEvents(data.events);
       })
       .catch(() => {
-        // Keep the fallback event on screen if the fetch fails for any reason
+        // No events.json yet, or the fetch failed — show nothing rather than a fake example
       });
   }, []);
 
@@ -45,31 +28,33 @@ export default function Home() {
         <img src="/logo.webp" alt="Diamantina" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
       </section>
 
-      <section className="relative overflow-hidden px-4 md:px-6 pt-48 pb-32">
-        <Particles />
-        <div className="relative z-10">
-          <div className="marquee-wrap border-t border-b border-ink-15 mb-8" style={{ padding: "12px 0" }}>
-            <div className="marquee-track" style={{ display: "flex" }}>
-              {[0, 1].map((half) => (
-                <span
-                  key={half}
-                  className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40"
-                  style={{ flexShrink: 0 }}
-                >
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <span key={i}>UPCOMING EVENTS &nbsp;·&nbsp; </span>
-                  ))}
-                </span>
+      {upcomingEvents.length > 0 && (
+        <section className="relative overflow-hidden px-4 md:px-6 pt-48 pb-8">
+          <Particles />
+          <div className="relative z-10">
+            <div className="marquee-wrap border-t border-b border-ink-15 mb-8" style={{ padding: "12px 0" }}>
+              <div className="marquee-track" style={{ display: "flex" }}>
+                {[0, 1].map((half) => (
+                  <span
+                    key={half}
+                    className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40"
+                    style={{ flexShrink: 0 }}
+                  >
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <span key={i}>UPCOMING EVENTS &nbsp;·&nbsp; </span>
+                    ))}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-8">
+              {upcomingEvents.map((ev) => (
+                <ArchiveRow key={ev.id} event={ev} />
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-8">
-            {upcomingEvents.map((ev) => (
-              <ArchiveRow key={ev.id} event={ev} />
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {pastEvents.length > 0 && (
         <section className="relative overflow-hidden px-4 md:px-6 pb-32">
@@ -128,39 +113,71 @@ function ArchiveRow({ event, defaultOpen = true }) {
 
   return (
     <div className="border-t border-ink-15">
+      {/* Mobile layout: name left, compact info list right */}
       <div
-        className="grid grid-cols-12 items-baseline gap-3 md:gap-6 cursor-pointer"
+        className="flex md:hidden items-start justify-between gap-4 cursor-pointer"
         style={{ paddingTop: 32 }}
         onClick={toggle}
       >
-        <span className="col-span-12 md:col-span-4 font-gs text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
+        <span className="flex-1 font-gs text-[48px] leading-[0.9] tracking-[-0.02em] text-paper-white">
+          {event.name}
+        </span>
+        <div
+          className="flex flex-col items-end gap-1.5 shrink-0 archive-fade"
+          style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
+        >
+          <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-60 whitespace-nowrap">
+            {event.date}
+          </span>
+          <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-60 whitespace-nowrap">
+            {event.time}
+          </span>
+          <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-60 whitespace-nowrap">
+            {event.category}
+          </span>
+          <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-paper-white whitespace-nowrap">
+            {event.location}
+          </span>
+        </div>
+        <span className="shrink-0 font-ak text-[14px] text-paper-white">
+          {open ? "−" : "+"}
+        </span>
+      </div>
+
+      {/* Desktop layout: all fields in one row */}
+      <div
+        className="hidden md:grid grid-cols-12 items-baseline gap-6 cursor-pointer"
+        style={{ paddingTop: 32 }}
+        onClick={toggle}
+      >
+        <span className="md:col-span-4 font-gs text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
           {event.name}
         </span>
         <span
-          className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+          className="md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
         >
           {event.date}
         </span>
         <span
-          className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+          className="md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
         >
           {event.time}
         </span>
         <span
-          className="col-span-12 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+          className="md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
         >
           {event.category}
         </span>
         <span
-          className="col-span-10 md:col-span-1 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white archive-fade"
+          className="md:col-span-1 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
         >
           {event.location}
         </span>
-        <span className="col-span-2 md:col-span-1 text-right font-ak text-[14px] text-paper-white">
+        <span className="md:col-span-1 text-right font-ak text-[14px] text-paper-white">
           {open ? "−" : "+"}
         </span>
       </div>
@@ -177,7 +194,7 @@ function ArchiveRow({ event, defaultOpen = true }) {
         <div className="overflow-hidden">
           <div className="pb-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
-              <div className="order-2 md:order-1 md:col-span-6">
+              <div className="order-2 md:col-span-6">
                 {event.description && (
                   <div className="border border-ink-15 mb-7" style={{ padding: "24px 28px" }}>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
@@ -187,6 +204,16 @@ function ArchiveRow({ event, defaultOpen = true }) {
                       {event.description}
                     </p>
                   </div>
+                )}
+                {event.category && (
+                  <>
+                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
+                      Category
+                    </p>
+                    <p className="font-ak text-[16px] leading-[1.4] mb-7 text-paper-white">
+                      {event.category}
+                    </p>
+                  </>
                 )}
                 {event.time && (
                   <>
@@ -245,7 +272,7 @@ function ArchiveRow({ event, defaultOpen = true }) {
                 </a>
               </div>
               {event.flyer && (
-                <div className="order-1 md:order-2 md:col-span-6 mx-auto" style={{ width: "100%", maxWidth: 360 }}>
+                <div className="order-1 md:col-span-6 mx-auto" style={{ width: "100%", maxWidth: 360 }}>
                   <div className="relative aspect-[4/5] overflow-hidden bg-faint-white" style={{ width: "100%" }}>
                     <img src={event.flyer} alt={event.name} className="absolute inset-0 w-full h-full object-cover" />
                   </div>
