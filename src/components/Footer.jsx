@@ -13,6 +13,12 @@ export default function Footer() {
           <FooterBig href={webshopLink}>Webshop</FooterBig>
         </div>
         <div className="mt-12 md:mt-20 pt-8 flex flex-col items-start gap-3">
+          <a
+            href="mailto:home@diamantina.club"
+            className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 hover:opacity-70 transition-opacity"
+          >
+            home@diamantina.club
+          </a>
           <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
             <button
               onClick={() => window.openSignUp?.()}

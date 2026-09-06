@@ -11,6 +11,7 @@ export default function Nav() {
           <NavLink to="/about" active={pathname === "/about"}>About</NavLink>
           <NavLink to="/house-rules" active={pathname === "/house-rules"}>Party Rules</NavLink>
           <NavLink to="/faq" active={pathname === "/faq"}>FAQ</NavLink>
+          <NavLink to="/contact" active={pathname === "/contact"}>Contact</NavLink>
         </div>
         <a
           href="https://ticketapp.shop/kbfsr"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 function SignUpForm({ onSubscribed }) {
-  const [form, setForm] = useState({ name: "", lastName: "", email: "" });
+  const [form, setForm] = useState({ email: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -39,32 +39,10 @@ function SignUpForm({ onSubscribed }) {
 
       {status === "sent" ? (
         <p className="font-ak text-[16px] text-paper-white">
-          Thanks, {form.name || "you"}, you're on the list.
+          Thanks, you're on the list.
         </p>
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-[340px]">
-          <div className="border-b border-ink-30">
-            <input
-              type="text"
-              required
-              disabled={status === "sending"}
-              value={form.name}
-              onChange={update("name")}
-              placeholder="First name"
-              className={fieldStyle}
-            />
-          </div>
-          <div className="border-b border-ink-30">
-            <input
-              type="text"
-              required
-              disabled={status === "sending"}
-              value={form.lastName}
-              onChange={update("lastName")}
-              placeholder="Last name"
-              className={fieldStyle}
-            />
-          </div>
           <div className="border-b border-ink-30">
             <input
               type="email"

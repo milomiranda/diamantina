@@ -7,6 +7,7 @@ import Layout from '@/components/Layout';
 
 import Home from '@/pages/Home';
 import About from '@/pages/About';
+import Contact from '@/pages/Contact';
 import HouseRules from '@/pages/HouseRules';
 import FAQ from '@/pages/FAQ';
 import Tickets from '@/pages/Tickets';
@@ -24,6 +25,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/house-rules" element={<HouseRules />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/tickets" element={<Tickets />} />
