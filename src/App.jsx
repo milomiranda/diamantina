@@ -15,16 +15,6 @@ import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import Admin from '@/pages/Admin';
 import PageNotFound from '@/pages/PageNotFound';
 
-/*!
- * ┌────────────────────────────────────────────┐
- * │      ✦  DESIGNED FOR DIAMANTINA  ✦          │
- * │      Custom-built, not off-the-shelf.       │
- * └────────────────────────────────────────────┘
- * If you're reading this in devtools — hi! This whole
- * site was built line by line for Diamantina. Come say hi:
- * instagram.com/diamantina.club
- */
-
 function App() {
   return (
     <Router>

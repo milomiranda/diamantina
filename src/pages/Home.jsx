@@ -4,6 +4,28 @@ import Particles from "@/components/Particles";
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
 
+function getCategories(event) {
+  if (Array.isArray(event.categories)) return event.categories;
+  if (event.category) return [event.category];
+  return [];
+}
+
+function CategoryBoxes({ categories, align = "left" }) {
+  if (!categories.length) return null;
+  return (
+    <div className={`flex flex-wrap gap-1.5 ${align === "right" ? "justify-end" : ""}`}>
+      {categories.map((cat, i) => (
+        <span
+          key={i}
+          className="inline-block border border-ink-25 px-2 py-0.5 font-ak text-[10px] uppercase tracking-[0.04em] text-ink-60 whitespace-nowrap"
+        >
+          {cat}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   const [events, setEvents] = useState([]);
 
@@ -48,8 +70,8 @@ export default function Home() {
           </div>
           {upcomingEvents.length > 0 ? (
             <div className="flex flex-col gap-8">
-              {upcomingEvents.map((ev) => (
-                <ArchiveRow key={ev.id} event={ev} />
+              {upcomingEvents.map((ev, i) => (
+                <ArchiveRow key={ev.id} event={ev} defaultOpen={i === 0} />
               ))}
             </div>
           ) : (
@@ -138,9 +160,7 @@ function ArchiveRow({ event, defaultOpen = true }) {
           <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-60 whitespace-nowrap">
             {event.time}
           </span>
-          <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-ink-60 whitespace-nowrap">
-            {event.category}
-          </span>
+          <CategoryBoxes categories={getCategories(event)} align="right" />
           <span className="font-ak text-[11px] uppercase tracking-[0.06em] text-paper-white whitespace-nowrap">
             {event.location}
           </span>
@@ -171,12 +191,12 @@ function ArchiveRow({ event, defaultOpen = true }) {
         >
           {event.time}
         </span>
-        <span
-          className="md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+        <div
+          className="md:col-span-2 archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
         >
-          {event.category}
-        </span>
+          <CategoryBoxes categories={getCategories(event)} />
+        </div>
         <span
           className="md:col-span-1 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
@@ -211,14 +231,14 @@ function ArchiveRow({ event, defaultOpen = true }) {
                     </p>
                   </div>
                 )}
-                {event.category && (
+                {getCategories(event).length > 0 && (
                   <>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
                       Category
                     </p>
-                    <p className="font-ak text-[16px] leading-[1.4] mb-7 text-paper-white">
-                      {event.category}
-                    </p>
+                    <div className="mb-7">
+                      <CategoryBoxes categories={getCategories(event)} />
+                    </div>
                   </>
                 )}
                 {event.time && (
@@ -232,9 +252,28 @@ function ArchiveRow({ event, defaultOpen = true }) {
                   </>
                 )}
                 {event.location && (
-                  <p className="font-ak text-[16px] leading-[1.4] mb-7 text-paper-white">
-                    {event.location}
-                  </p>
+                  event.locationUrl ? (
+                    <a
+                      href={event.locationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1.5 font-ak text-[16px] leading-[1.4] mb-7 text-paper-white hover:opacity-70 transition-opacity underline underline-offset-2"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                        <path
+                          d="M12 22s7-7.58 7-12.5C19 5.36 15.87 2 12 2S5 5.36 5 9.5C5 14.42 12 22 12 22z"
+                          stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                        />
+                        <circle cx="12" cy="9.5" r="2.5" stroke="currentColor" strokeWidth="1.8" />
+                      </svg>
+                      {event.location}
+                    </a>
+                  ) : (
+                    <p className="font-ak text-[16px] leading-[1.4] mb-7 text-paper-white">
+                      {event.location}
+                    </p>
+                  )
                 )}
                 {event.djs && event.djs.length > 0 && (
                   <>
@@ -248,18 +287,20 @@ function ArchiveRow({ event, defaultOpen = true }) {
                           dj.link2 ? { url: dj.link2, label: dj.link2Label } : null,
                         ].filter(Boolean);
                         return (
-                          <div key={i} className="flex items-baseline gap-3 flex-wrap">
+                          <div key={i} className="flex flex-col gap-1 md:flex-row md:items-baseline md:gap-3 md:flex-wrap">
                             <span className="font-ak text-[16px] font-bold text-paper-white">{dj.name}</span>
-                            {links.map((link, li) => (
-                              <a
-                                key={li}
-                                href={link.url} target="_blank" rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
-                              >
-                                {link.label || "Link"}
-                              </a>
-                            ))}
+                            <div className="flex flex-wrap gap-x-3 gap-y-1">
+                              {links.map((link, li) => (
+                                <a
+                                  key={li}
+                                  href={link.url} target="_blank" rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
+                                >
+                                  {link.label || "Link"}
+                                </a>
+                              ))}
+                            </div>
                           </div>
                         );
                       })}
@@ -271,8 +312,8 @@ function ArchiveRow({ event, defaultOpen = true }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="tickets-bounce inline-block font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
-                  style={{ padding: "14px 32px" }}
+                  className="tickets-bounce block md:inline-block w-fit mx-auto md:mx-0 font-ak text-[14px] md:text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
+                  style={{ padding: "18px 32px" }}
                 >
                   Tickets
                 </a>

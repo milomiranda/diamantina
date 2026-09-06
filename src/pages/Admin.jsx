@@ -10,12 +10,19 @@ const emptyEvent = {
   eventDateISO: "",
   time: "",
   location: "",
-  category: "",
+  locationUrl: "",
+  categories: [],
   description: "",
   flyer: "",
   ticketsUrl: "",
   djs: [],
 };
+
+function normalizeCategories(ev) {
+  if (Array.isArray(ev.categories)) return ev.categories;
+  if (ev.category) return [ev.category];
+  return [];
+}
 
 function slugify(text) {
   return text
@@ -73,6 +80,7 @@ export default function Admin() {
   const [loginError, setLoginError] = useState("");
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState(emptyEvent);
+  const [idAutoFill, setIdAutoFill] = useState(true); // false once the ID has been touched by hand
   const [imageFile, setImageFile] = useState(null);
   const [status, setStatus] = useState("idle"); // idle | saving | saved | error
   const [errorMsg, setErrorMsg] = useState("");
@@ -107,9 +115,10 @@ export default function Admin() {
 
   const update = (field) => (e) => {
     const value = e.target.value;
+    if (field === "id") setIdAutoFill(false);
     setForm((f) => {
       const next = { ...f, [field]: value };
-      if (field === "name" && !f.id) next.id = slugify(value);
+      if (field === "name" && idAutoFill) next.id = slugify(value);
       return next;
     });
   };
@@ -158,6 +167,19 @@ export default function Admin() {
     });
   };
 
+  const [categoryDraft, setCategoryDraft] = useState("");
+
+  const addCategory = () => {
+    const value = categoryDraft.trim();
+    if (!value) return;
+    setForm((f) => ({ ...f, categories: [...(f.categories || []), value] }));
+    setCategoryDraft("");
+  };
+
+  const removeCategory = (index) => {
+    setForm((f) => ({ ...f, categories: f.categories.filter((_, i) => i !== index) }));
+  };
+
   const addDj = () => {
     setForm((f) => ({
       ...f,
@@ -170,13 +192,15 @@ export default function Admin() {
   };
 
   const loadEvent = (ev) => {
-    setForm({ ...emptyEvent, ...ev, djs: (ev.djs || []).map(normalizeDj) });
+    setForm({ ...emptyEvent, ...ev, djs: (ev.djs || []).map(normalizeDj), categories: normalizeCategories(ev) });
+    setIdAutoFill(false); // existing event: don't let editing the name silently change its ID
     setImageFile(null);
     setStatus("idle");
   };
 
   const startNew = () => {
     setForm(emptyEvent);
+    setIdAutoFill(true);
     setImageFile(null);
     setStatus("idle");
   };
@@ -410,8 +434,52 @@ export default function Admin() {
                 <input required value={form.location} onChange={update("location")} className={inputClass} />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className={labelClass}>Category</label>
-                <input value={form.category} onChange={update("category")} className={inputClass} />
+                <label className={labelClass}>Location URL (optional, e.g. Google Maps link)</label>
+                <input value={form.locationUrl} onChange={update("locationUrl")} className={inputClass} placeholder="https://maps.app.goo.gl/..." />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className={labelClass}>Categories (add one at a time — each shows as its own box on the site)</label>
+                <div className="flex gap-2">
+                  <input
+                    value={categoryDraft}
+                    onChange={(e) => setCategoryDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addCategory();
+                      }
+                    }}
+                    className={inputClass}
+                    placeholder="e.g. Latin Club"
+                  />
+                  <button
+                    type="button"
+                    onClick={addCategory}
+                    className="font-ak text-[11px] font-bold uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-4 hover:bg-diamantina/10 transition-colors shrink-0"
+                  >
+                    Add
+                  </button>
+                </div>
+                {(form.categories || []).length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {form.categories.map((cat, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-2 font-ak text-[11px] uppercase tracking-[0.04em] border border-ink-25 px-2.5 py-1"
+                      >
+                        {cat}
+                        <button
+                          type="button"
+                          onClick={() => removeCategory(i)}
+                          aria-label={`Remove ${cat}`}
+                          className="text-diamantina hover:opacity-60"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="md:col-span-2 flex flex-col gap-1.5">
                 <label className={labelClass}>Description</label>
