@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function PageNotFound() {
+  usePageTitle("Page not found", "This page doesn't exist on Diamantina's website.");
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-onyx text-paper-white px-6 text-center">
       <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-6">

@@ -271,7 +271,7 @@ function PrivacyContent() {
 
 // Self-managing, mounted once in App: exposes window.openLegal("terms" | "privacy")
 // so Footer and CookieBanner can open it without prop drilling — same pattern as
-// window.openSignUp for SignUpModal.
+// window.openSignUp used to be for the old newsletter popup.
 export default function LegalModal() {
   const [doc, setDoc] = useState(null); // null | "terms" | "privacy"
 

@@ -1,6 +1,8 @@
 import Particles from "@/components/Particles";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function Contact() {
+  usePageTitle("Contact", "Get in touch with Diamantina.");
   return (
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
       <Particles />

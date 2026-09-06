@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ScrollToTop from '@/components/ScrollToTop';
 import CookieBanner from '@/components/CookieBanner';
-import SignUpModal from '@/components/SignUpModal';
 import LegalModal from '@/components/LegalModal';
 import Layout from '@/components/Layout';
 
@@ -43,7 +42,6 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <CookieBanner />
-      <SignUpModal />
       <LegalModal />
       <img
         src="/ceiba.webp"

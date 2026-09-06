@@ -1,4 +1,5 @@
 import Particles from "@/components/Particles";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const rules = [
   { title: "Come as you are", body: null },
@@ -20,6 +21,7 @@ const rules = [
 ];
 
 export default function HouseRules() {
+  usePageTitle("Party Rules", "Diamantina's Party Rules — a home for everyone, built on respect and consent.");
   return (
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />

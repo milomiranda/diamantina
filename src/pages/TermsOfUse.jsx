@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Nav from "@/components/Nav";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function TermsOfUse() {
+  usePageTitle("Terms of Use", "Diamantina's Terms of Use.");
   const navigate = useNavigate();
 
   return (

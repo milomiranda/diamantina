@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Nav from "@/components/Nav";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function PrivacyPolicy() {
+  usePageTitle("Privacy Policy", "Diamantina's Privacy Policy.");
   const navigate = useNavigate();
 
   return (

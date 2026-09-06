@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Particles from "@/components/Particles";
+import NewsletterInline from "@/components/NewsletterInline";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
@@ -27,6 +29,10 @@ function CategoryBoxes({ categories, align = "left" }) {
 }
 
 export default function Home() {
+  usePageTitle(
+    null,
+    "Diamantina is a queer-centered party series and cultural platform, connecting the Netherlands to Latin America's underground music scene."
+  );
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -49,6 +55,8 @@ export default function Home() {
       <section className="relative flex flex-col items-center px-6" style={{ paddingTop: 80, paddingBottom: 40 }}>
         <img src="/logo.webp" alt="Diamantina" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
       </section>
+
+      <NewsletterInline />
 
       <section className="relative overflow-hidden px-4 md:px-6 pt-48 pb-8">
         <Particles />
@@ -138,6 +146,8 @@ function ToggleLine({ open, onClick }) {
 function ArchiveRow({ event, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   const toggle = () => setOpen((v) => !v);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const ticketsHref = event.ticketsUrl || DEFAULT_TICKETS_URL;
 
   return (
     <div className="border-t border-ink-15">
@@ -307,16 +317,37 @@ function ArchiveRow({ event, defaultOpen = true }) {
                     </div>
                   </>
                 )}
-                <a
-                  href={event.ticketsUrl || DEFAULT_TICKETS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowCheckout((v) => !v);
+                  }}
                   className="tickets-bounce block md:inline-block w-fit mx-auto md:mx-0 font-ak text-[14px] md:text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
                   style={{ padding: "18px 32px" }}
                 >
-                  Tickets
-                </a>
+                  {showCheckout ? "Hide checkout ✕" : "Tickets"}
+                </button>
+                {showCheckout && (
+                  <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+                    <iframe
+                      src={ticketsHref}
+                      title={`Tickets — ${event.name}`}
+                      style={{ width: "100%", height: 700, border: "none", display: "block" }}
+                    />
+                    <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
+                      <a
+                        href={ticketsHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
+                      >
+                        Trouble loading? Open checkout in a new tab ↗
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
               {event.flyer && (
                 <div className="order-1 md:col-span-6 mx-auto" style={{ width: "100%", maxWidth: 360 }}>

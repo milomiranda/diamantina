@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Particles from "@/components/Particles";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 
@@ -74,6 +75,7 @@ function compressImage(file, maxDimension = 1600, quality = 0.82) {
 }
 
 export default function Admin() {
+  usePageTitle("Admin");
   const [password, setPassword] = useState("");
   const [unlocked, setUnlocked] = useState(false);
   const [checkingPassword, setCheckingPassword] = useState(false);

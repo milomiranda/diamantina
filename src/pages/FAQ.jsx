@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Particles from "@/components/Particles";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const faqs = [
   {
@@ -201,6 +202,7 @@ function FAQItem({ item, index }) {
 }
 
 export default function FAQ() {
+  usePageTitle("FAQ", "Frequently asked questions about Diamantina — tickets, the door, and what to expect.");
   return (
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
