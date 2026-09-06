@@ -9,7 +9,7 @@ const faqs = [
   {
     q: "Where do I buy tickets?",
     a: "Presale happens online through our ticketshop. Limited door sale is also available, but it depends on how close the event is to capacity, so we can't guarantee tickets will still be available on the night. We recommend buying in advance if you don't want to risk it.",
-    link: { label: "Go to ticketshop", href: "#" },
+    link: { label: "Go to ticketshop", href: "https://ticketapp.shop/kbfsr" },
   },
   { q: "I've lost an item at Diamantina.", type: "lost-item" },
   {
@@ -184,6 +184,8 @@ function FAQItem({ item, index }) {
                 {item.link && (
                   <a
                     href={item.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-block mt-3 font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-paper-white underline underline-offset-[3px] hover:opacity-60 transition-opacity"
                   >
                     {item.link.label} →

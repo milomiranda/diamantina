@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 function SignUpForm({ onSubscribed }) {
-  const [form, setForm] = useState({ name: "", achternaam: "", email: "" });
+  const [form, setForm] = useState({ name: "", lastName: "", email: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -59,9 +59,9 @@ function SignUpForm({ onSubscribed }) {
               type="text"
               required
               disabled={status === "sending"}
-              value={form.achternaam}
-              onChange={update("achternaam")}
-              placeholder="Achternaam"
+              value={form.lastName}
+              onChange={update("lastName")}
+              placeholder="Last name"
               className={fieldStyle}
             />
           </div>

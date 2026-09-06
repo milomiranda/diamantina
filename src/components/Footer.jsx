@@ -12,7 +12,7 @@ export default function Footer() {
           <FooterBig href={igLink} external>Instagram</FooterBig>
           <FooterBig href={webshopLink}>Webshop</FooterBig>
         </div>
-        <div className="mt-24 md:mt-48 pt-8 flex items-center justify-between">
+        <div className="mt-24 md:mt-48 pt-8 flex flex-col-reverse md:flex-row items-center md:justify-between gap-4 md:gap-0">
           <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-diamantina">
             Diamantina
           </span>
@@ -25,23 +25,21 @@ export default function Footer() {
               Subscribe
             </button>
             {" · "}
-            <a
-              href="/terms"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:opacity-70 transition-opacity"
+            <button
+              onClick={() => window.openLegal?.("terms")}
+              className="uppercase hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
+              style={{ font: "inherit", color: "inherit" }}
             >
               Terms of Use
-            </a>
+            </button>
             {" · "}
-            <a
-              href="/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:opacity-70 transition-opacity"
+            <button
+              onClick={() => window.openLegal?.("privacy")}
+              className="uppercase hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
+              style={{ font: "inherit", color: "inherit" }}
             >
               Privacy Policy
-            </a>
+            </button>
           </p>
         </div>
       </div>

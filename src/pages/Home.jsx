@@ -108,13 +108,19 @@ function ArchiveRow({ event }) {
         <span className="col-span-12 md:col-span-5 font-gs text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
           {event.name}
         </span>
-        <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
+        <span
+          className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
+          style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
+        >
           {event.date}
         </span>
         <span className="col-span-6 md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
           {event.category}
         </span>
-        <span className="col-span-10 md:col-span-2 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white">
+        <span
+          className="col-span-10 md:col-span-2 md:text-right font-ak text-[12px] uppercase tracking-[0.06em] text-paper-white archive-fade"
+          style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
+        >
           {event.location}
         </span>
         <span className="col-span-2 md:col-span-1 text-right font-ak text-[14px] text-paper-white">
@@ -136,14 +142,14 @@ function ArchiveRow({ event }) {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
               <div className="md:col-span-7">
                 {event.description && (
-                  <>
-                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
+                  <div className="border border-ink-15 mb-7" style={{ padding: "24px 28px" }}>
+                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
                       Event description
                     </p>
-                    <p className="font-ak text-[16px] leading-[1.6] mb-7 text-paper-white">
+                    <p className="font-ak text-[16px] leading-[1.6] text-paper-white">
                       {event.description}
                     </p>
-                  </>
+                  </div>
                 )}
                 {event.time && (
                   <>

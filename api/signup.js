@@ -19,9 +19,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name, achternaam, email } = req.body || {};
+  const { name, lastName, email } = req.body || {};
 
-  if (!name || !achternaam || !email) {
+  if (!name || !lastName || !email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
     // 2. Append the new row.
     const date = new Date().toISOString();
-    const newRow = [name, achternaam, email, date].map(escapeCsvField).join(",");
+    const newRow = [name, lastName, email, date].map(escapeCsvField).join(",");
     const updatedContent = currentContent.replace(/\n?$/, "\n") + newRow + "\n";
 
     // 3. Push the updated file back to GitHub (this creates a real commit).

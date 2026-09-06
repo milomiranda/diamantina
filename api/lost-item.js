@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     // fresh with a header row on the first-ever submission.
     const getRes = await fetch(apiUrl, { headers });
 
-    let currentContent = "firstName,lastName,email,eventDate,item,color,contents,description,fecha\n";
+    let currentContent = "firstName,lastName,email,eventDate,item,color,contents,description,submittedAt\n";
     let sha = undefined;
 
     if (getRes.ok) {

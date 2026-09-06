@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ScrollToTop from '@/components/ScrollToTop';
 import CookieBanner from '@/components/CookieBanner';
 import SignUpModal from '@/components/SignUpModal';
+import LegalModal from '@/components/LegalModal';
 import Layout from '@/components/Layout';
 
 import Home from '@/pages/Home';
@@ -51,6 +52,23 @@ function App() {
       </Routes>
       <CookieBanner />
       <SignUpModal />
+      <LegalModal />
+      <img
+        src="/ceiba.webp"
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          bottom: "-80px",
+          right: "-280px",
+          width: "560px",
+          height: "auto",
+          pointerEvents: "none",
+          userSelect: "none",
+          zIndex: 5,
+          opacity: 0.9,
+        }}
+      />
     </Router>
   );
 }
