@@ -67,7 +67,7 @@ export default function Admin() {
 
   useEffect(() => {
     if (!unlocked) return;
-    fetch(EVENTS_JSON_URL)
+    fetch(`${EVENTS_JSON_URL}?t=${Date.now()}`)
       .then((r) => (r.ok ? r.json() : { events: [] }))
       .then((data) => setEvents(data.events || []))
       .catch(() => setEvents([]));
@@ -173,6 +173,15 @@ export default function Admin() {
       setStatus("saved");
       setForm(data.event);
       setImageFile(null);
+      setEvents((prev) => {
+        const idx = prev.findIndex((e) => e.id === data.event.id);
+        if (idx >= 0) {
+          const next = [...prev];
+          next[idx] = data.event;
+          return next;
+        }
+        return [...prev, data.event];
+      });
     } catch (err) {
       setStatus("error");
       setErrorMsg(err.message || "Something went wrong.");
