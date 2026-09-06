@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Blocks pinch-to-zoom gestures on touch devices, as a backup for browsers
+   (mostly iOS Safari) that ignore the viewport meta tag's user-scalable=no. */
+html, body {
+  touch-action: pan-x pan-y;
+}
+
 @layer base {
   :root {
     /* Colors */

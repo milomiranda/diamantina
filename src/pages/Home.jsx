@@ -25,7 +25,7 @@ export default function Home() {
   const [events, setEvents] = useState(fallbackEvents);
 
   useEffect(() => {
-    fetch(EVENTS_JSON_URL)
+    fetch(`${EVENTS_JSON_URL}?t=${Date.now()}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (data?.events?.length) setEvents(data.events);
