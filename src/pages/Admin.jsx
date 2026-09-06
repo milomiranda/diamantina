@@ -34,6 +34,38 @@ function fileToBase64(file) {
   });
 }
 
+// Resizes + re-encodes the flyer as JPEG so uploads stay well under Vercel's
+// request size limit, even for large phone-camera photos or screenshots.
+function compressImage(file, maxDimension = 1600, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = () => {
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDimension || height > maxDimension) {
+          const scale = maxDimension / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve({
+          dataUrl: canvas.toDataURL("image/jpeg", quality),
+          filename: file.name.replace(/\.[^.]+$/, "") + ".jpg",
+        });
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function Admin() {
   const [password, setPassword] = useState("");
   const [unlocked, setUnlocked] = useState(false);
@@ -157,8 +189,9 @@ export default function Admin() {
       let imageBase64 = null;
       let imageFilename = null;
       if (imageFile) {
-        imageBase64 = await fileToBase64(imageFile);
-        imageFilename = imageFile.name;
+        const compressed = await compressImage(imageFile);
+        imageBase64 = compressed.dataUrl;
+        imageFilename = compressed.filename;
       }
 
       const res = await fetch("/api/admin-save-event", {
@@ -167,7 +200,16 @@ export default function Admin() {
         body: JSON.stringify({ password, event: form, imageBase64, imageFilename }),
       });
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error(
+          res.status === 413
+            ? "The flyer image is too large. Try a smaller image."
+            : `Server error (${res.status}). Please try again.`
+        );
+      }
       if (!res.ok) throw new Error(data.error || "Failed");
 
       setStatus("saved");
