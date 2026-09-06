@@ -59,9 +59,9 @@ function App() {
         aria-hidden="true"
         style={{
           position: "fixed",
-          bottom: "-80px",
-          right: "-280px",
-          width: "560px",
+          bottom: "-100px",
+          right: "-360px",
+          width: "720px",
           height: "auto",
           pointerEvents: "none",
           userSelect: "none",

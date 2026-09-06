@@ -5,7 +5,7 @@ export default function Footer() {
   const webshopLink = "#"; // pendiente
 
   return (
-    <footer className="relative z-10 overflow-hidden bg-onyx text-paper-white">
+    <footer className="relative overflow-hidden bg-onyx text-paper-white">
       <Particles />
       <div className="relative z-10 px-4 md:px-6 pt-32 md:pt-48 pb-16">
         <div className="flex flex-col gap-8 md:gap-12">
