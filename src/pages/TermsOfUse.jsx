@@ -107,8 +107,7 @@ export default function TermsOfUse() {
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Questions about these Terms can be sent to:"}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Diamantina"}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">Emilio Miranda Escamilla, operating Diamantina as an individual (not registered as a formal business)</p>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[EMAIL ADDRESS]</span></p>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[POSTAL ADDRESS, IF APPLICABLE]</span></p>
+          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">home@diamantina.club</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Netherlands"}</p>
         </div>
         </div>

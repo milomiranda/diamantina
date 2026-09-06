@@ -84,8 +84,7 @@ function TermsContent() {
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Questions about these Terms can be sent to:"}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Diamantina"}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">Emilio Miranda Escamilla, operating Diamantina as an individual (not registered as a formal business)</p>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[EMAIL ADDRESS]</span></p>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[POSTAL ADDRESS, IF APPLICABLE]</span></p>
+          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">home@diamantina.club</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Netherlands"}</p>
         </div>    </>
   );
@@ -100,8 +99,7 @@ function PrivacyContent() {
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">Emilio Miranda Escamilla, operating Diamantina as an individual (not registered as a formal business)</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Trading as: Diamantina"}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Netherlands"}</p>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Email: "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span></p>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Address: "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[BUSINESS/POSTAL ADDRESS]</span></p>
+          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Email: "}help@diamantina.club</p>
         </div>
         <div className="mt-6">
           <p className="font-ak text-[#101522] text-[13px] font-bold mb-2 border-l-[3px] border-diamantina pl-3">2. Information We May Collect</p>
@@ -228,7 +226,7 @@ function PrivacyContent() {
             <li className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-0.5">{"receive certain personal data in a portable format;"}</li>
             <li className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-0.5">{"lodge a complaint with a supervisory authority."}</li>
           </ul>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"To exercise your rights, contact us at "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span>{"."}</p>
+          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"To exercise your rights, contact us at "}help@diamantina.club{"."}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"We may need to verify your identity before processing certain requests."}</p>
         </div>
         <div className="mt-6">
@@ -261,8 +259,7 @@ function PrivacyContent() {
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"For questions about privacy or the processing of your personal data:"}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Diamantina"}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">Emilio Miranda Escamilla, operating Diamantina as an individual (not registered as a formal business)</p>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span></p>
-          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[POSTAL ADDRESS, IF APPLICABLE]</span></p>
+          <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">help@diamantina.club</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"Netherlands"}</p>
           <p className="font-ak text-[#101522]/75 text-[12.5px] leading-[1.55] mb-2">{"You also have the right to lodge a complaint with the competent data protection authority, including the Dutch Data Protection Authority (Autoriteit Persoonsgegevens) where applicable."}</p>
         </div>    </>

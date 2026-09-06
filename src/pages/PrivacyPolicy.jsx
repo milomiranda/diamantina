@@ -32,8 +32,7 @@ export default function PrivacyPolicy() {
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">Emilio Miranda Escamilla, operating Diamantina as an individual (not registered as a formal business)</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Trading as: Diamantina"}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Netherlands"}</p>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Email: "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span></p>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Address: "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[BUSINESS/POSTAL ADDRESS]</span></p>
+          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Email: "}help@diamantina.club</p>
         </div>
         <div className="mt-10">
           <p className="font-ak text-[#101522] text-[19px] font-bold mb-3.5 border-l-[3px] border-diamantina pl-3">2. Information We May Collect</p>
@@ -160,7 +159,7 @@ export default function PrivacyPolicy() {
             <li className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-1">{"receive certain personal data in a portable format;"}</li>
             <li className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-1">{"lodge a complaint with a supervisory authority."}</li>
           </ul>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"To exercise your rights, contact us at "}<span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span>{"."}</p>
+          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"To exercise your rights, contact us at "}help@diamantina.club{"."}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"We may need to verify your identity before processing certain requests."}</p>
         </div>
         <div className="mt-10">
@@ -193,8 +192,7 @@ export default function PrivacyPolicy() {
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"For questions about privacy or the processing of your personal data:"}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Diamantina"}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">Emilio Miranda Escamilla, operating Diamantina as an individual (not registered as a formal business)</p>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[PRIVACY EMAIL]</span></p>
-          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]"><span className="bg-diamantina/10 text-diamantina px-1.5 py-0.5 font-semibold">[POSTAL ADDRESS, IF APPLICABLE]</span></p>
+          <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">help@diamantina.club</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"Netherlands"}</p>
           <p className="font-ak text-[#101522]/75 text-[15px] leading-[1.65] mb-2.5 max-w-[680px]">{"You also have the right to lodge a complaint with the competent data protection authority, including the Dutch Data Protection Authority (Autoriteit Persoonsgegevens) where applicable."}</p>
         </div>

@@ -9,8 +9,8 @@ export default function Nav() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50">
-      <nav className="flex items-center justify-between gap-2 px-3 sm:px-4 md:px-6 py-3 md:py-4 flex-wrap">
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-10 flex-wrap">
+      <nav className="flex flex-col md:flex-row items-center md:justify-between gap-3 md:gap-2 px-3 sm:px-4 md:px-6 py-3 md:py-4">
+        <div className="flex items-center justify-center md:justify-start gap-2 sm:gap-3 md:gap-10 flex-wrap">
           <NavLink to="/" active={pathname === "/"}>Home</NavLink>
           <NavLink to="/about" active={pathname === "/about"}>About</NavLink>
           <NavLink to="/house-rules" active={pathname === "/house-rules"}>Party Rules</NavLink>
