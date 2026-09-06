@@ -209,29 +209,27 @@ function ArchiveRow({ event, defaultOpen = true }) {
                       Line-up
                     </p>
                     <div className="flex flex-col gap-2.5 mb-7">
-                      {event.djs.map((dj, i) => (
-                        <div key={i} className="flex items-baseline gap-3 flex-wrap">
-                          <span className="font-ak text-[16px] font-bold text-paper-white">{dj.name}</span>
-                          {dj.link1 && (
-                            <a
-                              href={dj.link1} target="_blank" rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
-                            >
-                              {dj.link1Label || "Link"}
-                            </a>
-                          )}
-                          {dj.link2 && (
-                            <a
-                              href={dj.link2} target="_blank" rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
-                            >
-                              {dj.link2Label || "Link"}
-                            </a>
-                          )}
-                        </div>
-                      ))}
+                      {event.djs.map((dj, i) => {
+                        const links = dj.links || [
+                          dj.link1 ? { url: dj.link1, label: dj.link1Label } : null,
+                          dj.link2 ? { url: dj.link2, label: dj.link2Label } : null,
+                        ].filter(Boolean);
+                        return (
+                          <div key={i} className="flex items-baseline gap-3 flex-wrap">
+                            <span className="font-ak text-[16px] font-bold text-paper-white">{dj.name}</span>
+                            {links.map((link, li) => (
+                              <a
+                                key={li}
+                                href={link.url} target="_blank" rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
+                              >
+                                {link.label || "Link"}
+                              </a>
+                            ))}
+                          </div>
+                        );
+                      })}
                     </div>
                   </>
                 )}

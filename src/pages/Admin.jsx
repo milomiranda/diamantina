@@ -37,11 +37,33 @@ function fileToBase64(file) {
 export default function Admin() {
   const [password, setPassword] = useState("");
   const [unlocked, setUnlocked] = useState(false);
+  const [checkingPassword, setCheckingPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const [events, setEvents] = useState([]);
   const [form, setForm] = useState(emptyEvent);
   const [imageFile, setImageFile] = useState(null);
   const [status, setStatus] = useState("idle"); // idle | saving | saved | error
   const [errorMsg, setErrorMsg] = useState("");
+
+  const checkPassword = async (e) => {
+    e.preventDefault();
+    setCheckingPassword(true);
+    setLoginError("");
+    try {
+      const res = await fetch("/api/admin-save-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, action: "verify" }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Incorrect password");
+      setUnlocked(true);
+    } catch (err) {
+      setLoginError(err.message || "Incorrect password");
+    } finally {
+      setCheckingPassword(false);
+    }
+  };
 
   useEffect(() => {
     if (!unlocked) return;
@@ -60,6 +82,14 @@ export default function Admin() {
     });
   };
 
+  const normalizeDj = (dj) => {
+    if (dj.links) return dj;
+    const links = [];
+    if (dj.link1) links.push({ url: dj.link1, label: dj.link1Label || "" });
+    if (dj.link2) links.push({ url: dj.link2, label: dj.link2Label || "" });
+    return { name: dj.name || "", links };
+  };
+
   const updateDj = (index, field) => (e) => {
     const value = e.target.value;
     setForm((f) => {
@@ -69,10 +99,37 @@ export default function Admin() {
     });
   };
 
+  const updateDjLink = (djIndex, linkIndex, field) => (e) => {
+    const value = e.target.value;
+    setForm((f) => {
+      const djs = [...(f.djs || [])];
+      const links = [...(djs[djIndex].links || [])];
+      links[linkIndex] = { ...links[linkIndex], [field]: value };
+      djs[djIndex] = { ...djs[djIndex], links };
+      return { ...f, djs };
+    });
+  };
+
+  const addDjLink = (djIndex) => {
+    setForm((f) => {
+      const djs = [...(f.djs || [])];
+      djs[djIndex] = { ...djs[djIndex], links: [...(djs[djIndex].links || []), { url: "", label: "" }] };
+      return { ...f, djs };
+    });
+  };
+
+  const removeDjLink = (djIndex, linkIndex) => {
+    setForm((f) => {
+      const djs = [...(f.djs || [])];
+      djs[djIndex] = { ...djs[djIndex], links: (djs[djIndex].links || []).filter((_, i) => i !== linkIndex) };
+      return { ...f, djs };
+    });
+  };
+
   const addDj = () => {
     setForm((f) => ({
       ...f,
-      djs: [...(f.djs || []), { name: "", link1: "", link1Label: "", link2: "", link2Label: "" }],
+      djs: [...(f.djs || []), { name: "", links: [] }],
     }));
   };
 
@@ -81,7 +138,7 @@ export default function Admin() {
   };
 
   const loadEvent = (ev) => {
-    setForm({ ...emptyEvent, ...ev, djs: ev.djs || [] });
+    setForm({ ...emptyEvent, ...ev, djs: (ev.djs || []).map(normalizeDj) });
     setImageFile(null);
     setStatus("idle");
   };
@@ -159,10 +216,7 @@ export default function Admin() {
       <div className="relative min-h-screen bg-onyx text-paper-white flex items-center justify-center px-6 overflow-hidden">
         <Particles />
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setUnlocked(true);
-          }}
+          onSubmit={checkPassword}
           className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-6"
         >
           <img src="/logo.webp" alt="Diamantina" className="w-full" style={{ maxWidth: 340 }} />
@@ -182,11 +236,15 @@ export default function Admin() {
             placeholder="Password"
             className={inputClass + " text-center"}
           />
+          {loginError && (
+            <p className="font-ak text-[12px] text-diamantina text-center">{loginError}</p>
+          )}
           <button
             type="submit"
-            className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white px-6 py-3 hover:opacity-80 transition-opacity w-full"
+            disabled={checkingPassword}
+            className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white px-6 py-3 hover:opacity-80 transition-opacity disabled:opacity-40 w-full"
           >
-            Enter
+            {checkingPassword ? "Checking..." : "Enter"}
           </button>
         </form>
       </div>
@@ -347,23 +405,36 @@ export default function Admin() {
                         Remove
                       </button>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      <div className="flex flex-col gap-1">
-                        <label className={labelClass}>Link 1 URL (optional)</label>
-                        <input value={dj.link1} onChange={updateDj(i, "link1")} className={inputClass} placeholder="https://instagram.com/..." />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className={labelClass}>Link 1 name (e.g. Instagram)</label>
-                        <input value={dj.link1Label || ""} onChange={updateDj(i, "link1Label")} className={inputClass} placeholder="Instagram" />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className={labelClass}>Link 2 URL (optional)</label>
-                        <input value={dj.link2} onChange={updateDj(i, "link2")} className={inputClass} placeholder="https://soundcloud.com/..." />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className={labelClass}>Link 2 name (e.g. Soundcloud)</label>
-                        <input value={dj.link2Label || ""} onChange={updateDj(i, "link2Label")} className={inputClass} placeholder="Soundcloud" />
-                      </div>
+                    <div className="flex flex-col gap-2">
+                      {(dj.links || []).map((link, li) => (
+                        <div key={li} className="grid grid-cols-1 md:grid-cols-[2fr_2fr_auto] gap-2 items-end">
+                          <div className="flex flex-col gap-1">
+                            <label className={labelClass}>Link URL</label>
+                            <input value={link.url} onChange={updateDjLink(i, li, "url")} className={inputClass} placeholder="https://instagram.com/..." />
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <label className={labelClass}>Link name (e.g. Instagram)</label>
+                            <input value={link.label || ""} onChange={updateDjLink(i, li, "label")} className={inputClass} placeholder="Instagram" />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeDjLink(i, li)}
+                            className="font-ak text-[11px] uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-3 py-2.5 hover:bg-diamantina/10 transition-colors"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                      {(!dj.links || dj.links.length === 0) && (
+                        <p className="font-ak text-[12px] text-ink-40">No links added yet.</p>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => addDjLink(i)}
+                        className="font-ak text-[11px] font-bold uppercase tracking-[0.06em] text-diamantina underline underline-offset-2 self-start"
+                      >
+                        + Add link
+                      </button>
                     </div>
                   </div>
                 ))}
