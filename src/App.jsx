@@ -3,6 +3,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 import SmoothScroll from '@/components/SmoothScroll';
 import CookieBanner from '@/components/CookieBanner';
 import LegalModal from '@/components/LegalModal';
+import SignUpPopup from '@/components/SignUpPopup';
 import Layout from '@/components/Layout';
 
 import Home from '@/pages/Home';
@@ -45,6 +46,7 @@ function App() {
       </Routes>
       <CookieBanner />
       <LegalModal />
+      <SignUpPopup />
       <img
         src="/ceiba.webp"
         alt=""

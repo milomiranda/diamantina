@@ -6,6 +6,23 @@ import usePageTitle from "@/hooks/usePageTitle";
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
 
+// Ticket-button "blobs": assigned in order as events are created (1st event
+// gets blob 1, 2nd gets blob 2, ...). Once there are more events than blobs,
+// each extra event gets a stable (not re-randomized on every render) pick
+// from the same 5, so the same event always keeps the same blob.
+const TICKET_BLOBS = [
+  "/tickets/tickets-blob-1.webp",
+  "/tickets/tickets-blob-2.webp",
+  "/tickets/tickets-blob-3.webp",
+  "/tickets/tickets-blob-4.webp",
+  "/tickets/tickets-blob-5.webp",
+];
+function getTicketBlob(index) {
+  if (index < TICKET_BLOBS.length) return TICKET_BLOBS[index];
+  const pseudoRandom = Math.abs((index * 2654435761) % TICKET_BLOBS.length);
+  return TICKET_BLOBS[pseudoRandom];
+}
+
 function getCategories(event) {
   if (Array.isArray(event.categories)) return event.categories;
   if (event.category) return [event.category];
@@ -47,8 +64,9 @@ export default function Home() {
   }, []);
 
   const todayISO = new Date().toISOString().slice(0, 10);
-  const upcomingEvents = events.filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO);
-  const pastEvents = events.filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO);
+  const indexedEvents = events.map((ev, i) => ({ ...ev, _blobIndex: i }));
+  const upcomingEvents = indexedEvents.filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO);
+  const pastEvents = indexedEvents.filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO);
 
   return (
     <>
@@ -79,7 +97,7 @@ export default function Home() {
           {upcomingEvents.length > 0 ? (
             <div className="flex flex-col gap-8">
               {upcomingEvents.map((ev, i) => (
-                <ArchiveRow key={ev.id} event={ev} defaultOpen={i === 0} />
+                <ArchiveRow key={ev.id} event={ev} defaultOpen={i === 0} blobIndex={ev._blobIndex} />
               ))}
             </div>
           ) : (
@@ -100,7 +118,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col gap-8">
               {pastEvents.map((ev) => (
-                <ArchiveRow key={ev.id} event={ev} defaultOpen={false} />
+                <ArchiveRow key={ev.id} event={ev} defaultOpen={false} blobIndex={ev._blobIndex} />
               ))}
             </div>
           </div>
@@ -143,7 +161,7 @@ function ToggleLine({ open, onClick }) {
   );
 }
 
-function ArchiveRow({ event, defaultOpen = true }) {
+function ArchiveRow({ event, defaultOpen = true, blobIndex = 0 }) {
   const [open, setOpen] = useState(defaultOpen);
   const toggle = () => {
     setOpen((v) => !v);
@@ -151,6 +169,7 @@ function ArchiveRow({ event, defaultOpen = true }) {
   };
   const [showCheckout, setShowCheckout] = useState(false);
   const ticketsHref = event.ticketsUrl || DEFAULT_TICKETS_URL;
+  const ticketBlob = getTicketBlob(blobIndex);
 
   return (
     <div className="border-t border-ink-15">
@@ -160,7 +179,7 @@ function ArchiveRow({ event, defaultOpen = true }) {
         style={{ paddingTop: 32 }}
         onClick={toggle}
       >
-        <span className="flex-1 font-gs text-[48px] leading-[0.9] tracking-[-0.02em] text-paper-white">
+        <span className="flex-1 font-gs text-[48px] leading-[0.9] tracking-[-0.02em] text-paper-white uppercase">
           {event.name}
         </span>
         <div
@@ -189,7 +208,7 @@ function ArchiveRow({ event, defaultOpen = true }) {
         style={{ paddingTop: 32 }}
         onClick={toggle}
       >
-        <span className="md:col-span-4 font-gs text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white">
+        <span className="md:col-span-4 font-gs text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white uppercase">
           {event.name}
         </span>
         <span
@@ -221,22 +240,24 @@ function ArchiveRow({ event, defaultOpen = true }) {
         </span>
       </div>
 
-      <div style={{ padding: "8px 0" }}>
-        <ToggleLine open={open} onClick={toggle} />
-      </div>
-
       {!open && (
-        <div className="flex flex-col items-center" style={{ paddingBottom: 8 }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: 12, paddingBottom: 4 }}>
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               setShowCheckout((v) => !v);
             }}
-            className="tickets-bounce font-ak text-[13px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
-            style={{ padding: "12px 26px" }}
+            className="tickets-bounce relative block"
+            style={{ width: 200 }}
           >
-            {showCheckout ? "Hide checkout ✕" : "Tickets"}
+            <img src={ticketBlob} alt="" className="w-full h-auto pointer-events-none select-none" />
+            <span
+              className="absolute inset-0 flex items-center justify-center font-ak text-[13px] font-bold uppercase tracking-[0.08em] text-white"
+              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+            >
+              {showCheckout ? "Hide checkout ✕" : "Tickets"}
+            </span>
           </button>
           {showCheckout && (
             <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
@@ -260,6 +281,10 @@ function ArchiveRow({ event, defaultOpen = true }) {
           )}
         </div>
       )}
+
+      <div style={{ padding: "8px 0" }}>
+        <ToggleLine open={open} onClick={toggle} />
+      </div>
 
       <div
         className={`grid grid-cols-1 transition-all duration-500 ${
@@ -362,10 +387,16 @@ function ArchiveRow({ event, defaultOpen = true }) {
                     e.stopPropagation();
                     setShowCheckout((v) => !v);
                   }}
-                  className="tickets-bounce block md:inline-block w-fit mx-auto md:mx-0 font-ak text-[14px] md:text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
-                  style={{ padding: "18px 32px" }}
+                  className="tickets-bounce relative block mx-auto md:mx-0"
+                  style={{ width: 220 }}
                 >
-                  {showCheckout ? "Hide checkout ✕" : "Tickets"}
+                  <img src={ticketBlob} alt="" className="w-full h-auto pointer-events-none select-none" />
+                  <span
+                    className="absolute inset-0 flex items-center justify-center font-ak text-[14px] font-bold uppercase tracking-[0.08em] text-white"
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+                  >
+                    {showCheckout ? "Hide checkout ✕" : "Tickets"}
+                  </span>
                 </button>
                 {showCheckout && (
                   <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
