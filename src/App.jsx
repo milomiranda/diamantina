@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ScrollToTop from '@/components/ScrollToTop';
+import SmoothScroll from '@/components/SmoothScroll';
 import CookieBanner from '@/components/CookieBanner';
 import LegalModal from '@/components/LegalModal';
 import Layout from '@/components/Layout';
@@ -19,6 +20,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <SmoothScroll />
       <Routes>
         {/* Nav + Footer render once in Layout, shared by all pages below */}
         <Route element={<Layout />}>

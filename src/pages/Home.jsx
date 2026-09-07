@@ -145,7 +145,10 @@ function ToggleLine({ open, onClick }) {
 
 function ArchiveRow({ event, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
-  const toggle = () => setOpen((v) => !v);
+  const toggle = () => {
+    setOpen((v) => !v);
+    setShowCheckout(false);
+  };
   const [showCheckout, setShowCheckout] = useState(false);
   const ticketsHref = event.ticketsUrl || DEFAULT_TICKETS_URL;
 
@@ -221,6 +224,42 @@ function ArchiveRow({ event, defaultOpen = true }) {
       <div style={{ padding: "8px 0" }}>
         <ToggleLine open={open} onClick={toggle} />
       </div>
+
+      {!open && (
+        <div className="flex flex-col items-center" style={{ paddingBottom: 8 }}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowCheckout((v) => !v);
+            }}
+            className="tickets-bounce font-ak text-[13px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
+            style={{ padding: "12px 26px" }}
+          >
+            {showCheckout ? "Hide checkout ✕" : "Tickets"}
+          </button>
+          {showCheckout && (
+            <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+              <iframe
+                src={ticketsHref}
+                title={`Tickets — ${event.name}`}
+                style={{ width: "100%", height: 700, border: "none", display: "block" }}
+              />
+              <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
+                <a
+                  href={ticketsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
+                >
+                  Trouble loading? Open checkout in a new tab ↗
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       <div
         className={`grid grid-cols-1 transition-all duration-500 ${
@@ -317,6 +356,37 @@ function ArchiveRow({ event, defaultOpen = true }) {
                     </div>
                   </>
                 )}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowCheckout((v) => !v);
+                  }}
+                  className="tickets-bounce block md:inline-block w-fit mx-auto md:mx-0 font-ak text-[14px] md:text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
+                  style={{ padding: "18px 32px" }}
+                >
+                  {showCheckout ? "Hide checkout ✕" : "Tickets"}
+                </button>
+                {showCheckout && (
+                  <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+                    <iframe
+                      src={ticketsHref}
+                      title={`Tickets — ${event.name}`}
+                      style={{ width: "100%", height: 700, border: "none", display: "block" }}
+                    />
+                    <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
+                      <a
+                        href={ticketsHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
+                      >
+                        Trouble loading? Open checkout in a new tab ↗
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
               {event.flyer && (
                 <div className="order-1 md:col-span-6 mx-auto" style={{ width: "100%", maxWidth: 360 }}>
@@ -329,50 +399,6 @@ function ArchiveRow({ event, defaultOpen = true }) {
           </div>
         </div>
       </div>
-
-      <div className="flex justify-center md:justify-start" style={{ paddingBottom: 32 }}>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowCheckout(true);
-          }}
-          className="tickets-bounce font-ak text-[14px] md:text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white"
-          style={{ padding: "18px 32px" }}
-        >
-          Tickets
-        </button>
-      </div>
-
-      {showCheckout && (
-        <div className="fixed inset-0 z-[95] flex items-center justify-center p-5">
-          <div className="absolute inset-0 bg-ink-65" aria-hidden="true" onClick={() => setShowCheckout(false)} />
-          <div className="relative z-[96] bg-white w-full max-w-[480px] flex flex-col">
-            <button
-              onClick={() => setShowCheckout(false)}
-              aria-label="Close checkout"
-              className="absolute top-3 right-3 z-[97] w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-60 transition-opacity"
-            >
-              ✕
-            </button>
-            <iframe
-              src={ticketsHref}
-              title={`Tickets — ${event.name}`}
-              style={{ width: "100%", height: 700, border: "none", display: "block" }}
-            />
-            <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
-              <a
-                href={ticketsHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
-              >
-                Trouble loading? Open checkout in a new tab ↗
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

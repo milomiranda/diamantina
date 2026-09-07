@@ -8,7 +8,7 @@ export default function Nav() {
   const [showCheckout, setShowCheckout] = useState(false);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50">
+    <header className="fixed top-0 inset-x-0 z-50 bg-onyx/80 backdrop-blur-sm">
       <nav className="flex flex-col md:flex-row items-center md:justify-between gap-3 md:gap-2 px-3 sm:px-4 md:px-6 py-3 md:py-4">
         <div className="flex items-center justify-center md:justify-start gap-2 sm:gap-3 md:gap-10 flex-wrap">
           <NavLink to="/" active={pathname === "/"}>Home</NavLink>
@@ -19,42 +19,47 @@ export default function Nav() {
         </div>
         <button
           type="button"
-          onClick={() => setShowCheckout(true)}
+          onClick={() => setShowCheckout((v) => !v)}
           className="tickets-bounce font-ak text-[13px] sm:text-[15px] md:text-[18px] font-bold uppercase tracking-[0.02em] md:tracking-[0.04em] whitespace-nowrap shrink-0 inline-block text-onyx bg-paper-white hover:opacity-80 transition-opacity"
           style={{ padding: "10px 18px" }}
         >
-          Tickets
+          {showCheckout ? "Hide checkout ✕" : "Tickets"}
         </button>
       </nav>
 
       {showCheckout && (
-        <div className="fixed inset-0 z-[95] flex items-center justify-center p-5">
-          <div className="absolute inset-0 bg-ink-65" aria-hidden="true" onClick={() => setShowCheckout(false)} />
-          <div className="relative z-[96] bg-white w-full max-w-[480px] flex flex-col">
-            <button
-              onClick={() => setShowCheckout(false)}
-              aria-label="Close checkout"
-              className="absolute top-3 right-3 z-[97] w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-60 transition-opacity"
-            >
-              ✕
-            </button>
-            <iframe
-              src={DEFAULT_TICKETS_URL}
-              title="Tickets"
-              style={{ width: "100%", height: 700, border: "none", display: "block" }}
-            />
-            <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
-              <a
-                href={DEFAULT_TICKETS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
+        <>
+          <div className="fixed inset-0 z-[94]" onClick={() => setShowCheckout(false)} />
+          <div
+            className="absolute top-full inset-x-0 z-[95] flex justify-center px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative bg-white w-full max-w-[480px] flex flex-col">
+              <button
+                onClick={() => setShowCheckout(false)}
+                aria-label="Close checkout"
+                className="absolute top-3 right-3 z-[97] w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-60 transition-opacity"
               >
-                Trouble loading? Open checkout in a new tab ↗
-              </a>
+                ✕
+              </button>
+              <iframe
+                src={DEFAULT_TICKETS_URL}
+                title="Tickets"
+                style={{ width: "100%", height: 700, border: "none", display: "block" }}
+              />
+              <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
+                <a
+                  href={DEFAULT_TICKETS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
+                >
+                  Trouble loading? Open checkout in a new tab ↗
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );
