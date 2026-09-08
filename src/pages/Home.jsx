@@ -66,8 +66,12 @@ export default function Home() {
 
   const todayISO = new Date().toISOString().slice(0, 10);
   const indexedEvents = events.map((ev, i) => ({ ...ev, _blobIndex: i }));
-  const upcomingEvents = indexedEvents.filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO);
-  const pastEvents = indexedEvents.filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO);
+  const upcomingEvents = indexedEvents
+    .filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO)
+    .sort((a, b) => (a.eventDateISO || "9999-99-99").localeCompare(b.eventDateISO || "9999-99-99"));
+  const pastEvents = indexedEvents
+    .filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO)
+    .sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO));
 
   return (
     <>
