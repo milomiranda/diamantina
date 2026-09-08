@@ -4,6 +4,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import CookieBanner from '@/components/CookieBanner';
 import LegalModal from '@/components/LegalModal';
 import SignUpPopup from '@/components/SignUpPopup';
+import TiltOnMouse from '@/components/TiltOnMouse';
 import Layout from '@/components/Layout';
 
 import Home from '@/pages/Home';
@@ -47,22 +48,30 @@ function App() {
       <CookieBanner />
       <LegalModal />
       <SignUpPopup />
-      <img
-        src="/ceiba.webp"
-        alt=""
-        aria-hidden="true"
+      <div
         style={{
           position: "fixed",
           bottom: "-100px",
           right: "-360px",
           width: "720px",
-          height: "auto",
-          pointerEvents: "none",
-          userSelect: "none",
           zIndex: 5,
-          opacity: 0.9,
+          pointerEvents: "none",
         }}
-      />
+      >
+        <TiltOnMouse maxTilt={10}>
+          <img
+            src="/ceiba.webp"
+            alt=""
+            aria-hidden="true"
+            style={{
+              width: "100%",
+              height: "auto",
+              userSelect: "none",
+              opacity: 0.9,
+            }}
+          />
+        </TiltOnMouse>
+      </div>
     </Router>
   );
 }
