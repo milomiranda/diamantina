@@ -12,6 +12,11 @@ export default function SmoothScroll() {
       smoothWheel: true,
     });
 
+    // Exposed so other components (like ScrollToTop, on route changes) can
+    // tell Lenis to jump too — a plain window.scrollTo() alone doesn't sync
+    // Lenis's own virtual scroll position, so pages would appear stuck.
+    window.lenis = lenis;
+
     let rafId;
     function raf(time) {
       lenis.raf(time);
@@ -22,6 +27,7 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      delete window.lenis;
     };
   }, []);
 

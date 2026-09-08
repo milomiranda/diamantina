@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Particles from "@/components/Particles";
 import NewsletterInline from "@/components/NewsletterInline";
+import TiltOnMouse from "@/components/TiltOnMouse";
 import usePageTitle from "@/hooks/usePageTitle";
 
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
@@ -71,7 +72,9 @@ export default function Home() {
   return (
     <>
       <section className="relative flex flex-col items-center px-6 pt-[120px] md:pt-20" style={{ paddingBottom: 40 }}>
-        <img src="/logo.webp" alt="Diamantina" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
+        <TiltOnMouse className="w-full" style={{ maxWidth: 1000 }}>
+          <img src="/logo.webp" alt="Diamantina" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
+        </TiltOnMouse>
       </section>
 
       <NewsletterInline />

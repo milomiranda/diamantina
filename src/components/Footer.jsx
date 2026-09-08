@@ -2,7 +2,7 @@ import Particles from "@/components/Particles";
 
 export default function Footer() {
   const igLink = "https://www.instagram.com/diamantina.club";
-  const webshopLink = "#"; // pendiente
+  const soundcloudLink = "#"; // pendiente — pásame el link real
 
   return (
     <footer className="relative overflow-hidden bg-onyx text-paper-white">
@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="relative z-10 px-4 md:px-6 pt-12 md:pt-20 pb-16">
         <div className="flex flex-col gap-8 md:gap-12">
           <FooterBig href={igLink} external>Instagram</FooterBig>
-          <FooterBig href={webshopLink}>Webshop</FooterBig>
+          <FooterBig href={soundcloudLink} external>SoundCloud</FooterBig>
         </div>
         <div className="mt-12 md:mt-20 pt-8 flex flex-col items-start gap-3">
           <a
