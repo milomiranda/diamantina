@@ -16,6 +16,7 @@ const emptyEvent = {
   description: "",
   flyer: "",
   ticketsUrl: "",
+  ticketTiers: [],
   djs: [],
 };
 
@@ -180,6 +181,26 @@ export default function Admin() {
 
   const removeCategory = (index) => {
     setForm((f) => ({ ...f, categories: f.categories.filter((_, i) => i !== index) }));
+  };
+
+  const addTicketTier = () => {
+    setForm((f) => ({
+      ...f,
+      ticketTiers: [...(f.ticketTiers || []), { label: "", price: "", currency: "EUR" }],
+    }));
+  };
+
+  const updateTicketTier = (index, field) => (e) => {
+    const value = e.target.value;
+    setForm((f) => {
+      const ticketTiers = [...(f.ticketTiers || [])];
+      ticketTiers[index] = { ...ticketTiers[index], [field]: value };
+      return { ...f, ticketTiers };
+    });
+  };
+
+  const removeTicketTier = (index) => {
+    setForm((f) => ({ ...f, ticketTiers: f.ticketTiers.filter((_, i) => i !== index) }));
   };
 
   const addDj = () => {
@@ -486,6 +507,61 @@ export default function Admin() {
               <div className="md:col-span-2 flex flex-col gap-1.5">
                 <label className={labelClass}>Description</label>
                 <textarea rows={4} value={form.description} onChange={update("description")} className={inputClass + " resize-y"} />
+              </div>
+              <div className="md:col-span-2 flex flex-col gap-2">
+                <label className={labelClass}>Ticket types (e.g. Early Bird, Regular, Door Sale — add as many as you need)</label>
+                {(form.ticketTiers || []).map((tier, i) => (
+                  <div key={i} className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_auto] gap-2 items-end border border-ink-15 p-3">
+                    <div className="flex flex-col gap-1">
+                      <label className={labelClass}>Name</label>
+                      <input
+                        value={tier.label}
+                        onChange={updateTicketTier(i, "label")}
+                        className={inputClass}
+                        placeholder="Early Bird"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className={labelClass}>Price</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={tier.price}
+                        onChange={updateTicketTier(i, "price")}
+                        className={inputClass}
+                        placeholder="15"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className={labelClass}>Currency</label>
+                      <select
+                        value={tier.currency || "EUR"}
+                        onChange={updateTicketTier(i, "currency")}
+                        className={inputClass}
+                      >
+                        <option value="EUR">EUR (€)</option>
+                        <option value="MXN">MXN ($)</option>
+                      </select>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeTicketTier(i)}
+                      className="font-ak text-[11px] uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-3 py-2.5 hover:bg-diamantina/10 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                {(!form.ticketTiers || form.ticketTiers.length === 0) && (
+                  <p className="font-ak text-[13px] text-ink-40">No ticket types added yet.</p>
+                )}
+                <button
+                  type="button"
+                  onClick={addTicketTier}
+                  className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-diamantina underline underline-offset-2 self-start"
+                >
+                  + Add ticket type
+                </button>
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className={labelClass}>Tickets URL</label>

@@ -483,6 +483,23 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                     </div>
                   </>
                 )}
+                {event.ticketTiers && event.ticketTiers.length > 0 && (
+                  <div className="flex flex-col gap-2 mb-7">
+                    <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
+                      Tickets
+                    </p>
+                    {event.ticketTiers.map((tier, i) => (
+                      <div key={i} className="flex items-baseline justify-between gap-4 max-w-[360px]">
+                        <span className="font-ak text-[15px] text-paper-white">{tier.label}</span>
+                        <span className="font-ak text-[15px] text-ink-60 whitespace-nowrap">
+                          {tier.currency === "MXN" ? "$" : "€"}
+                          {tier.price}
+                          {tier.currency === "MXN" ? " MXN" : ""}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {!pastEvent && (
                   <button
                     type="button"
@@ -530,6 +547,9 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                   </div>
                 </div>
               )}
+            </div>
+            <div style={{ paddingTop: 24 }}>
+              <ToggleLine open={open} onClick={toggle} />
             </div>
           </div>
         </div>
