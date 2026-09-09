@@ -63,6 +63,8 @@ function App() {
         <TiltOnMouse maxTilt={10}>
           <img
             src="/ceiba.webp"
+            srcSet="/ceiba-mobile.webp 450w, /ceiba.webp 900w"
+            sizes="(max-width: 767px) 300px, 720px"
             alt=""
             aria-hidden="true"
             width="900"

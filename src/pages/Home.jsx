@@ -86,7 +86,17 @@ export default function Home() {
     <>
       <section className="relative flex flex-col items-center px-6 pt-[120px] md:pt-20" style={{ paddingBottom: 40 }}>
         <TiltOnMouse className="w-full" style={{ maxWidth: 1000 }}>
-          <img src="/logo.webp" alt="Diamantina" width="1200" height="768" fetchPriority="high" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
+          <img
+            src="/logo.webp"
+            srcSet="/logo-mobile.webp 700w, /logo.webp 1200w"
+            sizes="(max-width: 767px) 100vw, 1000px"
+            alt="Diamantina"
+            width="1200"
+            height="768"
+            fetchPriority="high"
+            className="w-full logo-glow"
+            style={{ maxWidth: 1000 }}
+          />
         </TiltOnMouse>
       </section>
 
