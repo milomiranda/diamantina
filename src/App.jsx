@@ -49,20 +49,14 @@ function App() {
       <LegalModal />
       <SignUpPopup />
       <div
-        style={{
-          position: "fixed",
-          bottom: "-100px",
-          right: "-360px",
-          width: "720px",
-          zIndex: 5,
-          pointerEvents: "none",
-        }}
+        className="fixed z-[5] pointer-events-none w-[300px] right-[-150px] bottom-[-60px] sm:w-[420px] sm:right-[-210px] sm:bottom-[-70px] md:w-[560px] md:right-[-280px] md:bottom-[-85px] lg:w-[720px] lg:right-[-360px] lg:bottom-[-100px]"
       >
         <TiltOnMouse maxTilt={10}>
           <img
             src="/ceiba.webp"
             alt=""
             aria-hidden="true"
+            className="tree-glow"
             style={{
               width: "100%",
               height: "auto",

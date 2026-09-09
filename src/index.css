@@ -117,8 +117,10 @@ html, body {
   .logo-glow { transition: filter 0.4s ease; }
   .logo-glow:hover { filter: drop-shadow(0 0 14px rgba(213,0,0,0.35)); }
 
-  .tickets-bounce { transition: transform 0.25s cubic-bezier(.34,1.56,.64,1); display: inline-block; }
-  .tickets-bounce:hover { transform: scale(1.12); }
+  .tree-glow { filter: drop-shadow(0 0 22px rgba(213,0,0,0.45)); }
+
+  .tickets-bounce { transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), filter 0.25s ease; display: inline-block; }
+  .tickets-bounce:hover { transform: scale(1.12); filter: drop-shadow(0 0 14px rgba(213,0,0,0.45)); }
 
   .archive-fade { transition: opacity 0.25s ease, filter 0.25s ease; }
 
