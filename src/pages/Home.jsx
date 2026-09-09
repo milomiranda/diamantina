@@ -46,18 +46,6 @@ function CategoryBoxes({ categories, align = "left" }) {
   );
 }
 
-function PastEventRow({ event }) {
-  return (
-    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 py-3 border-b border-ink-10">
-      <span className="font-ak text-[15px] text-ink-30 uppercase">{event.name}</span>
-      <span className="font-ak text-[10px] text-ink-25 uppercase tracking-[0.04em]">{event.date}</span>
-      {event.location && (
-        <span className="font-ak text-[10px] text-ink-25 uppercase tracking-[0.04em]">{event.location}</span>
-      )}
-    </div>
-  );
-}
-
 export default function Home() {
   usePageTitle(
     null,
@@ -141,9 +129,9 @@ export default function Home() {
               Past events {pastOpen ? "↑" : "↓"}
             </button>
             {pastOpen && (
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-4">
                 {pastEvents.map((ev) => (
-                  <PastEventRow key={ev.id} event={ev} />
+                  <ArchiveRow key={ev.id} event={ev} defaultOpen={false} blobIndex={ev._blobIndex} pastEvent />
                 ))}
               </div>
             )}
@@ -187,7 +175,7 @@ function ToggleLine({ open, onClick }) {
   );
 }
 
-function ArchiveRow({ event, defaultOpen = true, blobIndex = 0 }) {
+function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = false }) {
   const [open, setOpen] = useState(defaultOpen);
   const toggle = () => {
     setOpen((v) => !v);
@@ -202,10 +190,14 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0 }) {
       {/* Mobile layout: name left, compact info list right */}
       <div
         className="flex md:hidden items-start justify-between gap-4 cursor-pointer"
-        style={{ paddingTop: 32 }}
+        style={{ paddingTop: pastEvent ? 16 : 32 }}
         onClick={toggle}
       >
-        <span className="flex-1 font-gs text-[48px] leading-[0.9] tracking-[-0.02em] text-paper-white uppercase">
+        <span
+          className={`flex-1 font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
+            pastEvent ? "text-[20px] text-ink-30" : "text-[48px] text-paper-white"
+          }`}
+        >
           {event.name}
         </span>
         <div
@@ -231,10 +223,14 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0 }) {
       {/* Desktop layout: all fields in one row */}
       <div
         className="hidden md:grid grid-cols-12 items-baseline gap-6 cursor-pointer"
-        style={{ paddingTop: 32 }}
+        style={{ paddingTop: pastEvent ? 16 : 32 }}
         onClick={toggle}
       >
-        <span className="md:col-span-4 font-gs text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white uppercase">
+        <span
+          className={`md:col-span-4 font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
+            pastEvent ? "text-[32px] text-ink-30" : "text-[72px] text-paper-white"
+          }`}
+        >
           {event.name}
         </span>
         <span
@@ -266,7 +262,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0 }) {
         </span>
       </div>
 
-      {!open && (
+      {!pastEvent && !open && (
         <div className="flex flex-col items-center" style={{ paddingTop: 12, paddingBottom: 4 }}>
           <button
             type="button"
@@ -407,24 +403,26 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0 }) {
                     </div>
                   </>
                 )}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowCheckout((v) => !v);
-                  }}
-                  className="tickets-bounce relative block mx-auto md:mx-0"
-                  style={{ width: 220 }}
-                >
-                  <img src={ticketBlob} alt="" className="w-full h-auto pointer-events-none select-none" />
-                  <span
-                    className="absolute inset-0 flex items-center justify-center font-ak text-[14px] font-bold uppercase tracking-[0.08em] text-white"
-                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+                {!pastEvent && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowCheckout((v) => !v);
+                    }}
+                    className="tickets-bounce relative block mx-auto md:mx-0"
+                    style={{ width: 220 }}
                   >
-                    {showCheckout ? "Hide checkout ✕" : "Tickets"}
-                  </span>
-                </button>
-                {showCheckout && (
+                    <img src={ticketBlob} alt="" className="w-full h-auto pointer-events-none select-none" />
+                    <span
+                      className="absolute inset-0 flex items-center justify-center font-ak text-[14px] font-bold uppercase tracking-[0.08em] text-white"
+                      style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+                    >
+                      {showCheckout ? "Hide checkout ✕" : "Tickets"}
+                    </span>
+                  </button>
+                )}
+                {!pastEvent && showCheckout && (
                   <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
                     <iframe
                       src={ticketsHref}
