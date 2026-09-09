@@ -2,7 +2,7 @@ import Particles from "@/components/Particles";
 
 export default function Footer() {
   const igLink = "https://www.instagram.com/diamantina.club";
-  const soundcloudLink = "#"; // pendiente — pásame el link real
+  const soundcloudLink = "https://soundcloud.com/diamantinaclub";
 
   return (
     <footer className="relative overflow-hidden bg-onyx text-paper-white">
