@@ -211,7 +211,7 @@ export default function FAQ() {
           FAQ
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
-          You have questions? Here are the answers.
+          You have <strong className="font-bold">questions</strong>? Here are the answers.
         </h1>
 
         <div className="mt-24 flex flex-col">

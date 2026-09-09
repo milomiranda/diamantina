@@ -19,7 +19,7 @@ export default function Contact() {
           Contact
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
-          Contact
+          <strong className="font-bold">Contact</strong>
         </h1>
 
         <div className="mt-24 max-w-[620px] flex flex-col gap-8">
