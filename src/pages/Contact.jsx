@@ -11,7 +11,7 @@ export default function Contact() {
         className="absolute pointer-events-none select-none w-[180px] md:w-[320px]"
         style={{ right: "-20px", top: "60px", zIndex: 0, opacity: 0.95 }}
       >
-        <img src="/star.webp" alt="" aria-hidden="true" className="w-full h-auto" />
+        <img src="/star.webp" alt="" aria-hidden="true" width="601" height="640" className="w-full h-auto" />
       </div>
 
       <div className="relative z-10">

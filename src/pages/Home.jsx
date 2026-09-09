@@ -72,11 +72,12 @@ export default function Home() {
     .sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO));
 
   const nextEvent = upcomingEvents[0] || null;
+  const [activeEvent, setActiveEvent] = useState(null);
 
   usePageTitle(
-    nextEvent ? `${nextEvent.name}${nextEvent.date ? ` — ${nextEvent.date}` : ""}` : null,
-    nextEvent
-      ? `${nextEvent.name} at Diamantina${nextEvent.location ? `, ${nextEvent.location}` : ""}${nextEvent.date ? ` — ${nextEvent.date}` : ""}. Get your tickets now.`
+    activeEvent ? `${activeEvent.name}${activeEvent.date ? ` — ${activeEvent.date}` : ""}` : null,
+    activeEvent
+      ? `${activeEvent.name} at Diamantina${activeEvent.location ? `, ${activeEvent.location}` : ""}${activeEvent.date ? ` — ${activeEvent.date}` : ""}. Get your tickets now.`
       : "Diamantina is a queer-centered party series and cultural platform, connecting the Netherlands to Latin America's underground music scene."
   );
   useEventStructuredData(nextEvent);
@@ -85,7 +86,7 @@ export default function Home() {
     <>
       <section className="relative flex flex-col items-center px-6 pt-[120px] md:pt-20" style={{ paddingBottom: 40 }}>
         <TiltOnMouse className="w-full" style={{ maxWidth: 1000 }}>
-          <img src="/logo.webp" alt="Diamantina" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
+          <img src="/logo.webp" alt="Diamantina" width="1600" height="1024" className="w-full logo-glow" style={{ maxWidth: 1000 }} />
         </TiltOnMouse>
       </section>
 
@@ -112,7 +113,13 @@ export default function Home() {
           {upcomingEvents.length > 0 ? (
             <div className="flex flex-col gap-8">
               {upcomingEvents.map((ev, i) => (
-                <ArchiveRow key={ev.id} event={ev} defaultOpen={i === 0} blobIndex={ev._blobIndex} />
+                <ArchiveRow
+                  key={ev.id}
+                  event={ev}
+                  defaultOpen={i === 0}
+                  blobIndex={ev._blobIndex}
+                  onToggleOpen={(isOpen) => setActiveEvent(isOpen ? ev : null)}
+                />
               ))}
             </div>
           ) : (
@@ -138,7 +145,14 @@ export default function Home() {
             {pastOpen && (
               <div className="flex flex-col gap-4">
                 {pastEvents.map((ev) => (
-                  <ArchiveRow key={ev.id} event={ev} defaultOpen={false} blobIndex={ev._blobIndex} pastEvent />
+                  <ArchiveRow
+                    key={ev.id}
+                    event={ev}
+                    defaultOpen={false}
+                    blobIndex={ev._blobIndex}
+                    pastEvent
+                    onToggleOpen={(isOpen) => setActiveEvent(isOpen ? ev : null)}
+                  />
                 ))}
               </div>
             )}
@@ -182,10 +196,58 @@ function ToggleLine({ open, onClick }) {
   );
 }
 
-function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = false }) {
+function ShareButton({ event }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async (e) => {
+    e.stopPropagation();
+    const shareData = {
+      title: event.name,
+      text: `${event.name}${event.date ? ` — ${event.date}` : ""} at Diamantina`,
+      url: "https://diamantina.club/",
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch {
+        // user cancelled the native share sheet — nothing to do
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // clipboard blocked — fail silently
+      }
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleShare}
+      className="inline-flex items-center gap-1.5 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 hover:opacity-70 transition-opacity mb-4"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0">
+        <circle cx="18" cy="5" r="3" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="6" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="18" cy="19" r="3" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M8.6 10.5L15.4 6.5M8.6 13.5L15.4 17.5" stroke="currentColor" strokeWidth="1.8" />
+      </svg>
+      {copied ? "Link copied!" : "Share"}
+    </button>
+  );
+}
+
+function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = false, onToggleOpen }) {
   const [open, setOpen] = useState(defaultOpen);
   const toggle = () => {
-    setOpen((v) => !v);
+    setOpen((v) => {
+      const next = !v;
+      onToggleOpen?.(next);
+      return next;
+    });
     setShowCheckout(false);
   };
   const [showCheckout, setShowCheckout] = useState(false);
@@ -280,7 +342,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
             className="tickets-bounce relative block"
             style={{ width: 200 }}
           >
-            <img src={ticketBlob} alt="" className="w-full h-auto pointer-events-none select-none" />
+            <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
             <span
               className="absolute inset-0 flex items-center justify-center font-ak text-[13px] font-bold uppercase tracking-[0.08em] text-white"
               style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
@@ -324,6 +386,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
           <div className="pb-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
               <div className="order-2 md:col-span-6">
+                <ShareButton event={event} />
                 {event.description && (
                   <div className="border border-ink-15 mb-7" style={{ padding: "24px 28px" }}>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
@@ -420,7 +483,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                     className="tickets-bounce relative block mx-auto md:mx-0"
                     style={{ width: 220 }}
                   >
-                    <img src={ticketBlob} alt="" className="w-full h-auto pointer-events-none select-none" />
+                    <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
                     <span
                       className="absolute inset-0 flex items-center justify-center font-ak text-[14px] font-bold uppercase tracking-[0.08em] text-white"
                       style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}

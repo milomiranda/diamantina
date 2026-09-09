@@ -56,6 +56,8 @@ function App() {
             src="/ceiba.webp"
             alt=""
             aria-hidden="true"
+            width="900"
+            height="750"
             className="tree-glow"
             style={{
               width: "100%",
