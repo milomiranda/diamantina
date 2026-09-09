@@ -1,4 +1,5 @@
 import Particles from "@/components/Particles";
+import TiltOnMouse from "@/components/TiltOnMouse";
 import usePageTitle from "@/hooks/usePageTitle";
 
 export default function About() {
@@ -9,11 +10,27 @@ export default function About() {
   return (
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
+
+        <div
+          className="absolute pointer-events-none select-none w-[240px] md:w-[460px]"
+          style={{ left: "-40px", top: "-20px", zIndex: 0, opacity: 0.95 }}
+        >
+          <TiltOnMouse maxTilt={9}>
+            <img src="/sol.webp" alt="" aria-hidden="true" className="w-full h-auto" />
+          </TiltOnMouse>
+        </div>
+
         <div className="relative z-10">
-        <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
+        <p
+          className="font-ak text-[12px] uppercase tracking-[0.06em] mb-8 text-white"
+          style={{ transition: "color 0.6s ease" }}
+        >
           About
         </p>
-        <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
+        <h1
+          className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px] text-white"
+          style={{ transition: "color 0.6s ease" }}
+        >
           Diamantina is a{" "}
           <strong className="font-bold">
             queer-centered party series exploring Latin club and experimental sounds

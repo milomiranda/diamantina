@@ -46,6 +46,18 @@ function CategoryBoxes({ categories, align = "left" }) {
   );
 }
 
+function PastEventRow({ event }) {
+  return (
+    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 py-3 border-b border-ink-10">
+      <span className="font-ak text-[15px] text-ink-30 uppercase">{event.name}</span>
+      <span className="font-ak text-[10px] text-ink-25 uppercase tracking-[0.04em]">{event.date}</span>
+      {event.location && (
+        <span className="font-ak text-[10px] text-ink-25 uppercase tracking-[0.04em]">{event.location}</span>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   usePageTitle(
     null,
@@ -65,6 +77,7 @@ export default function Home() {
   }, []);
 
   const todayISO = new Date().toISOString().slice(0, 10);
+  const [pastOpen, setPastOpen] = useState(false);
   const indexedEvents = events.map((ev, i) => ({ ...ev, _blobIndex: i }));
   const upcomingEvents = indexedEvents
     .filter((ev) => !ev.eventDateISO || ev.eventDateISO >= todayISO)
@@ -120,14 +133,20 @@ export default function Home() {
       {pastEvents.length > 0 && (
         <section className="relative overflow-hidden px-4 md:px-6 pb-32">
           <div className="relative z-10">
-            <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
-              Past events
-            </p>
-            <div className="flex flex-col gap-8">
-              {pastEvents.map((ev) => (
-                <ArchiveRow key={ev.id} event={ev} defaultOpen={false} blobIndex={ev._blobIndex} />
-              ))}
-            </div>
+            <button
+              type="button"
+              onClick={() => setPastOpen((v) => !v)}
+              className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8 flex items-center gap-2"
+            >
+              Past events {pastOpen ? "↑" : "↓"}
+            </button>
+            {pastOpen && (
+              <div className="flex flex-col">
+                {pastEvents.map((ev) => (
+                  <PastEventRow key={ev.id} event={ev} />
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}
