@@ -26,7 +26,7 @@ export default function NewsletterInline() {
     <div id="subscribe" className="flex flex-col items-center px-6 text-center" style={{ paddingBottom: 56 }}>
       <p className="font-ak text-[14px] md:text-[16px] leading-[1.4] text-ink-70 mb-4 max-w-[520px]">
         <span aria-hidden="true" className="text-diamantina">✦</span>{" "}
-        Come a little closer — find out what's coming, who's joining us, and where
+        Come a little closer - find out what's coming, who's joining us, and where
         we're going next, before everyone else does.
       </p>
 
