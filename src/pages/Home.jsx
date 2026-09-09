@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Particles from "@/components/Particles";
 import NewsletterInline from "@/components/NewsletterInline";
 import TiltOnMouse from "@/components/TiltOnMouse";
@@ -252,10 +252,22 @@ function ShareButton({ event }) {
 
 function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = false, onToggleOpen }) {
   const [open, setOpen] = useState(defaultOpen);
+  const rowRef = useRef(null);
   const toggle = () => {
     setOpen((v) => {
       const next = !v;
       onToggleOpen?.(next);
+      if (!next) {
+        // Closing: jump back up to the event's title instead of leaving the
+        // person stranded in blank space where the collapsed content used to be.
+        requestAnimationFrame(() => {
+          if (window.lenis) {
+            window.lenis.scrollTo(rowRef.current, { offset: -90 });
+          } else {
+            rowRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      }
       return next;
     });
     setShowCheckout(false);
@@ -265,7 +277,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
   const ticketBlob = getTicketBlob(blobIndex);
 
   return (
-    <div className="border-t border-ink-15">
+    <div ref={rowRef} className="border-t border-ink-15">
       {/* Mobile layout: name left, compact info list right */}
       <div
         className="flex md:hidden items-start justify-between gap-4 cursor-pointer"

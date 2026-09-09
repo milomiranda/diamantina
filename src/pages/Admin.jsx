@@ -203,6 +203,16 @@ export default function Admin() {
     setForm((f) => ({ ...f, ticketTiers: f.ticketTiers.filter((_, i) => i !== index) }));
   };
 
+  const moveTicketTier = (index, direction) => {
+    setForm((f) => {
+      const ticketTiers = [...(f.ticketTiers || [])];
+      const target = index + direction;
+      if (target < 0 || target >= ticketTiers.length) return f;
+      [ticketTiers[index], ticketTiers[target]] = [ticketTiers[target], ticketTiers[index]];
+      return { ...f, ticketTiers };
+    });
+  };
+
   const addDj = () => {
     setForm((f) => ({
       ...f,
@@ -543,13 +553,33 @@ export default function Admin() {
                         <option value="MXN">MXN ($)</option>
                       </select>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => removeTicketTier(i)}
-                      className="font-ak text-[11px] uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-3 py-2.5 hover:bg-diamantina/10 transition-colors"
-                    >
-                      Remove
-                    </button>
+                    <div className="flex gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => moveTicketTier(i, -1)}
+                        disabled={i === 0}
+                        aria-label="Move up"
+                        className="font-ak text-[13px] border border-ink-25 px-2.5 py-2.5 hover:bg-ink-10 transition-colors disabled:opacity-30"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveTicketTier(i, 1)}
+                        disabled={i === (form.ticketTiers || []).length - 1}
+                        aria-label="Move down"
+                        className="font-ak text-[13px] border border-ink-25 px-2.5 py-2.5 hover:bg-ink-10 transition-colors disabled:opacity-30"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeTicketTier(i)}
+                        className="font-ak text-[11px] uppercase tracking-[0.06em] text-diamantina border border-diamantina/30 px-3 py-2.5 hover:bg-diamantina/10 transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {(!form.ticketTiers || form.ticketTiers.length === 0) && (

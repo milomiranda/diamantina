@@ -128,4 +128,16 @@ html, body {
   .marquee-track { display: flex; animation: marquee-scroll 14s linear infinite; }
   @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+  /* Phones held sideways (landscape) are still short in height even though
+     they're wide enough to trigger the md: breakpoint meant for real desktop
+     screens — without this, the nav renders at full desktop size and
+     overlaps itself. Real tablets/laptops in landscape are much taller than
+     500px, so this leaves them untouched. */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .nav-container { flex-direction: row !important; justify-content: space-between !important; padding: 8px 12px !important; }
+    .nav-links-wrap { gap: 10px !important; }
+    .nav-link { font-size: 12px !important; }
+    .nav-ticket-btn { font-size: 12px !important; padding: 6px 14px !important; }
+  }
+
 }
