@@ -1,5 +1,4 @@
 import Particles from "@/components/Particles";
-import TiltOnMouse from "@/components/TiltOnMouse";
 import usePageTitle from "@/hooks/usePageTitle";
 
 export default function Contact() {
@@ -9,12 +8,10 @@ export default function Contact() {
       <Particles />
 
       <div
-        className="absolute pointer-events-none select-none w-[220px] md:w-[420px]"
-        style={{ right: "-40px", top: "40px", zIndex: 0, opacity: 0.95 }}
+        className="absolute pointer-events-none select-none w-[180px] md:w-[320px]"
+        style={{ right: "-20px", top: "60px", zIndex: 0, opacity: 0.95 }}
       >
-        <TiltOnMouse maxTilt={9}>
-          <img src="/flor.webp" alt="" aria-hidden="true" className="w-full h-auto" />
-        </TiltOnMouse>
+        <img src="/star.webp" alt="" aria-hidden="true" className="w-full h-auto" />
       </div>
 
       <div className="relative z-10">
