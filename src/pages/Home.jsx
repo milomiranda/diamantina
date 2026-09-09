@@ -3,6 +3,7 @@ import Particles from "@/components/Particles";
 import NewsletterInline from "@/components/NewsletterInline";
 import TiltOnMouse from "@/components/TiltOnMouse";
 import usePageTitle from "@/hooks/usePageTitle";
+import useEventStructuredData from "@/hooks/useEventStructuredData";
 
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
@@ -47,10 +48,6 @@ function CategoryBoxes({ categories, align = "left" }) {
 }
 
 export default function Home() {
-  usePageTitle(
-    null,
-    "Diamantina is a queer-centered party series and cultural platform, connecting the Netherlands to Latin America's underground music scene."
-  );
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -73,6 +70,16 @@ export default function Home() {
   const pastEvents = indexedEvents
     .filter((ev) => ev.eventDateISO && ev.eventDateISO < todayISO)
     .sort((a, b) => b.eventDateISO.localeCompare(a.eventDateISO));
+
+  const nextEvent = upcomingEvents[0] || null;
+
+  usePageTitle(
+    nextEvent ? `${nextEvent.name}${nextEvent.date ? ` — ${nextEvent.date}` : ""}` : null,
+    nextEvent
+      ? `${nextEvent.name} at Diamantina${nextEvent.location ? `, ${nextEvent.location}` : ""}${nextEvent.date ? ` — ${nextEvent.date}` : ""}. Get your tickets now.`
+      : "Diamantina is a queer-centered party series and cultural platform, connecting the Netherlands to Latin America's underground music scene."
+  );
+  useEventStructuredData(nextEvent);
 
   return (
     <>
