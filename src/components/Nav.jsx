@@ -13,6 +13,14 @@ export default function Nav() {
         <div className="nav-links-wrap flex items-center justify-center md:justify-start gap-2 sm:gap-3 md:gap-10 flex-wrap">
           <NavLink to="/" active={pathname === "/"}>Home</NavLink>
           <NavLink to="/about" active={pathname === "/about"}>About</NavLink>
+          <a
+            href="https://chat.whatsapp.com/DVetWZu8T3S6ZyDzUldse0?mode=gi_t"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-link font-ak text-[13px] sm:text-[15px] md:text-[28px] uppercase tracking-[0.02em] md:tracking-[0.04em] text-paper-white transition-opacity whitespace-nowrap opacity-50 hover:opacity-100"
+          >
+            Community
+          </a>
           <NavLink to="/house-rules" active={pathname === "/house-rules"}>Party Rules</NavLink>
           <NavLink to="/faq" active={pathname === "/faq"}>FAQ</NavLink>
           <NavLink to="/contact" active={pathname === "/contact"}>Contact</NavLink>
