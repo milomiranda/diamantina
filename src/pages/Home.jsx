@@ -262,7 +262,11 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         // person stranded in blank space where the collapsed content used to be.
         requestAnimationFrame(() => {
           if (window.lenis) {
-            window.lenis.scrollTo(rowRef.current, { offset: -90 });
+            window.lenis.scrollTo(rowRef.current, {
+              offset: -90,
+              duration: 1.4,
+              easing: (t) => 1 - Math.pow(1 - t, 3),
+            });
           } else {
             rowRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
           }
@@ -275,6 +279,54 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
   const [showCheckout, setShowCheckout] = useState(false);
   const ticketsHref = event.ticketsUrl || DEFAULT_TICKETS_URL;
   const ticketBlob = getTicketBlob(blobIndex);
+  const checkoutRef = useRef(null);
+  const ticketBtnRef = useRef(null);
+
+  const scrollTo = (target, { align = "center", offset = 0 } = {}) => {
+    requestAnimationFrame(() => {
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      let delta;
+      if (align === "end") {
+        delta = rect.bottom - window.innerHeight + 20;
+      } else if (align === "start") {
+        delta = rect.top;
+      } else {
+        delta = rect.top - window.innerHeight / 2 + rect.height / 2;
+      }
+      const targetY = window.scrollY + delta + offset;
+      if (window.lenis) {
+        window.lenis.scrollTo(targetY, {
+          duration: 1.2,
+          easing: (t) => 1 - Math.pow(1 - t, 3),
+        });
+      } else {
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }
+    });
+  };
+
+  const toggleCheckout = (e) => {
+    e.stopPropagation();
+    setShowCheckout((v) => {
+      const next = !v;
+      if (next) {
+        // Opening: bring the whole iframe into view, ending at its bottom
+        // edge, so nobody has to scroll down by hand to see the checkout.
+        scrollTo(checkoutRef.current, { align: "end" });
+      } else {
+        // Closing: jump back up to the Tickets button itself.
+        scrollTo(ticketBtnRef.current, { align: "center", offset: -100 });
+      }
+      return next;
+    });
+  };
+
+  const closeCheckout = (e) => {
+    e.stopPropagation();
+    setShowCheckout(false);
+    scrollTo(ticketBtnRef.current, { align: "center", offset: -100 });
+  };
 
   return (
     <div ref={rowRef} className="border-t border-ink-15">
@@ -356,11 +408,9 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
       {!pastEvent && !open && (
         <div className="flex flex-col items-center" style={{ paddingTop: 12, paddingBottom: 4 }}>
           <button
+            ref={ticketBtnRef}
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowCheckout((v) => !v);
-            }}
+            onClick={toggleCheckout}
             className="tickets-bounce relative block"
             style={{ width: 200 }}
           >
@@ -373,7 +423,15 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
             </span>
           </button>
           {showCheckout && (
-            <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+            <div ref={checkoutRef} className="relative mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+              <button
+                type="button"
+                onClick={closeCheckout}
+                aria-label="Close checkout"
+                className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
+              >
+                ✕
+              </button>
               <iframe
                 src={ticketsHref}
                 title={`Tickets — ${event.name}`}
@@ -514,11 +572,9 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                 )}
                 {!pastEvent && (
                   <button
+                    ref={ticketBtnRef}
                     type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowCheckout((v) => !v);
-                    }}
+                    onClick={toggleCheckout}
                     className="tickets-bounce relative block mx-auto md:mx-0"
                     style={{ width: 220 }}
                   >
@@ -532,7 +588,15 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                   </button>
                 )}
                 {!pastEvent && showCheckout && (
-                  <div className="mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+                  <div ref={checkoutRef} className="relative mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+                    <button
+                      type="button"
+                      onClick={closeCheckout}
+                      aria-label="Close checkout"
+                      className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
+                    >
+                      ✕
+                    </button>
                     <iframe
                       src={ticketsHref}
                       title={`Tickets — ${event.name}`}
