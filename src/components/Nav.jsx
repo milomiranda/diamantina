@@ -73,7 +73,7 @@ export default function Nav() {
       {menuOpen && (
         <>
           <div className="fixed inset-0 z-[93] md:hidden" onClick={closeMenu} />
-          <div className="md:hidden absolute top-full inset-x-0 z-[94] bg-onyx/85 backdrop-blur-md border-t border-ink-15">
+          <div className="md:hidden absolute top-full inset-x-0 z-[94] bg-onyx/80 backdrop-blur-sm border-t border-ink-15">
             <div className="flex flex-col items-center gap-6 px-6 py-8">
               <NavLink to="/" active={pathname === "/"} onClick={closeMenu} big>{t("nav.home")}</NavLink>
               <NavLink to="/about" active={pathname === "/about"} onClick={closeMenu} big>{t("nav.about")}</NavLink>
@@ -82,7 +82,7 @@ export default function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeMenu}
-                className="font-ak text-[22px] uppercase tracking-[0.02em] text-paper-white transition-opacity whitespace-nowrap opacity-50 hover:opacity-100"
+                className="font-ak text-[22px] uppercase tracking-[0.02em] text-paper-white transition-opacity whitespace-nowrap opacity-90 hover:opacity-100"
               >
                 {t("nav.community")}
               </a>
@@ -162,7 +162,7 @@ function NavLink({ to, active, children, onClick, big = false }) {
       onClick={onClick}
       className={`nav-link font-ak uppercase tracking-[0.02em] md:tracking-[0.04em] text-paper-white transition-opacity whitespace-nowrap ${
         big ? "text-[22px]" : "text-[13px] sm:text-[15px] md:text-[28px]"
-      } ${active ? "opacity-100" : "opacity-50 hover:opacity-100"}`}
+      } ${active ? "opacity-100" : big ? "opacity-90 hover:opacity-100" : "opacity-50 hover:opacity-100"}`}
     >
       {children}
     </Link>
