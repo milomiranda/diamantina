@@ -282,8 +282,14 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
   const checkoutRef = useRef(null);
   const ticketBtnRef = useRef(null);
 
-  const scrollTo = (target, { align = "center", offset = 0 } = {}) => {
+  const scrollTo = (ref, { align = "center", offset = 0 } = {}) => {
+    // Read ref.current lazily, inside the callback — not at call time. This
+    // function often runs from inside a setState updater, synchronously,
+    // before React has re-rendered the DOM with the very element (e.g. the
+    // checkout box) we're about to scroll to. By the time requestAnimationFrame
+    // fires, the render has committed and ref.current is populated.
     requestAnimationFrame(() => {
+      const target = ref?.current;
       if (!target) return;
       const rect = target.getBoundingClientRect();
       let delta;
@@ -313,10 +319,10 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
       if (next) {
         // Opening: bring the whole iframe into view, ending at its bottom
         // edge, so nobody has to scroll down by hand to see the checkout.
-        scrollTo(checkoutRef.current, { align: "end" });
+        scrollTo(checkoutRef, { align: "end" });
       } else {
         // Closing: jump back up to the Tickets button itself.
-        scrollTo(ticketBtnRef.current, { align: "center", offset: -100 });
+        scrollTo(ticketBtnRef, { align: "center", offset: -100 });
       }
       return next;
     });
@@ -325,7 +331,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
   const closeCheckout = (e) => {
     e.stopPropagation();
     setShowCheckout(false);
-    scrollTo(ticketBtnRef.current, { align: "center", offset: -100 });
+    scrollTo(ticketBtnRef, { align: "center", offset: -100 });
   };
 
   return (
@@ -472,7 +478,10 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
                       Event description
                     </p>
-                    <p className="font-ak text-[16px] leading-[1.6] text-paper-white">
+                    <p
+                      className="font-ak text-[16px] leading-[1.6] text-paper-white break-words"
+                      style={{ whiteSpace: "pre-line", overflowWrap: "anywhere" }}
+                    >
                       {event.description}
                     </p>
                   </div>
