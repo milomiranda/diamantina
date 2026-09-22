@@ -73,7 +73,7 @@ export default function Nav() {
       {menuOpen && (
         <>
           <div className="fixed inset-0 z-[93] md:hidden" onClick={closeMenu} />
-          <div className="md:hidden absolute top-full inset-x-0 z-[94] bg-onyx/80 backdrop-blur-sm border-t border-ink-15">
+          <div className="md:hidden absolute top-full inset-x-0 z-[94] bg-onyx border-t border-ink-15">
             <div className="flex flex-col items-center gap-6 px-6 py-8">
               <NavLink to="/" active={pathname === "/"} onClick={closeMenu} big>{t("nav.home")}</NavLink>
               <NavLink to="/about" active={pathname === "/about"} onClick={closeMenu} big>{t("nav.about")}</NavLink>

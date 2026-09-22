@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative flex flex-col items-center justify-center md:justify-start px-6 pt-[100px] md:pt-20 min-h-[100dvh] md:min-h-0" style={{ paddingBottom: 40 }}>
+      <section className="relative flex flex-col items-center justify-center md:justify-start px-6 pt-[100px] md:pt-20 min-h-[100svh] md:min-h-0" style={{ paddingBottom: 40 }}>
         <TiltOnMouse className="w-full" style={{ maxWidth: 1000 }}>
           <img
             src="/logo.webp"
