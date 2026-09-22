@@ -9,23 +9,6 @@ import { useLanguage } from "@/i18n/LanguageContext";
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
 
-// Ticket-button "blobs": assigned in order as events are created (1st event
-// gets blob 1, 2nd gets blob 2, ...). Once there are more events than blobs,
-// each extra event gets a stable (not re-randomized on every render) pick
-// from the same 5, so the same event always keeps the same blob.
-const TICKET_BLOBS = [
-  "/tickets/tickets-blob-1.webp",
-  "/tickets/tickets-blob-2.webp",
-  "/tickets/tickets-blob-3.webp",
-  "/tickets/tickets-blob-4.webp",
-  "/tickets/tickets-blob-5.webp",
-];
-function getTicketBlob(index) {
-  if (index < TICKET_BLOBS.length) return TICKET_BLOBS[index];
-  const pseudoRandom = Math.abs((index * 2654435761) % TICKET_BLOBS.length);
-  return TICKET_BLOBS[pseudoRandom];
-}
-
 function getCategories(event) {
   if (Array.isArray(event.categories)) return event.categories;
   if (event.category) return [event.category];
@@ -86,7 +69,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative flex flex-col items-center px-6 pt-[120px] md:pt-20" style={{ paddingBottom: 40 }}>
+      <section className="relative flex flex-col items-center justify-center md:justify-start px-6 pt-[100px] md:pt-20 min-h-[100dvh] md:min-h-0" style={{ paddingBottom: 40 }}>
         <TiltOnMouse className="w-full" style={{ maxWidth: 1000 }}>
           <img
             src="/logo.webp"
@@ -277,65 +260,8 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
       }
       return next;
     });
-    setShowCheckout(false);
   };
-  const [showCheckout, setShowCheckout] = useState(false);
   const ticketsHref = event.ticketsUrl || DEFAULT_TICKETS_URL;
-  const ticketBlob = getTicketBlob(blobIndex);
-  const checkoutRef = useRef(null);
-  const ticketBtnRef = useRef(null);
-
-  const scrollTo = (ref, { align = "center", offset = 0 } = {}) => {
-    // Read ref.current lazily, inside the callback — not at call time. This
-    // function often runs from inside a setState updater, synchronously,
-    // before React has re-rendered the DOM with the very element (e.g. the
-    // checkout box) we're about to scroll to. By the time requestAnimationFrame
-    // fires, the render has committed and ref.current is populated.
-    requestAnimationFrame(() => {
-      const target = ref?.current;
-      if (!target) return;
-      const rect = target.getBoundingClientRect();
-      let delta;
-      if (align === "end") {
-        delta = rect.bottom - window.innerHeight + 20;
-      } else if (align === "start") {
-        delta = rect.top;
-      } else {
-        delta = rect.top - window.innerHeight / 2 + rect.height / 2;
-      }
-      const targetY = window.scrollY + delta + offset;
-      if (window.lenis) {
-        window.lenis.scrollTo(targetY, {
-          duration: 1.2,
-          easing: (t) => 1 - Math.pow(1 - t, 3),
-        });
-      } else {
-        window.scrollTo({ top: targetY, behavior: "smooth" });
-      }
-    });
-  };
-
-  const toggleCheckout = (e) => {
-    e.stopPropagation();
-    setShowCheckout((v) => {
-      const next = !v;
-      if (next) {
-        // Opening: bring the whole iframe into view, ending at its bottom
-        // edge, so nobody has to scroll down by hand to see the checkout.
-        scrollTo(checkoutRef, { align: "end" });
-      } else {
-        // Closing: jump back up to the Tickets button itself.
-        scrollTo(ticketBtnRef, { align: "center", offset: -100 });
-      }
-      return next;
-    });
-  };
-
-  const closeCheckout = (e) => {
-    e.stopPropagation();
-    setShowCheckout(false);
-    scrollTo(ticketBtnRef, { align: "center", offset: -100 });
-  };
 
   return (
     <div ref={rowRef} className="border-t border-ink-15">
@@ -346,23 +272,6 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         onClick={toggle}
       >
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          {!pastEvent && !open && (
-            <button
-              ref={ticketBtnRef}
-              type="button"
-              onClick={toggleCheckout}
-              className="tickets-bounce relative block shrink-0"
-              style={{ width: 90 }}
-            >
-              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
-              <span
-                className="absolute inset-0 flex items-center justify-center font-ak text-[9px] font-bold uppercase tracking-[0.04em] text-white"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
-              >
-                {showCheckout ? t("home.hideShort") : t("home.tickets")}
-              </span>
-            </button>
-          )}
           <span
             className={`font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
               pastEvent ? "text-[20px] text-ink-30" : "text-[48px] text-paper-white"
@@ -398,23 +307,6 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         onClick={toggle}
       >
         <div className="md:col-span-4 flex items-center gap-4 min-w-0">
-          {!pastEvent && !open && (
-            <button
-              ref={ticketBtnRef}
-              type="button"
-              onClick={toggleCheckout}
-              className="tickets-bounce relative block shrink-0"
-              style={{ width: 100 }}
-            >
-              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
-              <span
-                className="absolute inset-0 flex items-center justify-center font-ak text-[10px] font-bold uppercase tracking-[0.05em] text-white"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
-              >
-                {showCheckout ? t("home.hideShort") : t("home.tickets")}
-              </span>
-            </button>
-          )}
           <span
             className={`font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
               pastEvent ? "text-[32px] text-ink-30" : "text-[72px] text-paper-white"
@@ -451,37 +343,6 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
           {open ? "−" : "+"}
         </span>
       </div>
-
-      {!pastEvent && !open && showCheckout && (
-        <div className="flex justify-center" style={{ paddingTop: 12, paddingBottom: 4 }}>
-          <div ref={checkoutRef} className="relative border border-ink-15 w-full" style={{ maxWidth: 480 }}>
-            <button
-              type="button"
-              onClick={closeCheckout}
-              aria-label={t("home.hideShort")}
-              className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
-            >
-              ✕
-            </button>
-            <iframe
-              src={ticketsHref}
-              title={`Tickets — ${event.name}`}
-              style={{ width: "100%", height: 700, border: "none", display: "block" }}
-            />
-            <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
-              <a
-                href={ticketsHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
-              >
-                {t("home.troubleLoading")}
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div style={{ padding: "8px 0" }}>
         <ToggleLine open={open} onClick={toggle} t={t} />
@@ -604,32 +465,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                   </div>
                 )}
                 {!pastEvent && (
-                  <button
-                    ref={ticketBtnRef}
-                    type="button"
-                    onClick={toggleCheckout}
-                    className="tickets-bounce relative block mx-auto md:mx-0"
-                    style={{ width: 220 }}
-                  >
-                    <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
-                    <span
-                      className="absolute inset-0 flex items-center justify-center font-ak text-[14px] font-bold uppercase tracking-[0.08em] text-white"
-                      style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
-                    >
-                      {showCheckout ? t("nav.hideCheckout") : t("home.tickets")}
-                    </span>
-                  </button>
-                )}
-                {!pastEvent && showCheckout && (
-                  <div ref={checkoutRef} className="relative mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
-                    <button
-                      type="button"
-                      onClick={closeCheckout}
-                      aria-label={t("nav.closeCheckout")}
-                      className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
-                    >
-                      ✕
-                    </button>
+                  <div className="relative border border-ink-15 w-full" style={{ maxWidth: 480 }}>
                     <iframe
                       src={ticketsHref}
                       title={`Tickets — ${event.name}`}
