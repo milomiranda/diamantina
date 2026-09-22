@@ -338,17 +338,36 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
     <div ref={rowRef} className="border-t border-ink-15">
       {/* Mobile layout: name left, compact info list right */}
       <div
-        className="flex md:hidden items-start justify-between gap-4 cursor-pointer"
+        className="flex md:hidden flex-wrap items-start justify-between gap-3 cursor-pointer"
         style={{ paddingTop: pastEvent ? 16 : 32 }}
         onClick={toggle}
       >
-        <span
-          className={`flex-1 font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
-            pastEvent ? "text-[20px] text-ink-30" : "text-[48px] text-paper-white"
-          }`}
-        >
-          {event.name}
-        </span>
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span
+            className={`font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
+              pastEvent ? "text-[20px] text-ink-30" : "text-[48px] text-paper-white"
+            }`}
+          >
+            {event.name}
+          </span>
+          {!pastEvent && !open && (
+            <button
+              ref={ticketBtnRef}
+              type="button"
+              onClick={toggleCheckout}
+              className="tickets-bounce relative block shrink-0"
+              style={{ width: 120 }}
+            >
+              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
+              <span
+                className="absolute inset-0 flex items-center justify-center font-ak text-[10px] font-bold uppercase tracking-[0.06em] text-white"
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+              >
+                {showCheckout ? "Hide ✕" : "Tickets"}
+              </span>
+            </button>
+          )}
+        </div>
         <div
           className="flex flex-col items-end gap-1.5 shrink-0 archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
@@ -375,13 +394,32 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         style={{ paddingTop: pastEvent ? 16 : 32 }}
         onClick={toggle}
       >
-        <span
-          className={`md:col-span-4 font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
-            pastEvent ? "text-[32px] text-ink-30" : "text-[72px] text-paper-white"
-          }`}
-        >
-          {event.name}
-        </span>
+        <div className="md:col-span-4 flex items-center gap-4 min-w-0">
+          <span
+            className={`font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
+              pastEvent ? "text-[32px] text-ink-30" : "text-[72px] text-paper-white"
+            }`}
+          >
+            {event.name}
+          </span>
+          {!pastEvent && !open && (
+            <button
+              ref={ticketBtnRef}
+              type="button"
+              onClick={toggleCheckout}
+              className="tickets-bounce relative block shrink-0"
+              style={{ width: 140 }}
+            >
+              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
+              <span
+                className="absolute inset-0 flex items-center justify-center font-ak text-[11px] font-bold uppercase tracking-[0.06em] text-white"
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+              >
+                {showCheckout ? "Hide ✕" : "Tickets"}
+              </span>
+            </button>
+          )}
+        </div>
         <span
           className="md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
           style={{ opacity: open ? 0 : 1, filter: open ? "blur(6px)" : "blur(0px)" }}
@@ -411,51 +449,34 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         </span>
       </div>
 
-      {!pastEvent && !open && (
-        <div className="flex flex-col items-center" style={{ paddingTop: 12, paddingBottom: 4 }}>
-          <button
-            ref={ticketBtnRef}
-            type="button"
-            onClick={toggleCheckout}
-            className="tickets-bounce relative block"
-            style={{ width: 200 }}
-          >
-            <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
-            <span
-              className="absolute inset-0 flex items-center justify-center font-ak text-[13px] font-bold uppercase tracking-[0.08em] text-white"
-              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+      {!pastEvent && !open && showCheckout && (
+        <div className="flex justify-center" style={{ paddingTop: 12, paddingBottom: 4 }}>
+          <div ref={checkoutRef} className="relative border border-ink-15 w-full" style={{ maxWidth: 480 }}>
+            <button
+              type="button"
+              onClick={closeCheckout}
+              aria-label="Close checkout"
+              className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
             >
-              {showCheckout ? "Hide checkout ✕" : "Tickets"}
-            </span>
-          </button>
-          {showCheckout && (
-            <div ref={checkoutRef} className="relative mt-4 border border-ink-15 w-full" style={{ maxWidth: 480 }}>
-              <button
-                type="button"
-                onClick={closeCheckout}
-                aria-label="Close checkout"
-                className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
+              ✕
+            </button>
+            <iframe
+              src={ticketsHref}
+              title={`Tickets — ${event.name}`}
+              style={{ width: "100%", height: 700, border: "none", display: "block" }}
+            />
+            <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
+              <a
+                href={ticketsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
               >
-                ✕
-              </button>
-              <iframe
-                src={ticketsHref}
-                title={`Tickets — ${event.name}`}
-                style={{ width: "100%", height: 700, border: "none", display: "block" }}
-              />
-              <div className="border-t border-ink-15 bg-onyx flex justify-center" style={{ padding: "10px 14px" }}>
-                <a
-                  href={ticketsHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
-                >
-                  Trouble loading? Open checkout in a new tab ↗
-                </a>
-              </div>
+                Trouble loading? Open checkout in a new tab ↗
+              </a>
             </div>
-          )}
+          </div>
         </div>
       )}
 

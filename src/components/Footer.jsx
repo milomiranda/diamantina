@@ -20,13 +20,13 @@ export default function Footer() {
             home@diamantina.club
           </a>
           <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
-            <a
-              href="/#subscribe"
-              className="uppercase hover:opacity-70 transition-opacity"
+            <button
+              onClick={() => window.openSignUp?.()}
+              className="uppercase hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
               style={{ font: "inherit", color: "inherit" }}
             >
               Subscribe
-            </a>
+            </button>
             {" · "}
             <button
               onClick={() => window.openLegal?.("terms")}

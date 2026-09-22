@@ -69,7 +69,6 @@ function App() {
             aria-hidden="true"
             width="900"
             height="750"
-            className="tree-glow"
             style={{
               width: "100%",
               height: "auto",

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
+const LANGUAGES = ["NL", "EN", "ES"];
 
 export default function Nav() {
   const { pathname } = useLocation();
   const [showCheckout, setShowCheckout] = useState(false);
+  const [lang, setLang] = useState("EN");
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-onyx/80 backdrop-blur-sm">
@@ -25,14 +27,30 @@ export default function Nav() {
           <NavLink to="/faq" active={pathname === "/faq"}>FAQ</NavLink>
           <NavLink to="/contact" active={pathname === "/contact"}>Contact</NavLink>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowCheckout((v) => !v)}
-          className="nav-ticket-btn tickets-bounce font-ak text-[13px] sm:text-[15px] md:text-[18px] font-bold uppercase tracking-[0.02em] md:tracking-[0.04em] whitespace-nowrap shrink-0 inline-block text-onyx bg-paper-white hover:opacity-80 transition-opacity"
-          style={{ padding: "10px 18px" }}
-        >
-          {showCheckout ? "Hide checkout ✕" : "Tickets"}
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex flex-col items-center justify-center gap-1" style={{ padding: "2px 6px" }}>
+            {LANGUAGES.map((code) => (
+              <button
+                key={code}
+                type="button"
+                onClick={() => setLang(code)}
+                className={`font-ak text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.04em] leading-none text-paper-white transition-opacity ${
+                  lang === code ? "opacity-100" : "opacity-40 hover:opacity-80"
+                }`}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowCheckout((v) => !v)}
+            className="nav-ticket-btn tickets-bounce font-ak text-[13px] sm:text-[15px] md:text-[18px] font-bold uppercase tracking-[0.02em] md:tracking-[0.04em] whitespace-nowrap shrink-0 inline-block text-onyx bg-paper-white hover:opacity-80 transition-opacity"
+            style={{ padding: "10px 18px" }}
+          >
+            {showCheckout ? "Hide checkout ✕" : "Tickets"}
+          </button>
+        </div>
       </nav>
 
       {showCheckout && (

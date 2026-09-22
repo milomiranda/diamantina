@@ -11,9 +11,18 @@ export default function SignUpPopup() {
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
   useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY)) return;
+    if (localStorage.getItem(STORAGE_KEY) || localStorage.getItem("diamantina-subscribed")) return;
     const timer = setTimeout(() => setOpen(true), 1200);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    // Lets other components (like the Footer's "Subscribe" link) open this
+    // popup on demand, the same way window.openLegal works for Terms/Privacy.
+    window.openSignUp = () => setOpen(true);
+    return () => {
+      delete window.openSignUp;
+    };
   }, []);
 
   useEffect(() => {
@@ -40,6 +49,7 @@ export default function SignUpPopup() {
       if (!res.ok) throw new Error("Failed");
       setStatus("sent");
       localStorage.setItem(STORAGE_KEY, "true");
+      localStorage.setItem("diamantina-subscribed", "true");
     } catch {
       setStatus("error");
     }

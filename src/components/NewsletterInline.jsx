@@ -1,10 +1,15 @@
 import { useState } from "react";
 
+const STORAGE_KEY = "diamantina-subscribed";
+
 // Inline, single-line newsletter form — lives permanently on the Home page
 // instead of an interrupting popup. Same copy/backend as before.
 export default function NewsletterInline() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [alreadySubscribed] = useState(
+    () => typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "true"
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,10 +22,13 @@ export default function NewsletterInline() {
       });
       if (!res.ok) throw new Error("Failed");
       setStatus("sent");
+      localStorage.setItem(STORAGE_KEY, "true");
     } catch {
       setStatus("error");
     }
   };
+
+  if (alreadySubscribed) return null;
 
   return (
     <div id="subscribe" className="flex flex-col items-center px-6 text-center" style={{ paddingBottom: 56 }}>
