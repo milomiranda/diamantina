@@ -5,8 +5,14 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    window.lenis?.scrollTo(0, { immediate: true });
+    if (window.lenis) {
+      window.lenis.scrollTo(0, {
+        duration: 1.4,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
     // Keep the canonical tag pointing at the actual current page, not just
     // the homepage — Google flagged the site as "duplicate, no canonical
