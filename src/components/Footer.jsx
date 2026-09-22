@@ -1,6 +1,8 @@
 import Particles from "@/components/Particles";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
   const igLink = "https://www.instagram.com/diamantina.club";
   const soundcloudLink = "https://soundcloud.com/diamantinaclub";
 
@@ -25,7 +27,7 @@ export default function Footer() {
               className="uppercase hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
               style={{ font: "inherit", color: "inherit" }}
             >
-              Subscribe
+              {t("footer.subscribe")}
             </button>
             {" · "}
             <button
@@ -33,7 +35,7 @@ export default function Footer() {
               className="uppercase hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
               style={{ font: "inherit", color: "inherit" }}
             >
-              Terms of Use
+              {t("footer.termsOfUse")}
             </button>
             {" · "}
             <button
@@ -41,7 +43,7 @@ export default function Footer() {
               className="uppercase hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer p-0"
               style={{ font: "inherit", color: "inherit" }}
             >
-              Privacy Policy
+              {t("footer.privacyPolicy")}
             </button>
           </p>
           <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-diamantina">

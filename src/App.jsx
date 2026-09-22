@@ -5,6 +5,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import CookieBanner from '@/components/CookieBanner';
 import TiltOnMouse from '@/components/TiltOnMouse';
 import Layout from '@/components/Layout';
+import { LanguageProvider } from '@/i18n/LanguageContext';
 
 import Home from '@/pages/Home';
 
@@ -25,6 +26,7 @@ const SignUpPopup = lazy(() => import('@/components/SignUpPopup'));
 
 function App() {
   return (
+    <LanguageProvider>
     <Router>
       <ScrollToTop />
       <SmoothScroll />
@@ -79,6 +81,7 @@ function App() {
         </TiltOnMouse>
       </div>
     </Router>
+    </LanguageProvider>
   );
 }
 

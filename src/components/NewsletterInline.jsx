@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const STORAGE_KEY = "diamantina-subscribed";
 
 // Inline, single-line newsletter form — lives permanently on the Home page
 // instead of an interrupting popup. Same copy/backend as before.
 export default function NewsletterInline() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
   const [alreadySubscribed] = useState(
@@ -34,12 +36,11 @@ export default function NewsletterInline() {
     <div id="subscribe" className="flex flex-col items-center px-6 text-center" style={{ paddingBottom: 56 }}>
       <p className="font-ak text-[14px] md:text-[16px] leading-[1.4] text-ink-70 mb-4 max-w-[520px]">
         <span aria-hidden="true" className="text-diamantina">✦</span>{" "}
-        Come a little closer - find out what's coming, who's joining us, and where
-        we're going next, before everyone else does.
+        {t("newsletter.inlineText")}
       </p>
 
       {status === "sent" ? (
-        <p className="font-ak text-[14px] text-paper-white">Thanks, you're on the list.</p>
+        <p className="font-ak text-[14px] text-paper-white">{t("newsletter.thanks")}</p>
       ) : (
         <form
           onSubmit={handleSubmit}
@@ -51,7 +52,7 @@ export default function NewsletterInline() {
             disabled={status === "sending"}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder={t("newsletter.emailPlaceholder")}
             className="flex-1 font-ak text-[14px] text-paper-white bg-transparent border-none outline-none py-1.5 min-w-0"
           />
           <button
@@ -59,13 +60,13 @@ export default function NewsletterInline() {
             disabled={status === "sending"}
             className="shrink-0 font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-paper-white hover:opacity-60 transition-opacity disabled:opacity-40"
           >
-            {status === "sending" ? "Sending..." : "Join →"}
+            {status === "sending" ? t("newsletter.sending") : t("newsletter.join")}
           </button>
         </form>
       )}
       {status === "error" && (
         <p className="font-ak text-[12px] text-diamantina mt-2">
-          Something went wrong. Please try again.
+          {t("newsletter.error")}
         </p>
       )}
     </div>

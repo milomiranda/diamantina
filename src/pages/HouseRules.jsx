@@ -1,41 +1,25 @@
 import Particles from "@/components/Particles";
 import usePageTitle from "@/hooks/usePageTitle";
-
-const rules = [
-  { title: "Come as you are", body: null },
-  { title: "Queer-centered, allies welcome", body: null },
-  {
-    title: "Respect every facet",
-    body: [
-      "Everyone reflects light differently.",
-      "There is no place at Diamantina for racism, homophobia, transphobia, sexism, ableism, xenophobia, body-shaming or discrimination of any kind.",
-      "Respect people's identities, bodies, boundaries and ways of expressing themselves.",
-    ],
-  },
-  { title: "Consent, always", body: ["No means no. Silence isn't yes."] },
-  { title: "Look after each other", body: null },
-  {
-    title: "No aggression, harassment or predatory behavior",
-    body: ["If your behavior compromises the safety of the community, you may be asked to leave."],
-  },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function HouseRules() {
-  usePageTitle("Party Rules", "Diamantina's Party Rules — a home for everyone, built on respect and consent.");
+  const { t } = useLanguage();
+  usePageTitle(t("partyRules.kicker"), t("partyRules.metaDescription"));
+  const rules = t("partyRules.rules");
   return (
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
         <div className="relative z-10">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
-          Party Rules
+          {t("partyRules.kicker")}
         </p>
 
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
           <strong className="font-bold">
-            We come together for music, movement, discovery and each other
+            {t("partyRules.headingStrong1")}
           </strong>
-          . We want the dance floor to <strong className="font-bold">feel free</strong>, euphoric and
-          welcoming.
+          {t("partyRules.headingMid")}<strong className="font-bold">{t("partyRules.headingStrong2")}</strong>
+          {t("partyRules.headingPost")}
         </h1>
 
         <div className="mt-24 flex flex-col">

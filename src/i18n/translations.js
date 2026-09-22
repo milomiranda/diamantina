@@ -1,0 +1,490 @@
+// Static site copy in three languages. Event content typed into the admin
+// (event names, descriptions, DJs, ticket tiers) is NOT covered here — it
+// stays exactly as written, in whatever language the admin used, since there's
+// no translation service connected for user-entered content.
+const translations = {
+  EN: {
+    nav: {
+      home: "Home",
+      about: "About",
+      community: "Community",
+      partyRules: "Party Rules",
+      faq: "FAQ",
+      contact: "Contact",
+      tickets: "Tickets",
+      hideCheckout: "Hide checkout ✕",
+      closeCheckout: "Close checkout",
+      troubleLoading: "Trouble loading? Open checkout in a new tab ↗",
+    },
+    home: {
+      metaDescription:
+        "Diamantina is a queer-centered party series and cultural platform, connecting the Netherlands to Latin America's underground music scene.",
+      upcomingEvents: "UPCOMING EVENTS",
+      comingSoon: "Some things are worth waiting for. This is one of them.",
+      pastEvents: "Past events",
+      hideEventDetails: "Hide event details ↑",
+      viewEventDetails: "View event details ↓",
+      share: "Share",
+      linkCopied: "Link copied!",
+      tickets: "Tickets",
+      hideShort: "Hide ✕",
+      eventDescription: "Event description",
+      category: "Category",
+      lineUp: "Line-up",
+      link: "Link",
+      time: "Time",
+      troubleLoading: "Trouble loading? Open checkout in a new tab ↗",
+    },
+    about: {
+      kicker: "About",
+      metaDescription:
+        "Diamantina is a queer-centered party series exploring Latin club and experimental sounds, born in the Netherlands.",
+      headingPre: "Diamantina is a",
+      headingStrong: "queer-centered party series exploring Latin club and experimental sounds",
+      headingPost:
+        ", born in the Netherlands, with a direct cultural and musical connection to the underground scene.",
+      body: "At its core, Diamantina is about music discovery, movement and curiosity. We create dance floors for sounds that move beyond the expected, from Latin club and Mexican underground to IDM, experimental club music and artists exploring the spaces between genres.",
+      quote:
+        "\"Every particle reflects differently. Every facet catches light differently. Together they become something brilliant.\"",
+    },
+    partyRules: {
+      kicker: "Party Rules",
+      metaDescription: "Diamantina's Party Rules — a home for everyone, built on respect and consent.",
+      headingStrong1: "We come together for music, movement, discovery and each other",
+      headingMid: ". We want the dance floor to ",
+      headingStrong2: "feel free",
+      headingPost: ", euphoric and welcoming.",
+      rules: [
+        { title: "Come as you are", body: null },
+        { title: "Queer-centered, allies welcome", body: null },
+        {
+          title: "Respect every facet",
+          body: [
+            "Everyone reflects light differently.",
+            "There is no place at Diamantina for racism, homophobia, transphobia, sexism, ableism, xenophobia, body-shaming or discrimination of any kind.",
+            "Respect people's identities, bodies, boundaries and ways of expressing themselves.",
+          ],
+        },
+        { title: "Consent, always", body: ["No means no. Silence isn't yes."] },
+        { title: "Look after each other", body: null },
+        {
+          title: "No aggression, harassment or predatory behavior",
+          body: ["If your behavior compromises the safety of the community, you may be asked to leave."],
+        },
+      ],
+    },
+    faq: {
+      kicker: "FAQ",
+      metaDescription: "Frequently asked questions about Diamantina — tickets, the door, and what to expect.",
+      headingPre: "You have ",
+      headingStrong: "questions",
+      headingPost: "? Here are the answers.",
+      items: [
+        {
+          q: "So, is Diamantina a gay party?",
+          a: "Yes and no. Diamantina comes from queer culture and is created with a queer crowd in mind, but we don't want to put the night, or the people in it, inside a box. What brings us together is a shared appetite for great music, unexpected sounds and a really good dance floor. We want people to come because they're excited to hear something different, lose themselves in the music and have a fucking good time. Queer, straight, somewhere in between or nowhere at all, you're welcome. Respect the room, respect each other, and enjoy the ride.",
+        },
+        {
+          q: "Where do I buy tickets?",
+          a: "Presale happens online through our ticketshop. Limited door sale is also available, but it depends on how close the event is to capacity, so we can't guarantee tickets will still be available on the night. We recommend buying in advance if you don't want to risk it.",
+          linkLabel: "Go to ticketshop",
+        },
+        { q: "I've lost an item at Diamantina.", type: "lost-item" },
+        {
+          q: "Is there a minimum age?",
+          a: "18+. Valid photo ID is required at the entrance, no exceptions, so don't forget it.",
+        },
+        {
+          q: "Where can I find my ticket?",
+          a: "Once you've completed your purchase, your ticket is sent straight to your email. Make sure to have it ready to show at the entrance. Door tickets are also available, subject to availability.",
+        },
+        {
+          q: "Can I change or cancel the ticket I bought?",
+          a: "Only if you selected ticket protection at checkout. If you did, reach out to Ticketapp directly to sort it out.",
+        },
+        {
+          q: "Are there rules I need to know before entering Diamantina?",
+          a: "Yes, check our Party Rules before you come. Anything not covered there, send us an email and we'll help.",
+        },
+      ],
+      lostItem: {
+        intro: "Fill out the form below and it'll come straight to us.",
+        reportButton: "Report lost item",
+        closeButton: "Close form",
+        thanks: "Thanks — we've got your report and will reach out if we find it.",
+        sending: "Sending...",
+        sendReport: "Send report",
+        error: "Something went wrong. Please try again.",
+        fields: {
+          firstName: "First name",
+          lastName: "Last name",
+          email: "Your email",
+          eventDate: "Which event / date",
+          item: "What did you lose",
+          color: "Color (if applicable)",
+          contents: "What's inside (if applicable)",
+          description: "Description of the object",
+        },
+      },
+    },
+    contact: {
+      kicker: "Contact",
+      metaDescription: "Get in touch with Diamantina.",
+      heading: "Contact",
+      emailIntro: "Our email address is:",
+    },
+    notFound: {
+      metaTitle: "Page not found",
+      metaDescription: "This page doesn't exist on Diamantina's website.",
+      heading: "This page doesn't exist.",
+      body: "The page you're looking for isn't here. Let's get you back.",
+      backHome: "Back to home",
+    },
+    footer: {
+      subscribe: "Subscribe",
+      termsOfUse: "Terms of Use",
+      privacyPolicy: "Privacy Policy",
+    },
+    cookieBanner: {
+      text: "We use cookies to run this site and understand how it's used. See our",
+      privacyPolicy: "Privacy Policy",
+      decline: "Decline",
+      accept: "Accept",
+    },
+    newsletter: {
+      inlineText:
+        "Come a little closer - find out what's coming, who's joining us, and where we're going next, before everyone else does.",
+      thanks: "Thanks, you're on the list.",
+      emailPlaceholder: "Email",
+      sending: "Sending...",
+      join: "Join →",
+      error: "Something went wrong. Please try again.",
+      popupHeading: "Come a little closer",
+      popupText: "Our first night is taking shape. Get on the list to hear about it before everyone else does.",
+    },
+  },
+
+  NL: {
+    nav: {
+      home: "Home",
+      about: "Over ons",
+      community: "Community",
+      partyRules: "Huisregels",
+      faq: "FAQ",
+      contact: "Contact",
+      tickets: "Tickets",
+      hideCheckout: "Verberg checkout ✕",
+      closeCheckout: "Checkout sluiten",
+      troubleLoading: "Laadt het niet? Open checkout in nieuw tabblad ↗",
+    },
+    home: {
+      metaDescription:
+        "Diamantina is een queer-gerichte feestreeks en cultureel platform, dat Nederland verbindt met de undergroundmuziekscene van Latijns-Amerika.",
+      upcomingEvents: "AANKOMENDE EVENEMENTEN",
+      comingSoon: "Sommige dingen zijn het wachten waard. Dit is er een van.",
+      pastEvents: "Eerdere evenementen",
+      hideEventDetails: "Verberg evenementdetails ↑",
+      viewEventDetails: "Bekijk evenementdetails ↓",
+      share: "Delen",
+      linkCopied: "Link gekopieerd!",
+      tickets: "Tickets",
+      hideShort: "Verberg ✕",
+      eventDescription: "Evenementbeschrijving",
+      category: "Categorie",
+      lineUp: "Line-up",
+      link: "Link",
+      time: "Tijd",
+      troubleLoading: "Laadt het niet? Open checkout in nieuw tabblad ↗",
+    },
+    about: {
+      kicker: "Over ons",
+      metaDescription:
+        "Diamantina is een queer-gerichte feestreeks die Latin club en experimentele geluiden verkent, geboren in Nederland.",
+      headingPre: "Diamantina is een",
+      headingStrong: "queer-gerichte feestreeks die Latin club en experimentele geluiden verkent",
+      headingPost:
+        ", geboren in Nederland, met een directe culturele en muzikale connectie met de underground scene.",
+      body: "In de kern draait Diamantina om muzikale ontdekking, beweging en nieuwsgierigheid. We creëren dansvloeren voor geluiden die verder gaan dan het verwachte, van Latin club en Mexicaanse underground tot IDM, experimentele clubmuziek en artiesten die de ruimtes tussen genres verkennen.",
+      quote:
+        "\"Elk deeltje weerkaatst anders. Elke facet vangt het licht anders. Samen worden ze iets briljants.\"",
+    },
+    partyRules: {
+      kicker: "Huisregels",
+      metaDescription: "Diamantina's huisregels — een thuis voor iedereen, gebouwd op respect en consent.",
+      headingStrong1: "We komen samen voor muziek, beweging, ontdekking en elkaar",
+      headingMid: ". We willen dat de dansvloer ",
+      headingStrong2: "vrij aanvoelt",
+      headingPost: ", euforisch en gastvrij.",
+      rules: [
+        { title: "Kom zoals je bent", body: null },
+        { title: "Queer-gericht, allies welkom", body: null },
+        {
+          title: "Respecteer elk facet",
+          body: [
+            "Iedereen weerkaatst licht anders.",
+            "Er is geen plek bij Diamantina voor racisme, homofobie, transfobie, seksisme, validisme, xenofobie, body-shaming of welke vorm van discriminatie dan ook.",
+            "Respecteer ieders identiteit, lichaam, grenzen en manier van jezelf uiten.",
+          ],
+        },
+        { title: "Consent, altijd", body: ["Nee is nee. Stilte is geen ja."] },
+        { title: "Zorg voor elkaar", body: null },
+        {
+          title: "Geen agressie, intimidatie of grensoverschrijdend gedrag",
+          body: ["Als je gedrag de veiligheid van de community in gevaar brengt, kan je gevraagd worden te vertrekken."],
+        },
+      ],
+    },
+    faq: {
+      kicker: "FAQ",
+      metaDescription: "Veelgestelde vragen over Diamantina — tickets, de deur, en wat je kan verwachten.",
+      headingPre: "Heb je ",
+      headingStrong: "vragen",
+      headingPost: "? Hier zijn de antwoorden.",
+      items: [
+        {
+          q: "Dus, is Diamantina een homofeest?",
+          a: "Ja en nee. Diamantina komt voort uit queer cultuur en is gemaakt met een queer publiek in gedachten, maar we willen de avond, of de mensen erin, niet in een hokje stoppen. Wat ons samenbrengt is een gedeelde honger naar geweldige muziek, onverwachte geluiden en een echt goede dansvloer. We willen dat mensen komen omdat ze enthousiast zijn om iets anders te horen, zich te verliezen in de muziek en een verdomd goede tijd te hebben. Queer, hetero, ergens daartussenin of nergens, je bent welkom. Respecteer de ruimte, respecteer elkaar, en geniet van de rit.",
+        },
+        {
+          q: "Waar koop ik tickets?",
+          a: "Presale gebeurt online via onze ticketshop. Beperkte deurverkoop is ook beschikbaar, maar dat hangt af van hoe vol het evenement al zit, dus we kunnen niet garanderen dat er die avond nog tickets zijn. We raden aan om vooraf te kopen als je het niet wilt riskeren.",
+          linkLabel: "Naar de ticketshop",
+        },
+        { q: "Ik ben iets verloren bij Diamantina.", type: "lost-item" },
+        {
+          q: "Is er een minimumleeftijd?",
+          a: "18+. Geldig legitimatiebewijs met foto is verplicht bij de ingang, geen uitzonderingen, dus vergeet het niet.",
+        },
+        {
+          q: "Waar vind ik mijn ticket?",
+          a: "Zodra je je aankoop hebt afgerond, wordt je ticket direct naar je e-mail gestuurd. Zorg dat je het klaar hebt om te tonen bij de ingang. Deurtickets zijn ook beschikbaar, afhankelijk van beschikbaarheid.",
+        },
+        {
+          q: "Kan ik mijn gekochte ticket wijzigen of annuleren?",
+          a: "Alleen als je ticketbescherming hebt geselecteerd bij het afrekenen. Zo ja, neem dan rechtstreeks contact op met Ticketapp om dit te regelen.",
+        },
+        {
+          q: "Zijn er regels die ik moet kennen voordat ik Diamantina binnenkom?",
+          a: "Ja, bekijk onze Huisregels voordat je komt. Alles wat daar niet in staat, stuur ons een e-mail en we helpen je.",
+        },
+      ],
+      lostItem: {
+        intro: "Vul het formulier hieronder in en het komt direct bij ons terecht.",
+        reportButton: "Meld verloren voorwerp",
+        closeButton: "Formulier sluiten",
+        thanks: "Bedankt — we hebben je melding en nemen contact op als we het vinden.",
+        sending: "Versturen...",
+        sendReport: "Melding versturen",
+        error: "Er ging iets mis. Probeer het opnieuw.",
+        fields: {
+          firstName: "Voornaam",
+          lastName: "Achternaam",
+          email: "Jouw e-mail",
+          eventDate: "Welk evenement / datum",
+          item: "Wat ben je kwijt",
+          color: "Kleur (indien van toepassing)",
+          contents: "Wat zit erin (indien van toepassing)",
+          description: "Beschrijving van het voorwerp",
+        },
+      },
+    },
+    contact: {
+      kicker: "Contact",
+      metaDescription: "Neem contact op met Diamantina.",
+      heading: "Contact",
+      emailIntro: "Ons e-mailadres is:",
+    },
+    notFound: {
+      metaTitle: "Pagina niet gevonden",
+      metaDescription: "Deze pagina bestaat niet op de website van Diamantina.",
+      heading: "Deze pagina bestaat niet.",
+      body: "De pagina die je zoekt is hier niet. Laten we je terugbrengen.",
+      backHome: "Terug naar home",
+    },
+    footer: {
+      subscribe: "Aanmelden",
+      termsOfUse: "Gebruiksvoorwaarden",
+      privacyPolicy: "Privacybeleid",
+    },
+    cookieBanner: {
+      text: "We gebruiken cookies om deze site te laten werken en te begrijpen hoe die gebruikt wordt. Bekijk ons",
+      privacyPolicy: "Privacybeleid",
+      decline: "Weigeren",
+      accept: "Accepteren",
+    },
+    newsletter: {
+      inlineText:
+        "Kom een beetje dichterbij - ontdek wat er aankomt, wie erbij is, en waar we heen gaan, voordat iedereen het weet.",
+      thanks: "Bedankt, je staat op de lijst.",
+      emailPlaceholder: "E-mail",
+      sending: "Versturen...",
+      join: "Doe mee →",
+      error: "Er ging iets mis. Probeer het opnieuw.",
+      popupHeading: "Kom een beetje dichterbij",
+      popupText: "Onze eerste avond neemt vorm aan. Meld je aan om er als eerste over te horen.",
+    },
+  },
+
+  ES: {
+    nav: {
+      home: "Inicio",
+      about: "Nosotros",
+      community: "Comunidad",
+      partyRules: "Reglas",
+      faq: "Preguntas",
+      contact: "Contacto",
+      tickets: "Boletos",
+      hideCheckout: "Ocultar pago ✕",
+      closeCheckout: "Cerrar pago",
+      troubleLoading: "¿No carga? Abrir en pestaña nueva ↗",
+    },
+    home: {
+      metaDescription:
+        "Diamantina es una serie de fiestas centrada en la comunidad queer y una plataforma cultural que conecta a los Países Bajos con la escena musical underground de América Latina.",
+      upcomingEvents: "PRÓXIMOS EVENTOS",
+      comingSoon: "Algunas cosas valen la pena esperarlas. Esta es una de ellas.",
+      pastEvents: "Eventos pasados",
+      hideEventDetails: "Ocultar detalles del evento ↑",
+      viewEventDetails: "Ver detalles del evento ↓",
+      share: "Compartir",
+      linkCopied: "¡Link copiado!",
+      tickets: "Boletos",
+      hideShort: "Ocultar ✕",
+      eventDescription: "Descripción del evento",
+      category: "Categoría",
+      lineUp: "Line-up",
+      link: "Link",
+      time: "Hora",
+      troubleLoading: "¿No carga? Abrir en pestaña nueva ↗",
+    },
+    about: {
+      kicker: "Nosotros",
+      metaDescription:
+        "Diamantina es una serie de fiestas centrada en la comunidad queer que explora el latin club y sonidos experimentales, nacida en los Países Bajos.",
+      headingPre: "Diamantina es una",
+      headingStrong: "serie de fiestas centrada en la comunidad queer que explora el latin club y sonidos experimentales",
+      headingPost:
+        ", nacida en los Países Bajos, con una conexión cultural y musical directa con la escena underground.",
+      body: "En esencia, Diamantina se trata de descubrimiento musical, movimiento y curiosidad. Creamos pistas de baile para sonidos que van más allá de lo esperado, desde el latin club y el underground mexicano hasta el IDM, música club experimental y artistas que exploran los espacios entre géneros.",
+      quote:
+        "\"Cada partícula refleja distinto. Cada faceta atrapa la luz distinto. Juntas se vuelven algo brillante.\"",
+    },
+    partyRules: {
+      kicker: "Reglas",
+      metaDescription: "Las reglas de Diamantina — un hogar para todes, construido sobre respeto y consentimiento.",
+      headingStrong1: "Nos reunimos por la música, el movimiento, el descubrimiento y por estar juntes",
+      headingMid: ". Queremos que la pista de baile se sienta ",
+      headingStrong2: "libre",
+      headingPost: ", eufórica y acogedora.",
+      rules: [
+        { title: "Ven como eres", body: null },
+        { title: "Centrado en lo queer, aliades bienvenides", body: null },
+        {
+          title: "Respeta cada faceta",
+          body: [
+            "Cada quien refleja la luz distinto.",
+            "No hay lugar en Diamantina para el racismo, la homofobia, la transfobia, el sexismo, el capacitismo, la xenofobia, la gordofobia o cualquier tipo de discriminación.",
+            "Respeta las identidades, cuerpos, límites y formas de expresarse de las demás personas.",
+          ],
+        },
+        { title: "Consentimiento, siempre", body: ["No es no. El silencio no es un sí."] },
+        { title: "Cuídense entre todes", body: null },
+        {
+          title: "Cero agresión, acoso o comportamiento depredador",
+          body: ["Si tu comportamiento pone en riesgo la seguridad de la comunidad, se te puede pedir que te vayas."],
+        },
+      ],
+    },
+    faq: {
+      kicker: "Preguntas",
+      metaDescription: "Preguntas frecuentes sobre Diamantina — boletos, la entrada, y qué esperar.",
+      headingPre: "Tienes ",
+      headingStrong: "preguntas",
+      headingPost: "? Aquí están las respuestas.",
+      items: [
+        {
+          q: "Entonces, ¿Diamantina es una fiesta gay?",
+          a: "Sí y no. Diamantina viene de la cultura queer y está pensada para un público queer, pero no queremos meter la noche, ni a la gente que va, en una sola caja. Lo que nos une es un gusto compartido por buena música, sonidos inesperados y una pista de baile realmente buena. Queremos que la gente venga porque le emociona escuchar algo distinto, perderse en la música y pasarla increíble. Queer, hetero, en algún punto intermedio o en ningún lado, eres bienvenide. Respeta el espacio, respétense entre todes, y disfruta el viaje.",
+        },
+        {
+          q: "¿Dónde compro boletos?",
+          a: "La preventa es en línea a través de nuestra tienda de boletos. También hay venta limitada en puerta, pero depende de qué tan lleno esté el evento, así que no podemos garantizar que queden boletos esa noche. Recomendamos comprar con anticipación si no quieres arriesgarte.",
+          linkLabel: "Ir a la tienda de boletos",
+        },
+        { q: "Perdí algo en Diamantina.", type: "lost-item" },
+        {
+          q: "¿Hay una edad mínima?",
+          a: "18+. Se requiere identificación oficial con foto en la entrada, sin excepciones, así que no la olvides.",
+        },
+        {
+          q: "¿Dónde encuentro mi boleto?",
+          a: "En cuanto completes tu compra, tu boleto llega directo a tu correo. Tenlo listo para mostrarlo en la entrada. También hay boletos en puerta, sujetos a disponibilidad.",
+        },
+        {
+          q: "¿Puedo cambiar o cancelar el boleto que compré?",
+          a: "Solo si seleccionaste la protección de boleto al momento de pagar. Si fue así, contacta directo a Ticketapp para resolverlo.",
+        },
+        {
+          q: "¿Hay reglas que deba conocer antes de entrar a Diamantina?",
+          a: "Sí, revisa nuestras Reglas antes de venir. Cualquier cosa que no esté ahí, mándanos un correo y te ayudamos.",
+        },
+      ],
+      lostItem: {
+        intro: "Llena el siguiente formulario y nos llega directo.",
+        reportButton: "Reportar objeto perdido",
+        closeButton: "Cerrar formulario",
+        thanks: "Gracias — ya tenemos tu reporte y te contactamos si lo encontramos.",
+        sending: "Enviando...",
+        sendReport: "Enviar reporte",
+        error: "Algo salió mal. Intenta de nuevo.",
+        fields: {
+          firstName: "Nombre",
+          lastName: "Apellido",
+          email: "Tu correo",
+          eventDate: "Qué evento / fecha",
+          item: "Qué perdiste",
+          color: "Color (si aplica)",
+          contents: "Qué contenía (si aplica)",
+          description: "Descripción del objeto",
+        },
+      },
+    },
+    contact: {
+      kicker: "Contacto",
+      metaDescription: "Ponte en contacto con Diamantina.",
+      heading: "Contacto",
+      emailIntro: "Nuestro correo es:",
+    },
+    notFound: {
+      metaTitle: "Página no encontrada",
+      metaDescription: "Esta página no existe en el sitio de Diamantina.",
+      heading: "Esta página no existe.",
+      body: "La página que buscas no está aquí. Vamos a regresarte.",
+      backHome: "Volver al inicio",
+    },
+    footer: {
+      subscribe: "Suscribirse",
+      termsOfUse: "Términos de Uso",
+      privacyPolicy: "Aviso de Privacidad",
+    },
+    cookieBanner: {
+      text: "Usamos cookies para que este sitio funcione y entender cómo se usa. Revisa nuestro",
+      privacyPolicy: "Aviso de Privacidad",
+      decline: "Rechazar",
+      accept: "Aceptar",
+    },
+    newsletter: {
+      inlineText:
+        "Acércate tantito - entérate de lo que viene, quién se va a unir, y hacia dónde vamos, antes que nadie.",
+      thanks: "Gracias, ya estás en la lista.",
+      emailPlaceholder: "Correo",
+      sending: "Enviando...",
+      join: "Unirme →",
+      error: "Algo salió mal. Intenta de nuevo.",
+      popupHeading: "Acércate tantito",
+      popupText: "Nuestra primera noche está tomando forma. Únete a la lista para enterarte antes que nadie.",
+    },
+  },
+};
+
+export default translations;

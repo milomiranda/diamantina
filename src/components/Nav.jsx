@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
 const LANGUAGES = ["NL", "EN", "ES"];
@@ -7,25 +8,25 @@ const LANGUAGES = ["NL", "EN", "ES"];
 export default function Nav() {
   const { pathname } = useLocation();
   const [showCheckout, setShowCheckout] = useState(false);
-  const [lang, setLang] = useState("EN");
+  const { lang, setLang, t } = useLanguage();
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-onyx/80 backdrop-blur-sm">
       <nav className="nav-container flex flex-col md:flex-row items-center md:justify-between gap-3 md:gap-2 px-3 sm:px-4 md:px-6 py-3 md:py-4">
         <div className="nav-links-wrap flex items-center justify-center md:justify-start gap-2 sm:gap-3 md:gap-10 flex-wrap">
-          <NavLink to="/" active={pathname === "/"}>Home</NavLink>
-          <NavLink to="/about" active={pathname === "/about"}>About</NavLink>
+          <NavLink to="/" active={pathname === "/"}>{t("nav.home")}</NavLink>
+          <NavLink to="/about" active={pathname === "/about"}>{t("nav.about")}</NavLink>
           <a
             href="https://chat.whatsapp.com/DVetWZu8T3S6ZyDzUldse0?mode=gi_t"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-link font-ak text-[13px] sm:text-[15px] md:text-[28px] uppercase tracking-[0.02em] md:tracking-[0.04em] text-paper-white transition-opacity whitespace-nowrap opacity-50 hover:opacity-100"
           >
-            Community
+            {t("nav.community")}
           </a>
-          <NavLink to="/house-rules" active={pathname === "/house-rules"}>Party Rules</NavLink>
-          <NavLink to="/faq" active={pathname === "/faq"}>FAQ</NavLink>
-          <NavLink to="/contact" active={pathname === "/contact"}>Contact</NavLink>
+          <NavLink to="/house-rules" active={pathname === "/house-rules"}>{t("nav.partyRules")}</NavLink>
+          <NavLink to="/faq" active={pathname === "/faq"}>{t("nav.faq")}</NavLink>
+          <NavLink to="/contact" active={pathname === "/contact"}>{t("nav.contact")}</NavLink>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex flex-col items-center justify-center gap-1" style={{ padding: "2px 6px" }}>
@@ -48,7 +49,7 @@ export default function Nav() {
             className="nav-ticket-btn tickets-bounce font-ak text-[13px] sm:text-[15px] md:text-[18px] font-bold uppercase tracking-[0.02em] md:tracking-[0.04em] whitespace-nowrap shrink-0 inline-block text-onyx bg-paper-white hover:opacity-80 transition-opacity"
             style={{ padding: "10px 18px" }}
           >
-            {showCheckout ? "Hide checkout ✕" : "Tickets"}
+            {showCheckout ? t("nav.hideCheckout") : t("nav.tickets")}
           </button>
         </div>
       </nav>
@@ -63,7 +64,7 @@ export default function Nav() {
             <div className="relative bg-white w-full max-w-[480px] flex flex-col">
               <button
                 onClick={() => setShowCheckout(false)}
-                aria-label="Close checkout"
+                aria-label={t("nav.closeCheckout")}
                 className="absolute top-3 right-3 z-[97] w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-60 transition-opacity"
               >
                 ✕
@@ -80,7 +81,7 @@ export default function Nav() {
                   rel="noopener noreferrer"
                   className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
                 >
-                  Trouble loading? Open checkout in a new tab ↗
+                  {t("nav.troubleLoading")}
                 </a>
               </div>
             </div>

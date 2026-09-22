@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function CookieBanner() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -36,13 +38,13 @@ export default function CookieBanner() {
       <div className="fixed bottom-0 inset-x-0 z-[60] bg-onyx text-paper-white border-t border-ink-15">
         <div className="px-4 md:px-6 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="font-ak text-[12px] leading-[1.5] uppercase tracking-[0.06em] text-ink-70 max-w-xl">
-            We use cookies to run this site and understand how it's used. See our{" "}
+            {t("cookieBanner.text")}{" "}
             <button
               onClick={() => window.openLegal?.("privacy")}
               className="text-paper-white hover:opacity-60 transition-opacity underline underline-offset-2 bg-transparent border-none cursor-pointer p-0"
               style={{ font: "inherit" }}
             >
-              Privacy Policy
+              {t("cookieBanner.privacyPolicy")}
             </button>
             .
           </p>
@@ -51,13 +53,13 @@ export default function CookieBanner() {
               onClick={() => respond("declined")}
               className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 hover:text-paper-white transition-colors"
             >
-              Decline
+              {t("cookieBanner.decline")}
             </button>
             <button
               onClick={() => respond("accepted")}
               className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white px-5 py-3 hover:opacity-80 transition-opacity"
             >
-              Accept
+              {t("cookieBanner.accept")}
             </button>
           </div>
         </div>

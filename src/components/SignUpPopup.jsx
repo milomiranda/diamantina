@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 // Temporary promo popup for the first event — Milo plans to remove this
 // again once it's no longer needed. Shows once per browser (localStorage),
@@ -6,6 +7,7 @@ import { useState, useEffect } from "react";
 const STORAGE_KEY = "diamantina-promo-popup-seen";
 
 export default function SignUpPopup() {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
@@ -71,14 +73,14 @@ export default function SignUpPopup() {
 
         <p className="flex items-center gap-3 font-gs text-[32px] leading-[1.15] font-bold tracking-[-0.01em] mb-4">
           <span aria-hidden="true" className="text-diamantina">✦</span>
-          Come a little closer
+          {t("newsletter.popupHeading")}
         </p>
         <p className="font-ak text-[16px] leading-[1.4] text-ink-80 mb-6">
-          Our first night is taking shape. Get on the list to hear about it before everyone else does.
+          {t("newsletter.popupText")}
         </p>
 
         {status === "sent" ? (
-          <p className="font-ak text-[16px]">Thanks, you're on the list.</p>
+          <p className="font-ak text-[16px]">{t("newsletter.thanks")}</p>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="border-b border-ink-30">
@@ -88,7 +90,7 @@ export default function SignUpPopup() {
                 disabled={status === "sending"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+                placeholder={t("newsletter.emailPlaceholder")}
                 className="font-ak text-[16px] bg-transparent border-none outline-none py-2 w-full"
               />
             </div>
@@ -97,11 +99,11 @@ export default function SignUpPopup() {
               disabled={status === "sending"}
               className="text-left mt-1 font-ak text-[12px] font-bold uppercase tracking-[0.06em] hover:opacity-60 transition-opacity disabled:opacity-40"
             >
-              {status === "sending" ? "Sending..." : "Join →"}
+              {status === "sending" ? t("newsletter.sending") : t("newsletter.join")}
             </button>
             {status === "error" && (
               <p className="font-ak text-[13px] text-diamantina mt-1">
-                Something went wrong. Please try again.
+                {t("newsletter.error")}
               </p>
             )}
           </form>

@@ -4,6 +4,7 @@ import NewsletterInline from "@/components/NewsletterInline";
 import TiltOnMouse from "@/components/TiltOnMouse";
 import usePageTitle from "@/hooks/usePageTitle";
 import useEventStructuredData from "@/hooks/useEventStructuredData";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const EVENTS_JSON_URL = "https://raw.githubusercontent.com/milomiranda/diamantina-content/main/events.json";
 const DEFAULT_TICKETS_URL = "https://ticketapp.shop/kbfsr";
@@ -48,6 +49,7 @@ function CategoryBoxes({ categories, align = "left" }) {
 }
 
 export default function Home() {
+  const { t } = useLanguage();
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -78,7 +80,7 @@ export default function Home() {
     activeEvent ? `${activeEvent.name}${activeEvent.date ? ` — ${activeEvent.date}` : ""}` : null,
     activeEvent
       ? `${activeEvent.name} at Diamantina${activeEvent.location ? `, ${activeEvent.location}` : ""}${activeEvent.date ? ` — ${activeEvent.date}` : ""}. Get your tickets now.`
-      : "Diamantina is a queer-centered party series and cultural platform, connecting the Netherlands to Latin America's underground music scene."
+      : t("home.metaDescription")
   );
   useEventStructuredData(nextEvent);
 
@@ -114,7 +116,7 @@ export default function Home() {
                   style={{ flexShrink: 0 }}
                 >
                   {Array.from({ length: 12 }).map((_, i) => (
-                    <span key={i}>UPCOMING EVENTS &nbsp;·&nbsp; </span>
+                    <span key={i}>{t("home.upcomingEvents")} &nbsp;·&nbsp; </span>
                   ))}
                 </span>
               ))}
@@ -135,7 +137,7 @@ export default function Home() {
           ) : (
             <div className="flex flex-col items-center text-center" style={{ paddingTop: 40, paddingBottom: 56 }}>
               <p className="font-gs text-[28px] md:text-[40px] leading-[1.15] tracking-[-0.01em] text-paper-white max-w-[560px]">
-                Some things are worth waiting for. This is one of them.
+                {t("home.comingSoon")}
               </p>
             </div>
           )}
@@ -150,7 +152,7 @@ export default function Home() {
               onClick={() => setPastOpen((v) => !v)}
               className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8 flex items-center gap-2"
             >
-              Past events {pastOpen ? "↑" : "↓"}
+              {t("home.pastEvents")} {pastOpen ? "↑" : "↓"}
             </button>
             {pastOpen && (
               <div className="flex flex-col gap-4">
@@ -173,7 +175,7 @@ export default function Home() {
   );
 }
 
-function ToggleLine({ open, onClick }) {
+function ToggleLine({ open, onClick, t }) {
   return (
     <div
       onClick={onClick}
@@ -181,7 +183,7 @@ function ToggleLine({ open, onClick }) {
       style={{ gap: 12, marginTop: 8, marginBottom: 8 }}
     >
       <span className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 shrink-0">
-        {open ? "Hide event details ↑" : "View event details ↓"}
+        {open ? t("home.hideEventDetails") : t("home.viewEventDetails")}
       </span>
       <div style={{ flex: 1, height: 14, position: "relative" }}>
         <svg
@@ -206,7 +208,7 @@ function ToggleLine({ open, onClick }) {
   );
 }
 
-function ShareButton({ event }) {
+function ShareButton({ event, t }) {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async (e) => {
@@ -245,12 +247,13 @@ function ShareButton({ event }) {
         <circle cx="18" cy="19" r="3" stroke="currentColor" strokeWidth="1.8" />
         <path d="M8.6 10.5L15.4 6.5M8.6 13.5L15.4 17.5" stroke="currentColor" strokeWidth="1.8" />
       </svg>
-      {copied ? "Link copied!" : "Share"}
+      {copied ? t("home.linkCopied") : t("home.share")}
     </button>
   );
 }
 
 function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = false, onToggleOpen }) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(defaultOpen);
   const rowRef = useRef(null);
   const toggle = () => {
@@ -343,6 +346,23 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         onClick={toggle}
       >
         <div className="flex items-center gap-3 flex-1 min-w-0">
+          {!pastEvent && !open && (
+            <button
+              ref={ticketBtnRef}
+              type="button"
+              onClick={toggleCheckout}
+              className="tickets-bounce relative block shrink-0"
+              style={{ width: 90 }}
+            >
+              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
+              <span
+                className="absolute inset-0 flex items-center justify-center font-ak text-[9px] font-bold uppercase tracking-[0.04em] text-white"
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+              >
+                {showCheckout ? t("home.hideShort") : t("home.tickets")}
+              </span>
+            </button>
+          )}
           <span
             className={`font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
               pastEvent ? "text-[20px] text-ink-30" : "text-[48px] text-paper-white"
@@ -350,23 +370,6 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
           >
             {event.name}
           </span>
-          {!pastEvent && !open && (
-            <button
-              ref={ticketBtnRef}
-              type="button"
-              onClick={toggleCheckout}
-              className="tickets-bounce relative block shrink-0"
-              style={{ width: 120 }}
-            >
-              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
-              <span
-                className="absolute inset-0 flex items-center justify-center font-ak text-[10px] font-bold uppercase tracking-[0.06em] text-white"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
-              >
-                {showCheckout ? "Hide ✕" : "Tickets"}
-              </span>
-            </button>
-          )}
         </div>
         <div
           className="flex flex-col items-end gap-1.5 shrink-0 archive-fade"
@@ -395,6 +398,23 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
         onClick={toggle}
       >
         <div className="md:col-span-4 flex items-center gap-4 min-w-0">
+          {!pastEvent && !open && (
+            <button
+              ref={ticketBtnRef}
+              type="button"
+              onClick={toggleCheckout}
+              className="tickets-bounce relative block shrink-0"
+              style={{ width: 100 }}
+            >
+              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
+              <span
+                className="absolute inset-0 flex items-center justify-center font-ak text-[10px] font-bold uppercase tracking-[0.05em] text-white"
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
+              >
+                {showCheckout ? t("home.hideShort") : t("home.tickets")}
+              </span>
+            </button>
+          )}
           <span
             className={`font-gs leading-[0.9] tracking-[-0.02em] uppercase ${
               pastEvent ? "text-[32px] text-ink-30" : "text-[72px] text-paper-white"
@@ -402,23 +422,6 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
           >
             {event.name}
           </span>
-          {!pastEvent && !open && (
-            <button
-              ref={ticketBtnRef}
-              type="button"
-              onClick={toggleCheckout}
-              className="tickets-bounce relative block shrink-0"
-              style={{ width: 140 }}
-            >
-              <img src={ticketBlob} alt="" width="500" height="165" className="w-full h-auto pointer-events-none select-none" />
-              <span
-                className="absolute inset-0 flex items-center justify-center font-ak text-[11px] font-bold uppercase tracking-[0.06em] text-white"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
-              >
-                {showCheckout ? "Hide ✕" : "Tickets"}
-              </span>
-            </button>
-          )}
         </div>
         <span
           className="md:col-span-2 font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60 archive-fade"
@@ -455,7 +458,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
             <button
               type="button"
               onClick={closeCheckout}
-              aria-label="Close checkout"
+              aria-label={t("home.hideShort")}
               className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
             >
               ✕
@@ -473,7 +476,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                 onClick={(e) => e.stopPropagation()}
                 className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
               >
-                Trouble loading? Open checkout in a new tab ↗
+                {t("home.troubleLoading")}
               </a>
             </div>
           </div>
@@ -481,7 +484,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
       )}
 
       <div style={{ padding: "8px 0" }}>
-        <ToggleLine open={open} onClick={toggle} />
+        <ToggleLine open={open} onClick={toggle} t={t} />
       </div>
 
       <div
@@ -493,11 +496,11 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
           <div className="pb-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
               <div className="order-2 md:col-span-6">
-                <ShareButton event={event} />
+                <ShareButton event={event} t={t} />
                 {event.description && (
                   <div className="border border-ink-15 mb-7" style={{ padding: "24px 28px" }}>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
-                      Event description
+                      {t("home.eventDescription")}
                     </p>
                     <p
                       className="font-ak text-[16px] leading-[1.6] text-paper-white break-words"
@@ -510,7 +513,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                 {getCategories(event).length > 0 && (
                   <>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
-                      Category
+                      {t("home.category")}
                     </p>
                     <div className="mb-7">
                       <CategoryBoxes categories={getCategories(event)} />
@@ -520,7 +523,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                 {event.time && (
                   <>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-2 text-ink-60">
-                      Time
+                      {t("home.time")}
                     </p>
                     <p className="font-ak text-[16px] leading-[1.4] mb-1 text-paper-white">
                       {event.time}
@@ -554,7 +557,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                 {event.djs && event.djs.length > 0 && (
                   <>
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] mb-3 text-ink-60">
-                      Line-up
+                      {t("home.lineUp")}
                     </p>
                     <div className="flex flex-col gap-2.5 mb-7">
                       {event.djs.map((dj, i) => {
@@ -573,7 +576,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                                   onClick={(e) => e.stopPropagation()}
                                   className="font-ak text-[12px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-ink-60"
                                 >
-                                  {link.label || "Link"}
+                                  {link.label || t("home.link")}
                                 </a>
                               ))}
                             </div>
@@ -586,7 +589,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                 {event.ticketTiers && event.ticketTiers.length > 0 && (
                   <div className="flex flex-col gap-2 mb-7">
                     <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-60">
-                      Tickets
+                      {t("home.tickets")}
                     </p>
                     {event.ticketTiers.map((tier, i) => (
                       <div key={i} className="flex items-baseline justify-between gap-4 max-w-[360px]">
@@ -613,7 +616,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                       className="absolute inset-0 flex items-center justify-center font-ak text-[14px] font-bold uppercase tracking-[0.08em] text-white"
                       style={{ textShadow: "0 1px 4px rgba(0,0,0,0.55)" }}
                     >
-                      {showCheckout ? "Hide checkout ✕" : "Tickets"}
+                      {showCheckout ? t("nav.hideCheckout") : t("home.tickets")}
                     </span>
                   </button>
                 )}
@@ -622,7 +625,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                     <button
                       type="button"
                       onClick={closeCheckout}
-                      aria-label="Close checkout"
+                      aria-label={t("nav.closeCheckout")}
                       className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-[#101522] text-white border-none text-sm cursor-pointer flex items-center justify-center hover:opacity-70 transition-opacity"
                     >
                       ✕
@@ -640,7 +643,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
                         onClick={(e) => e.stopPropagation()}
                         className="font-ak text-[11px] uppercase tracking-[0.04em] underline underline-offset-2 hover:opacity-60 transition-opacity text-paper-white text-center"
                       >
-                        Trouble loading? Open checkout in a new tab ↗
+                        {t("home.troubleLoading")}
                       </a>
                     </div>
                   </div>
@@ -655,7 +658,7 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
               )}
             </div>
             <div style={{ paddingTop: 24 }}>
-              <ToggleLine open={open} onClick={toggle} />
+              <ToggleLine open={open} onClick={toggle} t={t} />
             </div>
           </div>
         </div>

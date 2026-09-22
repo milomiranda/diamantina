@@ -1,49 +1,21 @@
 import { useState } from "react";
 import Particles from "@/components/Particles";
 import usePageTitle from "@/hooks/usePageTitle";
-
-const faqs = [
-  {
-    q: "So, is Diamantina a gay party?",
-    a: "Yes and no. Diamantina comes from queer culture and is created with a queer crowd in mind, but we don't want to put the night, or the people in it, inside a box. What brings us together is a shared appetite for great music, unexpected sounds and a really good dance floor. We want people to come because they're excited to hear something different, lose themselves in the music and have a fucking good time. Queer, straight, somewhere in between or nowhere at all, you're welcome. Respect the room, respect each other, and enjoy the ride.",
-  },
-  {
-    q: "Where do I buy tickets?",
-    a: "Presale happens online through our ticketshop. Limited door sale is also available, but it depends on how close the event is to capacity, so we can't guarantee tickets will still be available on the night. We recommend buying in advance if you don't want to risk it.",
-    link: { label: "Go to ticketshop", href: "https://ticketapp.shop/kbfsr" },
-  },
-  { q: "I've lost an item at Diamantina.", type: "lost-item" },
-  {
-    q: "Is there a minimum age?",
-    a: "18+. Valid photo ID is required at the entrance, no exceptions, so don't forget it.",
-  },
-  {
-    q: "Where can I find my ticket?",
-    a: "Once you've completed your purchase, your ticket is sent straight to your email. Make sure to have it ready to show at the entrance. Door tickets are also available, subject to availability.",
-  },
-  {
-    q: "Can I change or cancel the ticket I bought?",
-    a: "Only if you selected ticket protection at checkout. If you did, reach out to Ticketapp directly to sort it out.",
-  },
-  {
-    q: "Are there rules I need to know before entering Diamantina?",
-    a: "Yes, check our Party Rules before you come. Anything not covered there, send us an email and we'll help.",
-  },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const inputClass =
   "font-ak text-[14px] text-paper-white bg-transparent border border-ink-25 px-2.5 py-2 focus:outline-none focus:border-ink-60";
 
-function LostItemForm() {
+function LostItemForm({ t }) {
   const fields = [
-    { name: "firstName", label: "First name", type: "text" },
-    { name: "lastName", label: "Last name", type: "text" },
-    { name: "email", label: "Your email", type: "email" },
-    { name: "eventDate", label: "Which event / date", type: "text" },
-    { name: "item", label: "What did you lose", type: "text" },
-    { name: "color", label: "Color (if applicable)", type: "text" },
-    { name: "contents", label: "What's inside (if applicable)", type: "text" },
-    { name: "description", label: "Description of the object", type: "textarea" },
+    { name: "firstName", label: t("faq.lostItem.fields.firstName"), type: "text" },
+    { name: "lastName", label: t("faq.lostItem.fields.lastName"), type: "text" },
+    { name: "email", label: t("faq.lostItem.fields.email"), type: "email" },
+    { name: "eventDate", label: t("faq.lostItem.fields.eventDate"), type: "text" },
+    { name: "item", label: t("faq.lostItem.fields.item"), type: "text" },
+    { name: "color", label: t("faq.lostItem.fields.color"), type: "text" },
+    { name: "contents", label: t("faq.lostItem.fields.contents"), type: "text" },
+    { name: "description", label: t("faq.lostItem.fields.description"), type: "textarea" },
   ];
 
   const [form, setForm] = useState({
@@ -73,7 +45,7 @@ function LostItemForm() {
   if (status === "sent") {
     return (
       <p className="font-ak text-[16px] text-paper-white">
-        Thanks — we've got your report and will reach out if we find it.
+        {t("faq.lostItem.thanks")}
       </p>
     );
   }
@@ -112,11 +84,11 @@ function LostItemForm() {
           disabled={status === "sending"}
           className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-onyx bg-paper-white px-6 py-3 hover:opacity-80 transition-opacity disabled:opacity-40"
         >
-          {status === "sending" ? "Sending..." : "Send report"}
+          {status === "sending" ? t("faq.lostItem.sending") : t("faq.lostItem.sendReport")}
         </button>
         {status === "error" && (
           <p className="font-ak text-[13px] text-diamantina mt-2">
-            Something went wrong. Please try again.
+            {t("faq.lostItem.error")}
           </p>
         )}
       </div>
@@ -124,18 +96,18 @@ function LostItemForm() {
   );
 }
 
-function LostItemQuestion() {
+function LostItemQuestion({ t }) {
   const [openForm, setOpenForm] = useState(false);
   return (
     <>
       <p className="font-ak text-[16px] leading-[1.5] text-ink-70 text-justify mb-4">
-        Fill out the form below and it'll come straight to us.
+        {t("faq.lostItem.intro")}
       </p>
       <button
         onClick={() => setOpenForm((v) => !v)}
         className="font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-paper-white border border-ink-30 px-[18px] py-[10px] hover:opacity-60 transition-opacity"
       >
-        {openForm ? "Close form" : "Report lost item"}
+        {openForm ? t("faq.lostItem.closeButton") : t("faq.lostItem.reportButton")}
       </button>
       <div
         className={`grid grid-cols-1 transition-all duration-500 ${
@@ -143,14 +115,14 @@ function LostItemQuestion() {
         }`}
       >
         <div className="overflow-hidden">
-          <LostItemForm />
+          <LostItemForm t={t} />
         </div>
       </div>
     </>
   );
 }
 
-function FAQItem({ item, index }) {
+function FAQItem({ item, index, t }) {
   const [open, setOpen] = useState(false);
   return (
     <div className={`border border-ink-15 px-5 md:px-7 py-6 ${index === 0 ? "" : "-mt-px"}`}>
@@ -176,20 +148,20 @@ function FAQItem({ item, index }) {
         <div className="overflow-hidden">
           <div className="pt-5 pl-6 pr-6">
             {item.type === "lost-item" ? (
-              <LostItemQuestion />
+              <LostItemQuestion t={t} />
             ) : (
               <>
                 <p className="font-ak text-[16px] leading-[1.5] text-ink-70 text-justify">
                   {item.a}
                 </p>
-                {item.link && (
+                {item.linkLabel && (
                   <a
-                    href={item.link.href}
+                    href="https://ticketapp.shop/kbfsr"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block mt-3 font-ak text-[12px] font-bold uppercase tracking-[0.06em] text-paper-white underline underline-offset-[3px] hover:opacity-60 transition-opacity"
                   >
-                    {item.link.label} →
+                    {item.linkLabel} →
                   </a>
                 )}
               </>
@@ -202,21 +174,23 @@ function FAQItem({ item, index }) {
 }
 
 export default function FAQ() {
-  usePageTitle("FAQ", "Frequently asked questions about Diamantina — tickets, the door, and what to expect.");
+  const { t } = useLanguage();
+  usePageTitle(t("faq.kicker"), t("faq.metaDescription"));
+  const faqs = t("faq.items");
   return (
     <main className="relative overflow-hidden px-4 md:px-6 pt-40 pb-48">
         <Particles />
         <div className="relative z-10">
         <p className="font-ak text-[12px] uppercase tracking-[0.06em] text-ink-40 mb-8">
-          FAQ
+          {t("faq.kicker")}
         </p>
         <h1 className="font-ak text-[48px] md:text-[72px] leading-[0.9] tracking-[-0.02em] max-w-[760px]">
-          You have <strong className="font-bold">questions</strong>? Here are the answers.
+          {t("faq.headingPre")}<strong className="font-bold">{t("faq.headingStrong")}</strong>{t("faq.headingPost")}
         </h1>
 
         <div className="mt-24 flex flex-col">
           {faqs.map((item, i) => (
-            <FAQItem key={i} item={item} index={i} />
+            <FAQItem key={i} item={item} index={i} t={t} />
           ))}
         </div>
         </div>
