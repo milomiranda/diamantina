@@ -18,6 +18,24 @@ export default function ComingSoon() {
         <span aria-hidden="true" className="text-diamantina mr-2">✦</span>
         We're building something beautiful. Come back soon.
       </p>
+      <div className="flex items-center gap-6">
+        <a
+          href="https://www.instagram.com/diamantina.club"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-gs text-[20px] md:text-[24px] text-paper-white hover:opacity-60 transition-opacity"
+        >
+          Instagram
+        </a>
+        <a
+          href="https://soundcloud.com/diamantinaclub"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-gs text-[20px] md:text-[24px] text-paper-white hover:opacity-60 transition-opacity"
+        >
+          SoundCloud
+        </a>
+      </div>
     </div>
   );
 }
