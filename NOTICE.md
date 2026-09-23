@@ -3,7 +3,7 @@ DIAMANTINA — Website Source Code
 
 This codebase was custom-built for Diamantina, by Diamantina.
 
-© 2026 Diamantina. All rights reserved.
+© 2026  Diamantina. All rights reserved.
 
 This source code, its design, structure, and original content are the
 property of Diamantina and may not be copied, reproduced, redistributed,
