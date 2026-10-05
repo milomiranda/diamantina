@@ -33,7 +33,8 @@ export default function NewsletterInline() {
   if (alreadySubscribed) return null;
 
   return (
-    <div id="subscribe" className="flex flex-col items-center px-6 text-center" style={{ paddingBottom: 56 }}>
+    <div id="subscribe" className="px-6" style={{ paddingBottom: 56 }}>
+      <div className="m-box flex flex-col items-center text-center">
       <p className="font-ak text-[14px] md:text-[16px] leading-[1.4] text-ink-70 mb-4 max-w-[520px]">
         <span aria-hidden="true" className="text-diamantina">✦</span>{" "}
         {t("newsletter.inlineText")}
@@ -69,6 +70,7 @@ export default function NewsletterInline() {
           {t("newsletter.error")}
         </p>
       )}
+      </div>
     </div>
   );
 }

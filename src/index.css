@@ -118,13 +118,19 @@ html, body {
   .logo-glow:hover { filter: drop-shadow(0 0 14px rgba(213,0,0,0.35)); }
 
   .tickets-bounce { transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), filter 0.25s ease; display: inline-block; }
-  .tickets-bounce:hover { transform: scale(1.12); filter: drop-shadow(0 0 14px rgba(213,0,0,0.45)); }
+  .tickets-bounce:hover, .tickets-bounce:active { transform: scale(1.12); filter: drop-shadow(0 0 14px rgba(255,255,255,0.7)); }
 
   .archive-fade { transition: opacity 0.25s ease, filter 0.25s ease; }
 
   .marquee-wrap { overflow: hidden; white-space: nowrap; width: 100%; }
   .marquee-track { display: flex; animation: marquee-scroll 14s linear infinite; }
   @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* Mobile-only "box" treatment: text sits inside a filled, bordered container
+     instead of floating on the background. Desktop is untouched. */
+  @media (max-width: 767px) {
+    .m-box { background: var(--ink-10); border: 1px solid var(--ink-15); padding: 20px 18px; }
+  }
 
   /* Phones held sideways (landscape) are still short in height even though
      they're wide enough to trigger the md: breakpoint meant for real desktop

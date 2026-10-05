@@ -10,7 +10,7 @@ export default function Footer() {
     <footer className="relative overflow-hidden bg-onyx text-paper-white">
       <Particles />
       <div className="relative z-10 px-4 md:px-6 pt-12 md:pt-20 pb-16">
-        <div className="flex flex-col gap-8 md:gap-12">
+        <div className="flex flex-col gap-3 md:gap-12">
           <FooterBig href={igLink} external>Instagram</FooterBig>
           <FooterBig href={soundcloudLink} external>SoundCloud</FooterBig>
         </div>
@@ -60,7 +60,7 @@ function FooterBig({ href, children, external }) {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="block w-fit font-gs text-[58px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white hover:opacity-60 transition-opacity"
+      className="m-box block w-full md:w-fit font-gs text-[44px] md:text-[72px] leading-[0.9] tracking-[-0.02em] text-paper-white hover:opacity-60 transition-opacity"
     >
       {children}
     </a>

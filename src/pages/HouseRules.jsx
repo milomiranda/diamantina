@@ -22,11 +22,11 @@ export default function HouseRules() {
           {t("partyRules.headingPost")}
         </h1>
 
-        <div className="mt-24 flex flex-col">
+        <div className="mt-10 md:mt-24 flex flex-col gap-3 md:gap-0">
           {rules.map((rule, i) => (
             <div
               key={i}
-              className={`border border-ink-15 px-5 md:px-7 py-6 ${i === 0 ? "" : "-mt-px"}`}
+              className={`border border-ink-15 bg-ink-10 md:bg-transparent px-5 md:px-7 py-6 ${i === 0 ? "" : "md:-mt-px"}`}
             >
               <p className="flex items-center gap-3 font-ak text-[20px] md:text-[24px] leading-[1.1] tracking-[0.01em] font-bold uppercase text-paper-white">
                 <span aria-hidden="true" className="text-diamantina spin-icon">✦</span>

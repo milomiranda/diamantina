@@ -24,8 +24,8 @@ export default function Contact() {
           <strong className="font-bold">{t("contact.heading")}</strong>
         </h1>
 
-        <div className="mt-24 max-w-[620px] flex flex-col gap-8">
-          <p className="font-ak text-[18px] leading-[1.33] text-ink-80">
+        <div className="mt-6 md:mt-24 max-w-[620px] flex flex-col gap-8">
+          <p className="m-box font-ak text-[18px] leading-[1.33] text-ink-80">
             {t("contact.emailIntro")}{" "}
             <a
               href="mailto:home@diamantina.club"

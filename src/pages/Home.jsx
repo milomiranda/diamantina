@@ -264,7 +264,10 @@ function ArchiveRow({ event, defaultOpen = true, blobIndex = 0, pastEvent = fals
   const ticketsHref = event.ticketsUrl || DEFAULT_TICKETS_URL;
 
   return (
-    <div ref={rowRef} className="border-t border-ink-15">
+    <div
+      ref={rowRef}
+      className="border border-ink-15 bg-ink-10 px-4 pb-2 md:border-x-0 md:border-b-0 md:bg-transparent md:px-0 md:pb-0"
+    >
       {/* Mobile layout: name left, compact info list right */}
       <div
         className="flex md:hidden flex-wrap items-start justify-between gap-3 cursor-pointer"

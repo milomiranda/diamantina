@@ -4,6 +4,9 @@
 // no translation service connected for user-entered content.
 const translations = {
   EN: {
+    comingSoon: {
+      text: "We're building something beautiful. Come back soon.",
+    },
     nav: {
       home: "Home",
       about: "About",
@@ -165,6 +168,9 @@ const translations = {
   },
 
   NL: {
+    comingSoon: {
+      text: "We bouwen aan iets moois. Kom snel terug.",
+    },
     nav: {
       home: "Home",
       about: "Over ons",
@@ -326,6 +332,9 @@ const translations = {
   },
 
   ES: {
+    comingSoon: {
+      text: "Estamos construyendo algo hermoso. Vuelve pronto.",
+    },
     nav: {
       home: "Inicio",
       about: "Nosotros",

@@ -43,9 +43,9 @@ export default function Nav() {
   );
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-onyx/80 backdrop-blur-sm">
+    <header className="fixed top-0 inset-x-0 z-50">
       {/* Mobile top bar: hamburger (left) — Tickets (center) — languages (right) */}
-      <div className="flex md:hidden items-center justify-between px-4 py-3">
+      <div className="flex md:hidden items-center justify-between px-4 py-3 bg-onyx/80 backdrop-blur-sm">
         <button
           type="button"
           onClick={() => setMenuOpen((v) => !v)}
@@ -73,7 +73,7 @@ export default function Nav() {
       {menuOpen && (
         <>
           <div className="fixed inset-0 z-[93] md:hidden" onClick={closeMenu} />
-          <div className="md:hidden absolute top-full inset-x-0 z-[94] bg-onyx border-t border-ink-15">
+          <div className="md:hidden absolute top-full inset-x-0 z-[94] bg-onyx/80 backdrop-blur-sm border-t border-ink-15">
             <div className="flex flex-col items-center gap-6 px-6 py-8">
               <NavLink to="/" active={pathname === "/"} onClick={closeMenu} big>{t("nav.home")}</NavLink>
               <NavLink to="/about" active={pathname === "/about"} onClick={closeMenu} big>{t("nav.about")}</NavLink>
@@ -95,7 +95,7 @@ export default function Nav() {
       )}
 
       {/* Desktop nav: unchanged, everything inline in one row */}
-      <nav className="nav-container hidden md:flex items-center md:justify-between gap-2 px-6 py-4">
+      <nav className="nav-container hidden md:flex items-center md:justify-between gap-2 px-6 py-4 bg-onyx/80 backdrop-blur-sm">
         <div className="nav-links-wrap flex items-center justify-start gap-10 flex-wrap">
           <NavLink to="/" active={pathname === "/"}>{t("nav.home")}</NavLink>
           <NavLink to="/about" active={pathname === "/about"}>{t("nav.about")}</NavLink>

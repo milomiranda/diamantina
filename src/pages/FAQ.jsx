@@ -125,7 +125,7 @@ function LostItemQuestion({ t }) {
 function FAQItem({ item, index, t }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`border border-ink-15 px-5 md:px-7 py-6 ${index === 0 ? "" : "-mt-px"}`}>
+    <div className={`border border-ink-15 bg-ink-10 md:bg-transparent px-5 md:px-7 py-6 ${index === 0 ? "" : "md:-mt-px"}`}>
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between gap-6 text-left"
@@ -188,7 +188,7 @@ export default function FAQ() {
           {t("faq.headingPre")}<strong className="font-bold">{t("faq.headingStrong")}</strong>{t("faq.headingPost")}
         </h1>
 
-        <div className="mt-24 flex flex-col">
+        <div className="mt-10 md:mt-24 flex flex-col gap-3 md:gap-0">
           {faqs.map((item, i) => (
             <FAQItem key={i} item={item} index={i} t={t} />
           ))}

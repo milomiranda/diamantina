@@ -8,10 +8,24 @@ function getNested(obj, path) {
   return path.split(".").reduce((acc, key) => (acc == null ? undefined : acc[key]), obj);
 }
 
+// Reads the device/browser's own language setting (e.g. "nl-NL", "es-MX",
+// "en-US") and maps it to one of our three supported codes. Anything we
+// don't specifically recognize falls back to EN.
+function detectDeviceLanguage() {
+  if (typeof navigator === "undefined") return "EN";
+  const raw = (navigator.language || navigator.languages?.[0] || "en").toLowerCase();
+  if (raw.startsWith("nl")) return "NL";
+  if (raw.startsWith("es")) return "ES";
+  return "EN";
+}
+
 export function LanguageProvider({ children }) {
   const [lang, setLangState] = useState(() => {
     if (typeof window === "undefined") return "EN";
-    return localStorage.getItem(STORAGE_KEY) || "EN";
+    // A language the person picked themselves (via the NL/EN/ES switcher)
+    // always wins on return visits. Only first-time visitors get the
+    // device's own language, automatically, with no click required.
+    return localStorage.getItem(STORAGE_KEY) || detectDeviceLanguage();
   });
 
   useEffect(() => {
